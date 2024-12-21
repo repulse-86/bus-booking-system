@@ -18,6 +18,11 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'mobile_number' => fake()->numerify('09#########'),
+        ]);
+
+        $this->call([
+            BusSeeder::class,
         ]);
     }
 }
