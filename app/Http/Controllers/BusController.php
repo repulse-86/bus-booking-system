@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\BusService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class BusController extends Controller
@@ -17,7 +18,11 @@ class BusController extends Controller
 
     public function index(Request $request)
     {
-        $buses = $this->busService->getFilteredBuses($request);
+        $filterTravelDate = $request->filterTravelDate ? Carbon::parse($request->filterTravelDate) : null;
+        $filterDestinationLocation = $request->filterDestinationLocation;
+        $filterBus = $request->filterBus ?? '';
+
+        $buses = $this->busService->getFilteredBuses($filterTravelDate, $filterDestinationLocation, $filterBus);
 
         $destinations = $this->busService->getDestinations();
 
