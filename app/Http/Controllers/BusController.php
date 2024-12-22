@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\BusService;
 use Illuminate\Http\Request;
 
 class BusController extends Controller
@@ -9,9 +10,18 @@ class BusController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function __construct(protected BusService $busService)
     {
         //
+    }
+
+    public function index(Request $request)
+    {
+        $buses = $this->busService->getFilteredBuses($request);
+
+        $destinations = $this->busService->getDestinations();
+
+        return inertia('Welcome', compact('destinations', 'buses'));
     }
 
     /**

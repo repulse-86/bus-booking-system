@@ -20,10 +20,6 @@ const props = defineProps({
     canRegister: {
         type: Boolean,
     },
-    phpVersion: {
-        type: String,
-        required: true,
-    },
 });
 
 const filterBus = ref('');
