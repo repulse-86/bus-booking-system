@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\BusService;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
 class BusController extends Controller
@@ -26,7 +27,10 @@ class BusController extends Controller
 
         $destinations = $this->busService->getDestinations();
 
-        return inertia('Welcome', compact('destinations', 'buses'));
+        $canLogin = Route::has('login');
+        $canRegister = Route::has('register');
+
+        return inertia('Welcome', compact('destinations', 'buses', 'canLogin', 'canRegister'));
     }
 
     /**
