@@ -25,6 +25,10 @@ const switchToTeam = (team) => {
 const logout = () => {
     router.post(route('logout'));
 };
+
+const customerLinks = ref([
+    { label: 'Browse', href: 'customer.home'},
+]);
 </script>
 
 <template>
@@ -47,11 +51,12 @@ const logout = () => {
                             </div>
 
                             <!-- Navigation Links -->
-                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
+                            <div v-if="$page.props.auth.user.type === 'customer'" class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink v-for="link in customerLinks" :key="link.label" :href="route(link.href)" :active="route().current(link.href)">
+                                    {{ link.label }}
                                 </NavLink>
                             </div>
+
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ms-6">

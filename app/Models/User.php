@@ -65,4 +65,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function getRedirectRoute(): string
+    {
+        return match($this->type) {
+            'admin' => 'admin.home',
+            'customer' => 'customer.home',
+        };
+    }
 }
