@@ -19,8 +19,8 @@ class Bus extends Model
         'available_seats',
     ];
 
-    /*public function bookings()
+    public function bookedTickets()
     {
-        return $this->hasMany(Booking::class);
-    }*/
+        return $this->hasMany(BookedTicket::class, 'bus_id');
+    }
 }

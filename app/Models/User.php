@@ -73,4 +73,9 @@ class User extends Authenticatable
             'customer' => 'customer.home',
         };
     }
+
+    public function bookedTickets()
+    {
+        return $this->hasMany(BookedTicket::class, 'customer_id');
+    }
 }
