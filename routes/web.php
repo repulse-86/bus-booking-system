@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookedTicketController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -18,5 +19,7 @@ Route::middleware([
 
     Route::prefix('customer')->group(function () {
         Route::get('home', [PageController::class, 'customerIndex'])->name('customer.home');
+        Route::get('book-ticket/create/{bus}', [BookedTicketController::class, 'create'])->name('booked-tickets.create');
+        Route::post('book-ticket', [BookedTicketController::class, 'store'])->name('booked-tickets.store');
     });
 });

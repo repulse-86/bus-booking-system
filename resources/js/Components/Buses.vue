@@ -60,7 +60,9 @@ watch(filterDestinationLocation, debounce((newValue) => watchDebounced('filterDe
 
     <!-- Bus Info Cards -->
     <div class="grid gap-6 lg:grid-cols-3 lg:gap-8">
-        <BusCard v-for="(bus, index) in buses" :key="index" :bus="bus"/>
+        <Link v-for="(bus, index) in buses" :key="index" :href="route('booked-tickets.create', bus.id)">
+            <BusCard :bus="bus"/>
+        </Link>
     </div>
 
     <!-- Footer Section -->

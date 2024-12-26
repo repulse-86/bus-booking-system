@@ -27,7 +27,7 @@ class BookedTicketController extends Controller
      */
     public function create(Bus $bus)
     {
-        return inertia('Customer/SeatSelection', compact('bus'));
+        return inertia('Customer/BookingForm', compact('bus'));
     }
 
     /**
@@ -35,7 +35,13 @@ class BookedTicketController extends Controller
      */
     public function store(StoreBookedTicketRequest $request)
     {
-        $this->bookedTicketService->createBookedTicket($request->validated());
+        $fileName = '';
+
+        if ($request->hasFile('payment_image')) {
+            $fileName = $this->bookedTicketService->storeImage($request->file('payment_image'));
+        }
+
+        $this->bookedTicketService->createBookedTicket($request->validated(), $fileName);
     }
 
     /**
