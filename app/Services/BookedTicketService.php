@@ -15,8 +15,6 @@ class BookedTicketService
     {
         $data['payment_image'] = strtoupper(Str::random(6)).'_'.now()->format('YmdHis');
 
-        $this->busService->decrementAvailableSeats($data['bus_id']);
-
         return $this->bookedTicketRepository->create($data);
     }
 
