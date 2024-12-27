@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Bus;
 use App\Repositories\BusRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
@@ -34,5 +35,20 @@ class BusService
     public function getDestinations(): Collection
     {
         return $this->busRepository->getDestinations();
+    }
+
+    public function find(string $id): Bus {
+        return $this->busRepository->find($id);
+    }
+
+    public function decrementAvailableSeats(string $id) {
+        $bus = $this->find($id);
+
+        if ($bus->available_seats > 0) {
+            $bus->available_seats--;
+            $bus->save();
+        } else {
+            throw new \Exception('No available seats');
+        }
     }
 }

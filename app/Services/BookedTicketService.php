@@ -10,13 +10,15 @@ use App\Repositories\BookedTicketRepository;
  */
 class BookedTicketService
 {
-	public function __construct(protected BookedTicketRepository $bookedTicketRepository)
+	public function __construct(protected BookedTicketRepository $bookedTicketRepository, protected BusService $busService)
 	{
 		
 	}
 
 	public function createBookedTicket(array $data, string $fileName): BookedTicket {
 		$data['payment_image'] = $fileName;
+		
+		$this->busService->decrementAvailableSeats($data['bus_id']);
 		
 		return $this->bookedTicketRepository->create($data);
 	}
