@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Bus;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class BusSeeder extends Seeder
@@ -41,7 +40,8 @@ class BusSeeder extends Seeder
                 'time_available_start' => $bus['time_available_start'],
                 'time_available_end' => $bus['time_available_end'],
                 'price_per_ticket' => $bus['price_per_ticket'],
-                'available_seats' => rand(20, 50),
+                'seats' => 30,
+                'available_seats' => 30,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

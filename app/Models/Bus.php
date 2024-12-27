@@ -16,6 +16,7 @@ class Bus extends Model
         'time_available_start',
         'time_available_end',
         'price_per_ticket',
+        'seats',
         'available_seats',
     ];
 

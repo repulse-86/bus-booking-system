@@ -2,50 +2,24 @@
 
 namespace Database\Factories;
 
+use App\Models\Bus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Bus>
- */
 class BusFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected $model = Bus::class;
+
     public function definition(): array
     {
-        $buses = [
-            ['bus_type' => 'Bus 01', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Alabang', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 600],
-            ['bus_type' => 'Bus 02', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Batangas Grand Terminal', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 700],
-            ['bus_type' => 'Bus 03', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Batangas Pier', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 560],
-            ['bus_type' => 'Bus 04', 'departure_location' => 'Balibago Complex', 'destination_location' => 'BGC', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 550],
-            ['bus_type' => 'Bus 05', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Buendia', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 500],
-            ['bus_type' => 'Bus 06', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Calamba', 'time_available_start' => '06:00', 'time_available_end' => '18:00', 'price_per_ticket' => 550],
-            ['bus_type' => 'Bus 07', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Cubao', 'time_available_start' => '06:00', 'time_available_end' => '18:00', 'price_per_ticket' => 600],
-            ['bus_type' => 'Bus 08', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Dasmariñas', 'time_available_start' => '06:00', 'time_available_end' => '18:00', 'price_per_ticket' => 650],
-            ['bus_type' => 'Bus 09', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Lemery', 'time_available_start' => '06:00', 'time_available_end' => '18:00', 'price_per_ticket' => 370],
-            ['bus_type' => 'Bus 10', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Mamatid', 'time_available_start' => '06:00', 'time_available_end' => '18:00', 'price_per_ticket' => 300],
-            ['bus_type' => 'Bus 11', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Nuvali', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 250],
-            ['bus_type' => 'Bus 12', 'departure_location' => 'Balibago Complex', 'destination_location' => 'One Ayala Terminal', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 130],
-            ['bus_type' => 'Bus 13', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Pacita', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 500],
-            ['bus_type' => 'Bus 14', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Pagsanjan', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 700],
-            ['bus_type' => 'Bus 15', 'departure_location' => 'Balibago Complex', 'destination_location' => 'San Pablo', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 600],
-            ['bus_type' => 'Bus 16', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Tagaytay', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 400],
-            ['bus_type' => 'Bus 17', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Tanauan', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 550],
-        ];
-
-        $bus = $this->faker->randomElement($buses);
-
         return [
-            'bus_type' => $bus['bus_type'],
-            'departure_location' => $bus['departure_location'],
-            'destination_location' => $bus['destination_location'],
-            'time_available_start' => $bus['time_available_start'],
-            'time_available_end' => $bus['time_available_end'],
-            'price_per_ticket' => $bus['price_per_ticket'],
-            'available_seats' => $this->faker->numberBetween(20, 50),
+            'bus_type' => $this->faker->word(),
+            'departure_location' => $this->faker->city(),
+            'destination_location' => $this->faker->city(),
+            'time_available_start' => $this->faker->time(),
+            'time_available_end' => $this->faker->time(),
+            'price_per_ticket' => $this->faker->numberBetween(100, 1000),
+            'seats' => 30,
+            'available_seats' => 30,
         ];
     }
 }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->time('time_available_start');
             $table->time('time_available_end');
             $table->decimal('price_per_ticket', 8, 2);
+            $table->integer('seats');
             $table->integer('available_seats');
             $table->string('image')->nullable();
             $table->timestamps();
