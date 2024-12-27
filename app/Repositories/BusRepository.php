@@ -5,16 +5,14 @@ namespace App\Repositories;
 use App\Interfaces\BusRepositoryInterface;
 use App\Models\Bus;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
-/**
- * 
- */
 class BusRepository implements BusRepositoryInterface
 {
-	public function getBuses(?Carbon $filterTravelDate, ?string $filterDestinationLocation, ?string $filterBus, array $busesToRetrieve)
-	{
-		return Bus::when($filterDestinationLocation, function ($query) use ($filterDestinationLocation) {
+    public function getBuses(?Carbon $filterTravelDate, ?string $filterDestinationLocation, ?string $filterBus, array $busesToRetrieve): Collection
+    {
+        return Bus::when($filterDestinationLocation, function ($query) use ($filterDestinationLocation) {
             $query->where('destination_location', 'like', '%' . $filterDestinationLocation . '%');
         })
         ->when($filterTravelDate, function ($query) use ($busesToRetrieve) {
@@ -25,5 +23,10 @@ class BusRepository implements BusRepositoryInterface
         })
         ->orderBy('bus_type')
         ->get();
-	}
+    }
+
+    public function getDestinations(): Collection
+    {
+        return Bus::distinct()->pluck('destination_location');
+    }
 }

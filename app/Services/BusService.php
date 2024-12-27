@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Bus;
 use App\Repositories\BusRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
@@ -34,6 +33,6 @@ class BusService
      */
     public function getDestinations(): Collection
     {
-        return Bus::distinct()->pluck('destination_location');
+        return $this->busRepository->getDestinations();
     }
 }
