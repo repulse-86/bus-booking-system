@@ -33,13 +33,11 @@ class BookedTicketController extends Controller
      */
     public function store(StoreBookedTicketRequest $request)
     {
-        $fileName = '';
+        $bookedTicket = $this->bookedTicketService->createBookedTicket($request->validated());
 
         if ($request->hasFile('payment_image')) {
-            $fileName = $this->bookedTicketService->storeImage($request->file('payment_image'));
+            $this->bookedTicketService->storeImage($bookedTicket, $request->file('payment_image'));
         }
-
-        $this->bookedTicketService->createBookedTicket($request->validated(), $fileName);
     }
 
     /**
