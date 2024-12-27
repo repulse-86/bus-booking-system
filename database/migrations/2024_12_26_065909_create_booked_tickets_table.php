@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('bus_id')->constrained('buses')->cascadeOnDelete()->cascadeOnUpdate();
             $table->integer('seat');
             $table->string('payment_image');
+            $table->enum('status', ['pending', 'approved'])->default('pending');
             $table->timestamps();
         });
     }
