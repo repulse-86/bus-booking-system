@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Services\BusService;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class BusController extends Controller
 {

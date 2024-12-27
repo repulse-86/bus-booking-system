@@ -84,7 +84,7 @@ watch(filterDestinationLocation, debounce((newValue) => watchDebounced('filterDe
                     <h1 class="text-4xl font-semibold">Find Your Perfect Bus Ride</h1>
                 </div>
 
-                <!-- Dropdowns Section -->
+                <!-- Filter Section -->
                 <div class="flex justify-center gap-8 mb-8">
                     <input v-model="filterBus" type="text" placeholder="Search bus.." class="p-4 border border-gray-300 rounded w-64" />
                     <input v-model="filterTravelDate" type="datetime-local" class="p-4 border border-gray-300 rounded w-64" />

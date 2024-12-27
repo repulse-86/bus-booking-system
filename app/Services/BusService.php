@@ -37,11 +37,13 @@ class BusService
         return $this->busRepository->getDestinations();
     }
 
-    public function find(string $id): Bus {
+    public function find(string $id): Bus
+    {
         return $this->busRepository->find($id);
     }
 
-    public function decrementAvailableSeats(string $id) {
+    public function decrementAvailableSeats(string $id)
+    {
         $bus = $this->find($id);
 
         if ($bus->available_seats > 0) {

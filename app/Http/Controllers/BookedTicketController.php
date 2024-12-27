@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bus;
-use App\Models\BookedTicket;
 use App\Http\Requests\StoreBookedTicketRequest;
 use App\Http\Requests\UpdateBookedTicketRequest;
+use App\Models\BookedTicket;
+use App\Models\Bus;
 use App\Services\BookedTicketService;
 
 class BookedTicketController extends Controller
 {
-    public function __construct(protected BookedTicketService $bookedTicketService)
-    {
-        
-    }
+    public function __construct(protected BookedTicketService $bookedTicketService) {}
+
     /**
      * Display a listing of the resource.
      */

@@ -16,6 +16,7 @@ class User extends Authenticatable
 
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
+
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
@@ -68,7 +69,7 @@ class User extends Authenticatable
 
     public function getRedirectRoute(): string
     {
-        return match($this->type) {
+        return match ($this->type) {
             'admin' => 'admin.home',
             'customer' => 'customer.home',
         };

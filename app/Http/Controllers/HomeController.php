@@ -3,15 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Services\BusService;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 class HomeController extends Controller
 {
-    public function __construct(protected BusService $busService) {
-
-    }
+    public function __construct(protected BusService $busService) {}
 
     public function index(Request $request)
     {
