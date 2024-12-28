@@ -32,7 +32,7 @@ for (let i = 1; i <= props.bus.available_seats; i++) {
 
 const submitForm = () => {
     console.log(form);
-    form.post(route('booked-tickets.store'), {
+    form.post(route('customer.booked-tickets.store'), {
         onSuccess: () => {
             alert('success');
             resetForm();

@@ -17,8 +17,11 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    Route::prefix('customer')->group(function () {
-        Route::get('home', [PageController::class, 'customerIndex'])->name('customer.home');
+    Route::group([
+        'prefix' => 'customer',
+        'as' => 'customer.',
+    ], function () {
+        Route::get('home', [PageController::class, 'customerIndex'])->name('home');
         Route::get('booked-tickets/create/{bus}', [CustomerBookedTicketController::class, 'create'])->name('booked-tickets.create');
         Route::resource('booked-tickets', CustomerBookedTicketController::class)->except('create');
     });
