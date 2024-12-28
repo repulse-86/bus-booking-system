@@ -28,6 +28,7 @@ const logout = () => {
 
 const customerLinks = ref([
     { label: 'Browse', href: 'customer.home'},
+    { label: 'My Bookings', href: 'customer.booked-tickets.index'},
 ]);
 </script>
 

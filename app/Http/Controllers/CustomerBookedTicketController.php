@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBookedTicketRequest;
+use App\Models\BookedTicket;
 use App\Models\Bus;
 use App\Services\BookedTicketService;
 use Illuminate\Http\Request;
@@ -16,7 +17,9 @@ class CustomerBookedTicketController extends Controller
      */
     public function index()
     {
-        //
+        $bookings = BookedTicket::with('bus')->where('customer_id', auth()->user()->id)->paginate(10);
+
+        return inertia('Customer/MyBookings', compact('bookings'));
     }
 
     /**
