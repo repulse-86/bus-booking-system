@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBookedTicketRequest;
-use App\Http\Requests\UpdateBookedTicketRequest;
-use App\Models\BookedTicket;
 use App\Models\Bus;
 use App\Services\BookedTicketService;
+use Illuminate\Http\Request;
 
-class BookedTicketController extends Controller
+class CustomerBookedTicketController extends Controller
 {
-    public function __construct(protected BookedTicketService $bookedTicketService) {}
+    public function __construct(public BookedTicketService $bookedTicketService) {}
 
     /**
      * Display a listing of the resource.
@@ -43,15 +42,7 @@ class BookedTicketController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(BookedTicket $bookedTicket)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(BookedTicket $bookedTicket)
+    public function show(string $id)
     {
         //
     }
@@ -59,7 +50,7 @@ class BookedTicketController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBookedTicketRequest $request, BookedTicket $bookedTicket)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -67,7 +58,7 @@ class BookedTicketController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(BookedTicket $bookedTicket)
+    public function destroy(string $id)
     {
         //
     }
