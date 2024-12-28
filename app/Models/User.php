@@ -80,4 +80,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(BookedTicket::class, 'customer_id');
     }
+
+    public function isCustomer()
+    {
+        return $this->type === 'customer';
+    }
+
+    public function isAdmin()
+    {
+        return $this->type === 'admin';
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\BookedTicket;
 use App\Models\User;
+use Illuminate\Auth\Access\Response;
 
 class BookedTicketPolicy
 {
@@ -12,7 +13,7 @@ class BookedTicketPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return $user->isCustomer();
     }
 
     /**
@@ -20,7 +21,7 @@ class BookedTicketPolicy
      */
     public function view(User $user, BookedTicket $bookedTicket): bool
     {
-        return false;
+        return $user->id === $bookedTicket->customer_id;
     }
 
     /**
@@ -28,7 +29,7 @@ class BookedTicketPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->isCustomer();
     }
 
     /**

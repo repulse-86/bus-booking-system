@@ -7,6 +7,7 @@ use App\Models\BookedTicket;
 use App\Models\Bus;
 use App\Services\BookedTicketService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CustomerBookedTicketController extends Controller
 {
@@ -17,6 +18,8 @@ class CustomerBookedTicketController extends Controller
      */
     public function index()
     {
+        Gate::authorize('viewAny', BookedTicket::class);
+
         $bookings = BookedTicket::with('bus')->where('customer_id', auth()->user()->id)->paginate(10);
 
         return inertia('Customer/MyBookings', compact('bookings'));
@@ -27,6 +30,8 @@ class CustomerBookedTicketController extends Controller
      */
     public function create(Bus $bus)
     {
+        Gate::authorize('create', BookedTicket::class);
+
         return inertia('Customer/BookingForm', compact('bus'));
     }
 
@@ -35,6 +40,8 @@ class CustomerBookedTicketController extends Controller
      */
     public function store(StoreBookedTicketRequest $request)
     {
+        Gate::authorize('create', BookedTicket::class);
+
         $bookedTicket = $this->bookedTicketService->createBookedTicket($request->validated());
 
         if ($request->hasFile('payment_image')) {
@@ -48,6 +55,8 @@ class CustomerBookedTicketController extends Controller
     public function show(string $id)
     {
         $bookedTicket = BookedTicket::with('bus')->findOrFail($id);
+        
+        Gate::authorize('view', $bookedTicket);
 
         return inertia('Customer/BookedTicket', compact('bookedTicket'));
     }
