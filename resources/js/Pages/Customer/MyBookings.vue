@@ -1,5 +1,6 @@
 <script setup>
 import { capitalize } from 'vue';
+import { Link } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Paginator from '@/Components/Paginator.vue';
 
@@ -33,22 +34,42 @@ defineProps({
                     </thead>
                     <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                         <tr v-for="(booking, index) in bookings.data" :key="booking.index">
-                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200 break-words">{{ capitalize(booking.bus.bus_type) }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200 break-words">{{ capitalize(booking.bus.departure_location) }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200 break-words">{{ capitalize(booking.bus.destination_location) }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200 break-words">P{{ booking.bus.price_per_ticket }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200 break-words">
+                                <Link :href="route('customer.booked-tickets.show', booking.id)">
+                                    {{ capitalize(booking.bus.bus_type) }}
+                                </Link>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200 break-words">
+                                <Link :href="route('customer.booked-tickets.show', booking.id)">
+                                    {{ capitalize(booking.bus.departure_location) }}
+                                </Link>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200 break-words">
+                                <Link :href="route('customer.booked-tickets.show', booking.id)">
+                                    {{ capitalize(booking.bus.destination_location) }}
+                                </Link>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200 break-words">
+                                <Link :href="route('customer.booked-tickets.show', booking.id)">
+                                    P{{ booking.bus.price_per_ticket }}
+                                </Link>
+                            </td>
                             <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200">
-                                <span 
-                                    :class="{
-                                        'bg-yellow-100 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-300': booking.status === 'pending',
-                                        'bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-300': booking.status === 'approved',
-                                    }"
-                                    class="inline-block px-3 py-1 text-xs font-semibold rounded-full">
-                                    {{ capitalize(booking.status) }}
-                                </span>
+                                <Link :href="route('customer.booked-tickets.show', booking.id)">
+                                    <span 
+                                        :class="booking.status === 'pending' 
+                                            ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-300' 
+                                            : booking.status === 'approved' 
+                                            ? 'bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-300' 
+                                            : ''"
+                                        class="inline-block px-3 py-1 text-xs font-semibold rounded-full">
+                                        {{ capitalize(booking.status) }}
+                                    </span>
+                                </Link>
                             </td>
                         </tr>
                     </tbody>
+
                 </table>
                 <Paginator :object="bookings"/>
             </div>

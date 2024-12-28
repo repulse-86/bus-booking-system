@@ -47,7 +47,9 @@ class CustomerBookedTicketController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $bookedTicket = BookedTicket::with('bus')->findOrFail($id);
+
+        return inertia('Customer/BookedTicket', compact('bookedTicket'));
     }
 
     /**
