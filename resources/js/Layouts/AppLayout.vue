@@ -33,6 +33,7 @@ const customerLinks = ref([
 
 const adminLinks = ref([
     { label: 'Dashboard', href: 'admin.home'},
+    { label: 'Pending Bookings', href: 'admin.booked-tickets.pendingBookings'},
 ]);
 </script>
 
