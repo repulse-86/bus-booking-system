@@ -36,5 +36,6 @@ Route::middleware([
         Route::get('approved/booked-tickets', [AdminBookedTicketController::class, 'approvedBookings'])->name('booked-tickets.approvedBookings');
         Route::get('declined/booked-tickets', [AdminBookedTicketController::class, 'declinedBookings'])->name('booked-tickets.declinedBookings');
         Route::put('booked-tickets/{bookedTicket}/{status}', [AdminBookedTicketController::class, 'update'])->name('booked-tickets.update');
+        Route::get('booked-tickets/{bookedTicket}', [AdminBookedTicketController::class, 'show'])->name('booked-tickets.show');
     });
 });

@@ -52,7 +52,9 @@ class AdminBookedTicketController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $bookedTicket = $this->bookedTicketService->find($id);
+
+        return inertia('Admin/BookedTicket', compact('bookedTicket'));
     }
 
     /**

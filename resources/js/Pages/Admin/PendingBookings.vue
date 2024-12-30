@@ -87,32 +87,32 @@ watch(filterCustomerName, debounce((newValue) => watchDebounced('filterCustomerN
                     <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                         <tr v-for="(booking, index) in bookings.data" :key="booking.index">
                             <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200 break-words">
-                                <Link :href="route('customer.booked-tickets.show', booking.id)">
+                                <Link :href="route('admin.booked-tickets.show', booking.id)">
                                     {{ booking.id }}
                                 </Link>
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200 break-words">
-                                <Link :href="route('customer.booked-tickets.show', booking.id)">
+                                <Link :href="route('admin.booked-tickets.show', booking.id)">
                                     {{ capitalize(booking.customer.name) }}
                                 </Link>
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200 break-words">
-                                <Link :href="route('customer.booked-tickets.show', booking.id)">
+                                <Link :href="route('admin.booked-tickets.show', booking.id)">
                                     {{ capitalize(booking.bus.bus_type) }}
                                 </Link>
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200 break-words">
-                                <Link :href="route('customer.booked-tickets.show', booking.id)">
+                                <Link :href="route('admin.booked-tickets.show', booking.id)">
                                     {{ capitalize(booking.bus.departure_location) }}
                                 </Link>
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200 break-words">
-                                <Link :href="route('customer.booked-tickets.show', booking.id)">
+                                <Link :href="route('admin.booked-tickets.show', booking.id)">
                                     {{ capitalize(booking.bus.destination_location) }}
                                 </Link>
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200 break-words">
-                                <Link :href="route('customer.booked-tickets.show', booking.id)">
+                                <Link :href="route('admin.booked-tickets.show', booking.id)">
                                     P{{ booking.bus.price_per_ticket }}
                                 </Link>
                             </td>

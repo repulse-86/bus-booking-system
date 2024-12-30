@@ -43,7 +43,7 @@ class BookedTicketRepository implements BookedTicketRepositoryInterface
 
     public function find(string $id): BookedTicket
     {
-        return BookedTicket::with('bus')->findOrFail($id);
+        return BookedTicket::with(['bus', 'customer'])->findOrFail($id);
     }
 
     public function delete(BookedTicket $bookedTicket): void
