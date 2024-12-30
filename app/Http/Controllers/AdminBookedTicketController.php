@@ -35,6 +35,13 @@ class AdminBookedTicketController extends Controller
         return inertia('Admin/ApprovedBookings', compact('bookings'));
     }
 
+    public function declinedBookings(Request $request)
+    {
+        $bookings = $this->bookedTicketService->getBookedTickets('declined', $request->filterId, $request->filterCustomerName);
+        
+        return inertia('Admin/DeclinedBookings', compact('bookings'));
+    }
+
     /**
      * Store a newly created resource in storage.
      */

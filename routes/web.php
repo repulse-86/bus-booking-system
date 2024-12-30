@@ -34,6 +34,7 @@ Route::middleware([
         Route::get('home', [PageController::class, 'adminIndex'])->name('home');
         Route::get('pending/booked-tickets', [AdminBookedTicketController::class, 'pendingBookings'])->name('booked-tickets.pendingBookings');
         Route::get('approved/booked-tickets', [AdminBookedTicketController::class, 'approvedBookings'])->name('booked-tickets.approvedBookings');
+        Route::get('declined/booked-tickets', [AdminBookedTicketController::class, 'declinedBookings'])->name('booked-tickets.declinedBookings');
         Route::put('booked-tickets/{bookedTicket}/{status}', [AdminBookedTicketController::class, 'update'])->name('booked-tickets.update');
     });
 });
