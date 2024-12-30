@@ -21,6 +21,11 @@ class BookedTicketRepository implements BookedTicketRepositoryInterface
             ->paginate(10);
     }
 
+    public function getPendingBookedTickets(): LengthAwarePaginator
+    {
+        return BookedTicket::with('bus', 'customer')->where('status', 'pending')->paginate(10);
+    }
+
     public function create(array $data): BookedTicket
     {
         return BookedTicket::create($data);

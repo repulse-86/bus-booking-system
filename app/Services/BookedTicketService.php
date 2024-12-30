@@ -32,6 +32,11 @@ class BookedTicketService
         return $this->bookedTicketRepository->getBookedTicketsByCustomer($filterId, $filterStatus, $customerId);
     }
 
+    public function getPendingBookedTickets()
+    {
+        return $this->bookedTicketRepository->getPendingBookedTickets();
+    }
+
     public function find(string $id): BookedTicket
     {
         return $this->bookedTicketRepository->find($id);
