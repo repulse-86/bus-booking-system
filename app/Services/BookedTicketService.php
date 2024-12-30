@@ -41,4 +41,9 @@ class BookedTicketService
     {
         return $this->bookedTicketRepository->find($id);
     }
+
+    public function updateStatus(BookedTicket $bookedTicket, string $status)
+    {
+        $this->bookedTicketRepository->updateStatus($bookedTicket, $status);
+    }
 }

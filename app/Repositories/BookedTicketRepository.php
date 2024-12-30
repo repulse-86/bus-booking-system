@@ -50,4 +50,10 @@ class BookedTicketRepository implements BookedTicketRepositoryInterface
     {
         $bookedTicket->delete();
     }
+
+    public function updateStatus(BookedTicket $bookedTicket, string $status): void
+    {
+        $bookedTicket->status = $status;
+        $bookedTicket->save();
+    }
 }

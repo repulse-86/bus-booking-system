@@ -16,4 +16,6 @@ interface BookedTicketRepositoryInterface
     public function find(string $id): BookedTicket;
 
     public function delete(BookedTicket $bookedTicket): void;
+
+    public function updateStatus(BookedTicket $bookedTicket, string $status): void;
 }
