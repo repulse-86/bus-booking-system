@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BookedTicket;
 use App\Services\BookedTicketService;
 use Illuminate\Http\Request;
 
@@ -53,9 +54,11 @@ class AdminBookedTicketController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, BookedTicket $bookedTicket)
     {
-        //
+        $status = $request->status;
+
+        $this->bookedTicketService->updateStatus($bookedTicket, $status);
     }
 
     /**

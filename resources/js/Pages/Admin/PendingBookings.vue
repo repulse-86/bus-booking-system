@@ -4,6 +4,8 @@ import { debounce } from 'lodash';
 import { Link, router } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Paginator from '@/Components/Paginator.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
 
 defineProps({
     bookings: {
@@ -11,6 +13,23 @@ defineProps({
         required: true,
     }
 });
+
+const updateBookingStatus = (bookingId, status) => {
+    router.put(
+            route('admin.booked-tickets.update', {
+                bookedTicket: bookingId, 
+                status: status
+            }), 
+    {
+        onSuccess: () => {
+            alert('Booking approved!');
+        },
+        onError: (error) => {
+            alert('Action failed!');
+            console.error(error);
+        }
+    });
+};
 
 const filterId = ref('');
 const filterCustomerName = ref('');
@@ -62,6 +81,7 @@ watch(filterCustomerName, debounce((newValue) => watchDebounced('filterCustomerN
                             <th class="px-6 py-3 text-left font-black text-gray-600 dark:text-gray-300 uppercase tracking-wider w-1/5">From</th>
                             <th class="px-6 py-3 text-left font-black text-gray-600 dark:text-gray-300 uppercase tracking-wider w-1/5">To</th>
                             <th class="px-6 py-3 text-left font-black text-gray-600 dark:text-gray-300 uppercase tracking-wider w-1/5">Price</th>
+                            <th class="px-6 py-3 text-left font-black text-gray-600 dark:text-gray-300 uppercase tracking-wider w-1/5">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
@@ -95,6 +115,12 @@ watch(filterCustomerName, debounce((newValue) => watchDebounced('filterCustomerN
                                 <Link :href="route('customer.booked-tickets.show', booking.id)">
                                     P{{ booking.bus.price_per_ticket }}
                                 </Link>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200 break-words">
+                                <div class="flex space-x-2">
+                                    <PrimaryButton @click="updateBookingStatus(booking.id, 'approved')">Approve</PrimaryButton>
+                                    <SecondaryButton @click="updateBookingStatus(booking.id, 'declined')">Decline</SecondaryButton>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
