@@ -17,8 +17,8 @@ class BookingStatusNotification extends Notification implements ShouldQueue
      * Create a new notification instance.
      */
     public function __construct(
-        public BookedTicket $bookedTicket, 
-        public Bus $bus, 
+        public BookedTicket $bookedTicket,
+        public Bus $bus,
         public string $status)
     {
         //
@@ -44,9 +44,9 @@ class BookingStatusNotification extends Notification implements ShouldQueue
         $destinationLocation = $this->bus->destination_location;
 
         return (new MailMessage)
-                    ->subject('Your Ticket Booking is ' . $this->status)
-                    ->line("Your booking #{$bookingId} for the bus from {$departureLocation} to {$destinationLocation} has been {$this->status}.")
-                    ->line('Thank you for using our application!');
+            ->subject('Your Ticket Booking is '.$this->status)
+            ->line("Your booking #{$bookingId} for the bus from {$departureLocation} to {$destinationLocation} has been {$this->status}.")
+            ->line('Thank you for using our application!');
     }
 
     /**

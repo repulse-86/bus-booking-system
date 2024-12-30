@@ -55,7 +55,7 @@ class CustomerBookedTicketController extends Controller
     public function show(string $id)
     {
         $bookedTicket = $this->bookedTicketService->find($id);
-        
+
         Gate::authorize('view', $bookedTicket);
 
         return inertia('Customer/BookedTicket', compact('bookedTicket'));

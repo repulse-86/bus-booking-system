@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\CustomerBookedTicketController;
 use App\Http\Controllers\AdminBookedTicketController;
+use App\Http\Controllers\CustomerBookedTicketController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;

@@ -29,7 +29,7 @@ class BookedTicketRepository implements BookedTicketRepositoryInterface
             })
             ->when($filterCustomerName, function ($query) use ($filterCustomerName) {
                 $query->whereHas('customer', function ($query) use ($filterCustomerName) {
-                    $query->where('name', 'like', '%' . $filterCustomerName . '%');
+                    $query->where('name', 'like', '%'.$filterCustomerName.'%');
                 });
             })
             ->where('status', $status)
