@@ -12,7 +12,7 @@ class BookedTicketPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->isCustomer();
+        return $user->isCustomer() || $user->isAdmin();
     }
 
     /**
@@ -20,7 +20,7 @@ class BookedTicketPolicy
      */
     public function view(User $user, BookedTicket $bookedTicket): bool
     {
-        return $user->id === $bookedTicket->customer_id;
+        return $user->id === $bookedTicket->customer_id || $user->isAdmin();
     }
 
     /**
@@ -36,7 +36,7 @@ class BookedTicketPolicy
      */
     public function update(User $user, BookedTicket $bookedTicket): bool
     {
-        return false;
+        return $user->isAdmin();
     }
 
     /**
