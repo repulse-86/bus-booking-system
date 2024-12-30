@@ -4,7 +4,9 @@ namespace App\Services;
 
 use App\Events\TicketBooked;
 use App\Models\BookedTicket;
+use App\Models\User;
 use App\Notifications\BookingPendingApprovalNotification;
+use App\Notifications\BookingStatusNotification;
 use App\Repositories\BookedTicketRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
@@ -44,6 +46,10 @@ class BookedTicketService
 
     public function updateStatus(BookedTicket $bookedTicket, string $status)
     {
+        $user = User::findOrFail($bookedTicket->customer_id);
+        $bus = $this->busService->find($bookedTicket->bus_id);
         $this->bookedTicketRepository->updateStatus($bookedTicket, $status);
+
+        $user->notify(new BookingStatusNotification($bookedTicket, $bus, $status));
     }
 }
