@@ -16,11 +16,11 @@ class CustomerBookedTicketController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         Gate::authorize('viewAny', BookedTicket::class);
 
-        $bookings = BookedTicket::with('bus')->where('customer_id', auth()->user()->id)->paginate(10);
+        $bookings = $this->bookedTicketService->getBookedTicketsByCustomer((string) $request->filterId, $request->filterStatus, auth()->user()->id);
 
         return inertia('Customer/MyBookings', compact('bookings'));
     }
@@ -54,7 +54,7 @@ class CustomerBookedTicketController extends Controller
      */
     public function show(string $id)
     {
-        $bookedTicket = BookedTicket::with('bus')->findOrFail($id);
+        $bookedTicket = $this->bookedTicketService->find($id);
         
         Gate::authorize('view', $bookedTicket);
 

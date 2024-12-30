@@ -6,6 +6,7 @@ use App\Events\TicketBooked;
 use App\Models\BookedTicket;
 use App\Notifications\BookingPendingApprovalNotification;
 use App\Repositories\BookedTicketRepository;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 
 class BookedTicketService
@@ -24,5 +25,15 @@ class BookedTicketService
     public function storeImage(BookedTicket $bookedTicket, $image): void
     {
         TicketBooked::dispatch($bookedTicket, $image);
+    }
+
+    public function getBookedTicketsByCustomer(?string $filterId, ?string $filterStatus, string $customerId): LengthAwarePaginator
+    {
+        return $this->bookedTicketRepository->getBookedTicketsByCustomer($filterId, $filterStatus, $customerId);
+    }
+
+    public function find(string $id): BookedTicket
+    {
+        return $this->bookedTicketRepository->find($id);
     }
 }
