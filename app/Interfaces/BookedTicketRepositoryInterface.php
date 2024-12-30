@@ -9,7 +9,7 @@ interface BookedTicketRepositoryInterface
 {
     public function getBookedTicketsByCustomer(?string $filterId, ?string $filterStatus, string $customerId): LengthAwarePaginator;
 
-    public function getPendingBookedTickets(?string $filterId, ?string $filterCustomerName): LengthAwarePaginator;
+    public function getBookedTickets(string $status, ?string $filterId, ?string $filterCustomerName): LengthAwarePaginator;
 
     public function create(array $data): BookedTicket;
 
