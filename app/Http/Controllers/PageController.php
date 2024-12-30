@@ -22,4 +22,9 @@ class PageController extends Controller
 
         return inertia('Customer/Home', compact('buses', 'destinations'));
     }
+
+    public function adminIndex(Request $request)
+    {
+        return inertia('Admin/Home');
+    }
 }

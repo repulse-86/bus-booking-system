@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CustomerBookedTicketController;
+use App\Http\Controllers\AdminBookedTicketController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
@@ -24,5 +25,12 @@ Route::middleware([
         Route::get('home', [PageController::class, 'customerIndex'])->name('home');
         Route::get('booked-tickets/create/{bus}', [CustomerBookedTicketController::class, 'create'])->name('booked-tickets.create');
         Route::resource('booked-tickets', CustomerBookedTicketController::class)->except('create');
+    });
+
+    Route::group([
+        'prefix' => 'admin',
+        'as' => 'admin.',
+    ], function () {
+        Route::get('home', [PageController::class, 'adminIndex'])->name('home');
     });
 });

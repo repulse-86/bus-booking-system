@@ -30,6 +30,10 @@ const customerLinks = ref([
     { label: 'Browse', href: 'customer.home'},
     { label: 'My Bookings', href: 'customer.booked-tickets.index'},
 ]);
+
+const adminLinks = ref([
+    { label: 'Dashboard', href: 'admin.home'},
+]);
 </script>
 
 <template>
@@ -54,6 +58,12 @@ const customerLinks = ref([
                             <!-- Navigation Links -->
                             <div v-if="$page.props.auth.user.type === 'customer'" class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink v-for="link in customerLinks" :key="link.label" :href="route(link.href)" :active="route().current(link.href)">
+                                    {{ link.label }}
+                                </NavLink>
+                            </div>
+
+                            <div v-else-if="$page.props.auth.user.type === 'admin'" class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink v-for="link in adminLinks" :key="link.label" :href="route(link.href)" :active="route().current(link.href)">
                                     {{ link.label }}
                                 </NavLink>
                             </div>
