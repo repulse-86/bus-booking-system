@@ -1,6 +1,7 @@
 <script setup>
-import { capitalize } from 'vue';
-import { Link } from '@inertiajs/vue3';
+import { ref, watch, capitalize } from 'vue';
+import { debounce } from 'lodash';
+import { Link, router } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Paginator from '@/Components/Paginator.vue';
 
@@ -10,6 +11,19 @@ defineProps({
         required: true,
     }
 });
+
+const filterId = ref('');
+const filterCustomerName = ref('');
+
+const watchDebounced = (field, value) => {
+    router.get(route('admin.booked-tickets.pendingBookings'), {
+        filterId: filterId.value,
+        filterCustomerName: filterCustomerName.value,
+    }, { preserveState: true });
+};
+
+watch(filterId, debounce((newValue) => watchDebounced('filterId', newValue), 500));
+watch(filterCustomerName, debounce((newValue) => watchDebounced('filterCustomerName', newValue), 500));
 </script>
 
 <template>
@@ -20,6 +34,24 @@ defineProps({
             </h2>
         </template>
         <div class="py-12">
+            <!-- Filters Section -->
+            <div class="max-w-7xl mx-auto mb-6">
+                <div class="flex items-center space-x-4">
+                    <!-- Search Box -->
+                    <input 
+                        v-model="filterId"
+                        type="text" 
+                        class="px-4 py-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-200"
+                        placeholder="Search bookings"
+                    />
+                    <input 
+                        v-model="filterCustomerName"
+                        type="text" 
+                        class="px-4 py-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-200"
+                        placeholder="Search customer"
+                    />
+                </div>
+            </div>
             <div class="overflow-x-auto max-w-7xl mx-auto bg-white dark:bg-gray-800 shadow-md rounded-lg">
                 <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                     <thead class="bg-gray-50 dark:bg-gray-700">

@@ -22,7 +22,7 @@ class AdminBookedTicketController extends Controller
 
     public function pendingBookings(Request $request)
     {
-        $bookings = $this->bookedTicketService->getPendingBookedTickets();
+        $bookings = $this->bookedTicketService->getPendingBookedTickets($request->filterId, $request->filterCustomerName);
         
         return inertia('Admin/PendingBookings', compact('bookings'));
     }
