@@ -60,6 +60,8 @@ const imageSrc = `../../files/payments/${props.bookedTicket.payment_image}.png`;
                                             ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-300' 
                                             : bookedTicket.status === 'approved' 
                                             ? 'bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-300' 
+                                            : bookedTicket.status === 'declined' 
+                                            ? 'bg-red-100 text-red-800 dark:bg-red-700 dark:text-red-300' 
                                             : ''"
                                         class="inline-flex px-3 py-1 text-xs font-semibold rounded-full min-w-max">
                                         {{ capitalize(bookedTicket.status) }}

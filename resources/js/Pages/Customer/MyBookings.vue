@@ -54,6 +54,7 @@ watch(filterStatus, debounce((newValue) => watchDebounced('filterStatus', newVal
                         <option value="" selected>Status</option>
                         <option value="approved">Approved</option>
                         <option value="pending">Pending</option>
+                        <option value="declined">Declined</option>
                     </select>
                 </div>
             </div>
@@ -103,6 +104,8 @@ watch(filterStatus, debounce((newValue) => watchDebounced('filterStatus', newVal
                                             ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-300' 
                                             : booking.status === 'approved' 
                                             ? 'bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-300' 
+                                            : booking.status === 'declined' 
+                                            ? 'bg-red-100 text-red-800 dark:bg-red-700 dark:text-red-300' 
                                             : ''"
                                         class="inline-block px-3 py-1 text-xs font-semibold rounded-full">
                                         {{ capitalize(booking.status) }}
