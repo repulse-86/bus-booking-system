@@ -5,6 +5,7 @@ import { Link, router } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Paginator from '@/Components/Paginator.vue';
 import TextInput from '@/Components/TextInput.vue';
+import SelectInput from '@/Components/SelectInput.vue';
 
 defineProps({
     bookings: {
@@ -15,6 +16,12 @@ defineProps({
 
 const filterId = ref('');
 const filterStatus = ref('');
+
+const options = [
+    { label: 'Pending', value: 'pending' },
+    { label: 'Approved', value: 'approved' },
+    { label: 'Declined', value: 'declined' },
+];
 
 const watchDebounced = (field, value) => {
     router.get(route('customer.booked-tickets.index'), {
@@ -41,17 +48,8 @@ watch(filterStatus, debounce((newValue) => watchDebounced('filterStatus', newVal
                 <div class="flex items-center space-x-4">
 
                     <TextInput v-model="filterId" placeholder="Search bookings"/>
-
-                    <!-- Status Dropdown -->
-                    <select 
-                        v-model="filterStatus"
-                        class="px-4 py-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-200"
-                    >
-                        <option value="" selected>Status</option>
-                        <option value="approved">Approved</option>
-                        <option value="pending">Pending</option>
-                        <option value="declined">Declined</option>
-                    </select>
+                    <SelectInput v-model="filterStatus" :options="options" selected="Status"/>
+                    
                 </div>
             </div>
             <div class="overflow-x-auto max-w-7xl mx-auto bg-white dark:bg-gray-800 shadow-md rounded-lg">

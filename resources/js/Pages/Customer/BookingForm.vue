@@ -102,7 +102,7 @@ const resetForm = () => {
 
                         <div class="mb-6">
                             <InputLabel value="Select Seat" class="text-lg font-medium  mb-2"/>
-                            <SelectInput v-model="form.seat" :options="seatNumbers" class="w-full"/>
+                            <SelectInput v-model="form.seat" :options="seatNumbers" class="w-full" selected="Seats"/>
                             <InputError class="mt-2 text-red-500" :message="form.errors.seat" />
                         </div>
                     </div>
