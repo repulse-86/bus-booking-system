@@ -4,6 +4,10 @@ import { onMounted, ref } from 'vue';
 defineProps({
     modelValue: String,
     options: Array,
+    selected: {
+        type: String,
+        required: true,
+    }
 });
 
 defineEmits(['update:modelValue']);
@@ -26,6 +30,7 @@ defineExpose({ focus: () => select.value.focus() });
         :value="modelValue"
         @change="$emit('update:modelValue', $event.target.value)"
     >
+        <option value="" disabled selected>{{ selected }}</option>
         <option v-for="(option, index) in options" :key="index" :value="option.value">
             {{ option.label }}
         </option>
