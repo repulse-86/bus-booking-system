@@ -34,7 +34,14 @@ class BusService
      */
     public function getDestinations(): Collection
     {
-        return $this->busRepository->getDestinations();
+        $destinations = $this->busRepository->getDestinations();
+
+        return $destinations->map(function ($destination) {
+            return [
+                'label' => $destination,
+                'value' => $destination
+            ];
+        });
     }
 
     public function find(string $id): Bus
