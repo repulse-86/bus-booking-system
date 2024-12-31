@@ -6,6 +6,8 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import Paginator from '@/Components/Paginator.vue';
 import TextInput from '@/Components/TextInput.vue';
 import SelectInput from '@/Components/SelectInput.vue';
+import THead from '@/Components/THead.vue';
+import TCellBooking from '@/Components/TCellBooking.vue';
 
 defineProps({
     bookings: {
@@ -22,6 +24,8 @@ const options = [
     { label: 'Approved', value: 'approved' },
     { label: 'Declined', value: 'declined' },
 ];
+
+const headers = ref(['ID', 'Type', 'From', 'To', 'Price', 'Status']);
 
 const watchDebounced = (field, value) => {
     router.get(route('customer.booked-tickets.index'), {
@@ -54,43 +58,15 @@ watch(filterStatus, debounce((newValue) => watchDebounced('filterStatus', newVal
             </div>
             <div class="overflow-x-auto max-w-7xl mx-auto bg-white dark:bg-gray-800 shadow-md rounded-lg">
                 <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 table-fixed">
-                    <thead class="bg-gray-50 dark:bg-gray-700">
-                        <tr>
-                            <th class="px-6 py-3 text-left font-black text-gray-600 dark:text-gray-300 uppercase tracking-wider w-1/5">ID</th>
-                            <th class="px-6 py-3 text-left font-black text-gray-600 dark:text-gray-300 uppercase tracking-wider w-1/5">Type</th>
-                            <th class="px-6 py-3 text-left font-black text-gray-600 dark:text-gray-300 uppercase tracking-wider w-1/5">From</th>
-                            <th class="px-6 py-3 text-left font-black text-gray-600 dark:text-gray-300 uppercase tracking-wider w-1/5">To</th>
-                            <th class="px-6 py-3 text-left font-black text-gray-600 dark:text-gray-300 uppercase tracking-wider w-1/5">Price</th>
-                            <th class="px-6 py-3 text-left font-black text-gray-600 dark:text-gray-300 uppercase tracking-wider w-1/5">Status</th>
-                        </tr>
-                    </thead>
+                    <THead :headers="headers" :actionsVisible="false"/>
                     <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                         <tr v-for="(booking, index) in bookings.data" :key="booking.index">
-                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200 break-words">
-                                <Link :href="route('customer.booked-tickets.show', booking.id)">
-                                    {{ booking.id }}
-                                </Link>
-                            </td>
-                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200 break-words">
-                                <Link :href="route('customer.booked-tickets.show', booking.id)">
-                                    {{ capitalize(booking.bus.bus_type) }}
-                                </Link>
-                            </td>
-                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200 break-words">
-                                <Link :href="route('customer.booked-tickets.show', booking.id)">
-                                    {{ capitalize(booking.bus.departure_location) }}
-                                </Link>
-                            </td>
-                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200 break-words">
-                                <Link :href="route('customer.booked-tickets.show', booking.id)">
-                                    {{ capitalize(booking.bus.destination_location) }}
-                                </Link>
-                            </td>
-                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200 break-words">
-                                <Link :href="route('customer.booked-tickets.show', booking.id)">
-                                    P{{ booking.bus.price_per_ticket }}
-                                </Link>
-                            </td>
+                            <TCellBooking :bookdId="booking.id" href="customer.booked-tickets.show" :value="(booking.id).toString()"/>
+                            <TCellBooking :bookdId="booking.id" href="customer.booked-tickets.show" :value="(booking.bus.bus_type)"/>
+                            <TCellBooking :bookdId="booking.id" href="customer.booked-tickets.show" :value="(booking.bus.departure_location).toString()"/>
+                            <TCellBooking :bookdId="booking.id" href="customer.booked-tickets.show" :value="(booking.bus.destination_location).toString()"/>
+                            <TCellBooking :bookdId="booking.id" href="customer.booked-tickets.show" :value="`P ${booking.bus.price_per_ticket}`" />
+                            
                             <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200">
                                 <Link :href="route('customer.booked-tickets.show', booking.id)">
                                     <span 
