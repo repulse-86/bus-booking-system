@@ -1,9 +1,9 @@
 <script setup>
-import { ref, watch } from 'vue';
-import { debounce } from 'lodash';
-import { router } from '@inertiajs/vue3';
+import { defineProps } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
+import { useDebouncedFilters, filterBus, filterTravelDate, filterDestinationLocation } from '@/Utilities/useBusFilter.js';
 import BusCard from '@/Components/BusCard.vue';
+import BusFilter from '@/Components/BusFilter.vue';
 
 const props = defineProps({
     destinations: {
@@ -22,24 +22,7 @@ const props = defineProps({
     },
 });
 
-const filterBus = ref('');
-const filterTravelDate = ref('');
-const filterDestinationLocation = ref('');
-
-const watchDebounced = (field, value) => {
-    router.get(route('home'), {
-            filterBus: filterBus.value,
-            filterTravelDate: filterTravelDate.value,
-            filterDestinationLocation: filterDestinationLocation.value,
-        }, 
-        { preserveState: true }
-    );
-};
-
-watch(filterBus, debounce((newValue) => watchDebounced('filterBus', newValue), 500));
-watch(filterTravelDate, debounce((newValue) => watchDebounced('filterTravelDate', newValue), 500));
-watch(filterDestinationLocation, debounce((newValue) => watchDebounced('filterDestinationLocation', newValue), 500));
-
+useDebouncedFilters('home');
 </script>
 
 <template>
@@ -84,15 +67,12 @@ watch(filterDestinationLocation, debounce((newValue) => watchDebounced('filterDe
                     <h1 class="text-4xl font-semibold">Find Your Perfect Bus Ride</h1>
                 </div>
 
-                <!-- Filter Section -->
-                <div class="flex justify-center gap-8 mb-8">
-                    <input v-model="filterBus" type="text" placeholder="Search bus.." class="p-4 border border-gray-300 rounded w-64" />
-                    <input v-model="filterTravelDate" type="datetime-local" class="p-4 border border-gray-300 rounded w-64" />
-                    <select v-model="filterDestinationLocation" class="p-4 border border-gray-300 rounded w-64">
-                        <option value="" selected>Select destination</option>
-                        <option v-for="destination in destinations" :key="destination" :value="destination">{{ destination }}</option>
-                    </select>
-                </div>
+                <BusFilter
+                    v-model:filterBus="filterBus"
+                    v-model:filterTravelDate="filterTravelDate"
+                    v-model:filterDestinationLocation="filterDestinationLocation"
+                    :destinations="destinations"
+                />
 
                 <!-- Bus Info Cards -->
                 <div class="grid gap-6 lg:grid-cols-3 lg:gap-8">
