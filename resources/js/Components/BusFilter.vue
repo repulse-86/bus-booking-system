@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue';
+import TextInput from './TextInput.vue';
 
 const props = defineProps({
     filterBus: String,
@@ -32,8 +33,8 @@ watch(localFilterDestinationLocation, (newValue) => {
 
 <template>
     <div class="flex justify-center gap-8 mb-8">
-        <input v-model="localFilterBus" type="text" placeholder="Search bus..." class="p-4 border border-gray-300 rounded w-64" />
-        <input v-model="localFilterTravelDate" type="datetime-local" class="p-4 border border-gray-300 rounded w-64" />
+        <TextInput v-model="localFilterBus" placeholder="Search bus..." class="w-64"/>
+        <TextInput v-model="localFilterTravelDate" type="datetime-local" placeholder="Search bus..." class="w-64"/>
         <select v-model="localFilterDestinationLocation" class="p-4 border border-gray-300 rounded w-64">
             <option value="" selected>Select destination</option>
             <option v-for="destination in props.destinations" :key="destination" :value="destination">{{ destination }}</option>

@@ -4,6 +4,7 @@ import { debounce } from 'lodash';
 import { Link, router } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Paginator from '@/Components/Paginator.vue';
+import TextInput from '@/Components/TextInput.vue';
 
 defineProps({
     bookings: {
@@ -38,13 +39,8 @@ watch(filterStatus, debounce((newValue) => watchDebounced('filterStatus', newVal
             <!-- Filters Section -->
             <div class="max-w-7xl mx-auto mb-6">
                 <div class="flex items-center space-x-4">
-                    <!-- Search Box -->
-                    <input 
-                        v-model="filterId"
-                        type="text" 
-                        class="px-4 py-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-200"
-                        placeholder="Search bookings"
-                    />
+
+                    <TextInput v-model="filterId" placeholder="Search bookings"/>
 
                     <!-- Status Dropdown -->
                     <select 

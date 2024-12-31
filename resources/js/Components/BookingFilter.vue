@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue';
+import TextInput from '@/Components/TextInput.vue';
 
 const props = defineProps({
     filterId: String,
@@ -23,18 +24,8 @@ watch(localFilterCustomerName, (newValue) => {
 <template>
 	<div class="max-w-7xl mx-auto mb-6">
 	    <div class="flex items-center space-x-4">
-	        <input 
-	            v-model="localFilterId"
-	            type="text" 
-	            class="px-4 py-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-200"
-	            placeholder="Search bookings"
-	        />
-	        <input 
-	            v-model="localFilterCustomerName"
-	            type="text" 
-	            class="px-4 py-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-200"
-	            placeholder="Search customer"
-	        />
+	    	<TextInput v-model="localFilterId" placeholder="Search bookings"/>
+	    	<TextInput v-model="localFilterCustomerName" placeholder="Search customer"/>
 	    </div>
 	</div>
 </template>
