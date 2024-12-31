@@ -1,11 +1,12 @@
 <script setup>
-import { ref, watch, capitalize } from 'vue';
-import { debounce } from 'lodash';
+import { capitalize } from 'vue';
 import { Link, router } from '@inertiajs/vue3';
+import { useDebouncedFilters, filterId, filterCustomerName } from '@/Utilities/useBookingFilter.js';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Paginator from '@/Components/Paginator.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
+import BookingFilter from '@/Components/BookingFilter.vue';
 
 defineProps({
     bookings: {
@@ -31,18 +32,7 @@ const updateBookingStatus = (bookingId, status) => {
     });
 };
 
-const filterId = ref('');
-const filterCustomerName = ref('');
-
-const watchDebounced = (field, value) => {
-    router.get(route('admin.booked-tickets.pendingBookings'), {
-        filterId: filterId.value,
-        filterCustomerName: filterCustomerName.value,
-    }, { preserveState: true });
-};
-
-watch(filterId, debounce((newValue) => watchDebounced('filterId', newValue), 500));
-watch(filterCustomerName, debounce((newValue) => watchDebounced('filterCustomerName', newValue), 500));
+useDebouncedFilters('admin.booked-tickets.pendingBookings');
 </script>
 
 <template>
@@ -53,24 +43,7 @@ watch(filterCustomerName, debounce((newValue) => watchDebounced('filterCustomerN
             </h2>
         </template>
         <div class="py-12">
-            <!-- Filters Section -->
-            <div class="max-w-7xl mx-auto mb-6">
-                <div class="flex items-center space-x-4">
-                    <!-- Search Box -->
-                    <input 
-                        v-model="filterId"
-                        type="text" 
-                        class="px-4 py-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-200"
-                        placeholder="Search bookings"
-                    />
-                    <input 
-                        v-model="filterCustomerName"
-                        type="text" 
-                        class="px-4 py-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-200"
-                        placeholder="Search customer"
-                    />
-                </div>
-            </div>
+            <BookingFilter v-model:filterId="filterId" v-model:filterCustomerName="filterCustomerName"/>
             <div class="overflow-x-auto max-w-7xl mx-auto bg-white dark:bg-gray-800 shadow-md rounded-lg">
                 <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                     <thead class="bg-gray-50 dark:bg-gray-700">
