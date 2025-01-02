@@ -9,7 +9,6 @@ import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 const { auth } = usePage().props;
-const htmlForm = ref(null);
 
 const props = defineProps({
     bus: {
@@ -38,8 +37,9 @@ const submitForm = () => {
             alert('success');
             resetForm();
         },
-        onError: () => {
+        onError: (error) => {
             alert('error');
+            console.error(error);
         }
     });
 };
@@ -50,11 +50,8 @@ const handleFileChange = (e) => {
     form.payment_image = file;
 };
 
-const resetFileInput = () => {
-    if (htmlForm.value) {
-        htmlForm.value.reset();
-        htmlForm.value.querySelector('input[type="file"]').value = '';
-    }
+const resetFileInput = (e) => {
+    document.getElementById('file').value = '';
 };
 
 const resetForm = () => {
@@ -110,7 +107,7 @@ const resetForm = () => {
                                 </div>
                                 <div class="">
                                     <InputLabel value="Travel Date" class="text-lg font-medium  mb-2"/>
-                                    <TextInput v-model="form.travel_date" type="datetime-local"/>
+                                    <TextInput v-model="form.travel_date" type="date" class="w-full"/>
                                     <InputError class="mt-2 text-red-500" :message="form.errors.travel_date" />
                                 </div>
                             </div>
@@ -134,7 +131,8 @@ const resetForm = () => {
                                 type="file"
                                 class="mt-1 w-full py-2 px-4 border rounded-lg"
                                 @change="handleFileChange"
-                                :message="form.errors.file" />
+                                :message="form.errors.file"
+                                id="file" />
                             <InputError class="mt-2 text-red-500" :message="form.errors.file" />
                         </div>
 
