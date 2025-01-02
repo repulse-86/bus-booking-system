@@ -22,6 +22,7 @@ const form = useForm({
     bus_id: props.bus.id,
     customer_id: auth.user.id,
     seat: null,
+    travel_date: null,
     payment_image: null,
 });
 
@@ -101,9 +102,18 @@ const resetForm = () => {
                         </div>
 
                         <div class="mb-6">
-                            <InputLabel value="Select Seat" class="text-lg font-medium  mb-2"/>
-                            <SelectInput v-model="form.seat" :options="seatNumbers" class="w-full" selected="Seats"/>
-                            <InputError class="mt-2 text-red-500" :message="form.errors.seat" />
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div class="">
+                                    <InputLabel value="Select Seat" class="text-lg font-medium  mb-2"/>
+                                    <SelectInput v-model="form.seat" :options="seatNumbers" class="w-full" selected="Seats"/>
+                                    <InputError class="mt-2 text-red-500" :message="form.errors.seat" />
+                                </div>
+                                <div class="">
+                                    <InputLabel value="Travel Date" class="text-lg font-medium  mb-2"/>
+                                    <TextInput v-model="form.travel_date" type="datetime-local"/>
+                                    <InputError class="mt-2 text-red-500" :message="form.errors.travel_date" />
+                                </div>
+                            </div>
                         </div>
                     </div>
 
