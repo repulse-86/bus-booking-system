@@ -25,6 +25,7 @@ Route::middleware([
         Route::get('home', [PageController::class, 'customerIndex'])->name('home');
         Route::get('booked-tickets/create/{bus}', [CustomerBookedTicketController::class, 'create'])->name('booked-tickets.create');
         Route::resource('booked-tickets', CustomerBookedTicketController::class)->except('create');
+        Route::get('history', [CustomerBookedTicketController::class, 'viewHistory'])->name('booked-tickets.history');
     });
 
     Route::group([
