@@ -14,6 +14,7 @@ class BookedTicket extends Model
         'customer_id',
         'bus_id',
         'seat',
+        'travel_date',
         'payment_image',
         'status',
     ];
