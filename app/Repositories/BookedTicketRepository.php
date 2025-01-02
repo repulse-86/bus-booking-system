@@ -18,6 +18,7 @@ class BookedTicketRepository implements BookedTicketRepositoryInterface
                 $query->where('status', $filterStatus);
             })
             ->where('customer_id', $customerId)
+            ->latest()
             ->paginate(10);
     }
 

@@ -26,6 +26,22 @@ class CustomerBookedTicketController extends Controller
     }
 
     /**
+     * Display a listing of the booking history approved only.
+     */
+    public function viewHistory()
+    {
+        Gate::authorize('viewAny', BookedTicket::class);
+
+        $bookings = $this->bookedTicketService->getBookedTicketsByCustomer('', 'approved', auth()->user()->id);
+
+        return inertia('Customer/History', [
+            'bookings' => inertia()->merge(fn () => $bookings->items()),
+            'currentPage' => $bookings->currentPage(), 
+            'lastPage' => $bookings->lastPage(), 
+        ]);
+    }
+
+    /**
      * Show the form for creating a new resource.
      */
     public function create(Bus $bus)
