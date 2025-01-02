@@ -9,6 +9,7 @@ import SelectInput from '@/Components/SelectInput.vue';
 import THead from '@/Components/THead.vue';
 import TCellBooking from '@/Components/TCellBooking.vue';
 import BookingStatusBadge from '@/Components/BookingStatusBadge.vue';
+import { formatDate } from '@/helpers';
 
 defineProps({
     bookings: {
@@ -26,7 +27,7 @@ const options = [
     { label: 'Declined', value: 'declined' },
 ];
 
-const headers = ref(['ID', 'Type', 'From', 'To', 'Price', 'Status']);
+const headers = ref(['ID', 'Type', 'Date', 'From', 'To', 'Seat', 'Price', 'Status']);
 
 const watchDebounced = (field, value) => {
     router.get(route('customer.booked-tickets.index'), {
@@ -64,8 +65,10 @@ watch(filterStatus, debounce((newValue) => watchDebounced('filterStatus', newVal
                         <tr v-for="(booking, index) in bookings.data" :key="booking.index">
                             <TCellBooking :bookdId="booking.id" href="customer.booked-tickets.show" :value="(booking.id).toString()"/>
                             <TCellBooking :bookdId="booking.id" href="customer.booked-tickets.show" :value="(booking.bus.bus_type)"/>
+                            <TCellBooking :bookdId="booking.id" href="customer.booked-tickets.show" :value="formatDate(booking.travel_date)"/>
                             <TCellBooking :bookdId="booking.id" href="customer.booked-tickets.show" :value="(booking.bus.departure_location).toString()"/>
                             <TCellBooking :bookdId="booking.id" href="customer.booked-tickets.show" :value="(booking.bus.destination_location).toString()"/>
+                            <TCellBooking :bookdId="booking.id" href="customer.booked-tickets.show" :value="(booking.seat).toString()"/>
                             <TCellBooking :bookdId="booking.id" href="customer.booked-tickets.show" :value="`P ${booking.bus.price_per_ticket}`" />
                             
                             <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200">
