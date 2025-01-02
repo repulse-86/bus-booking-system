@@ -2,6 +2,7 @@
 import { capitalize } from 'vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import BookingStatusBadge from '@/Components/BookingStatusBadge.vue';
+import { formatDate } from '@/helpers';
 
 const props = defineProps({
     bookedTicket: {
@@ -38,8 +39,8 @@ const imageSrc = `../../files/payments/${props.bookedTicket.payment_image}.png`;
                                 <p class="text-xl text-gray-700">{{ bookedTicket.bus.bus_type }}</p>
                             </div>
                             <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
-                                <p class="text-lg font-black text-gray-700">Seat Number:</p>
-                                <p class="text-xl text-gray-700">{{ bookedTicket.seat }}</p>
+                                <p class="text-lg font-black text-gray-700">Date:</p>
+                                <p class="text-xl text-gray-700">{{ formatDate(bookedTicket.trave_date) }}</p>
                             </div>
                             <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
                                 <p class="text-lg font-black text-gray-700">Departure Location:</p>
@@ -48,6 +49,10 @@ const imageSrc = `../../files/payments/${props.bookedTicket.payment_image}.png`;
                             <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
                                 <p class="text-lg font-black text-gray-700">Destination Location:</p>
                                 <p class="text-xl text-gray-700">{{ capitalize(bookedTicket.bus.destination_location) }}</p>
+                            </div>
+                            <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
+                                <p class="text-lg font-black text-gray-700">Seat Number:</p>
+                                <p class="text-xl text-gray-700">{{ bookedTicket.seat }}</p>
                             </div>
                             <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
                                 <p class="text-lg font-black text-gray-700">Price:</p>
