@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\BookedTicketService;
 use App\Services\BusService;
 use App\Services\UserService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PageController extends Controller
 {
-    public function __construct(protected BusService $busService, protected UserService $userService) {}
+    public function __construct(protected BusService $busService, protected UserService $userService, protected BookedTicketService $bookedTicketService) {}
 
     public function customerIndex(Request $request)
     {
@@ -29,7 +31,10 @@ class PageController extends Controller
         $usersData = $this->userService->getCurrentWeekUsers();
         $bookingPerBusTypeData = $this->busService->getBookingPerBusTypeData();
         $registeredUserCount = $this->userService->getRegisteredUserCount();
+        $pendingBookingsCount = $this->bookedTicketService->getBookingsCountByStatus('pending');
+        $approvedBookingsCount = $this->bookedTicketService->getBookingsCountByStatus('approved');
+        $declinedBookingsCount = $this->bookedTicketService->getBookingsCountByStatus('declined');
 
-        return inertia('Admin/Home', compact('usersData', 'bookingPerBusTypeData', 'registeredUserCount'));
+        return inertia('Admin/Home', compact('usersData', 'bookingPerBusTypeData', 'registeredUserCount', 'pendingBookingsCount', 'approvedBookingsCount', 'declinedBookingsCount'));
     }
 }

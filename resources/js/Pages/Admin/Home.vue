@@ -8,6 +8,9 @@ defineProps({
     usersData: Object,
     bookingPerBusTypeData: Object,
     registeredUserCount: Number,
+    pendingBookingsCount: Number,
+    approvedBookingsCount: Number,
+    declinedBookingsCount: Number,
 });
 
 </script>
@@ -21,9 +24,19 @@ defineProps({
         </template>
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <RecordCountCard label="Registered Users" :value="registeredUserCount"/>
-                <DonutChart :chartData="bookingPerBusTypeData" label="Bookings"/>
-                <AreaChart :chartData="usersData" label="New Users"/>
+                <div class="lg:col-span-1">
+                    <RecordCountCard label="Registered Users" :value="registeredUserCount"/>
+                    <RecordCountCard label="Pending Bookings" :value="pendingBookingsCount"/>
+                    <RecordCountCard label="Approved Bookings" :value="approvedBookingsCount"/>
+                    <RecordCountCard label="Declined Bookings" :value="declinedBookingsCount"/>
+                </div>
+
+                <div class="lg:col-span-2">
+                    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <DonutChart :chartData="bookingPerBusTypeData" label="Bookings"/>
+                        <AreaChart :chartData="usersData" label="New Users"/>
+                    </div>
+                </div>
             </div>
         </div>
     </AppLayout>
