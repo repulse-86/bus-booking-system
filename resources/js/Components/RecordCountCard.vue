@@ -14,10 +14,8 @@ defineProps({
 </script>
 
 <template>
-	<div class="">
-	    <div class="max-w-sm w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 flex items-center justify-between  mb-6">
-	        <h1 class="text-4xl font-black">{{ label }}</h1>
-	        <p class="text-9xl text-green-600 text-end">{{ formatNumber(value) }}</p>
-	    </div>
-	</div>
+    <div class="max-w-sm w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 flex items-center justify-between  mb-6">
+        <h1 class="text-4xl font-black">{{ label }}</h1>
+        <p class="text-9xl text-green-600 text-end">{{ formatNumber(value) }}</p>
+    </div>
 </template>
