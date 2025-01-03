@@ -17,7 +17,7 @@ const props = defineProps({
 <template>
     <AppLayout title="Browse Buses">
 
-        <div class="py-12">
+        <div class="my-4">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="dark:bg-gray-800 overflow-hidden sm:rounded-lg">
                     <Buses :destinations="destinations" :buses="buses"/>

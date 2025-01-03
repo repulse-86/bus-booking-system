@@ -63,7 +63,7 @@ useDebouncedFilters('home');
                 </header>
 
                 <!-- Tagline Section -->
-                <div class="text-center my-8">
+                <div class="text-center my-4">
                     <h1 class="text-4xl font-semibold">Find Your Perfect Bus Ride</h1>
                 </div>
 
