@@ -34,4 +34,14 @@ class BusRepository implements BusRepositoryInterface
     {
         return Bus::findOrFail($id);
     }
+
+    public function getBookingPerBusTypeData(): Collection
+    {
+        return DB::table('buses')
+        ->join('booked_tickets', 'buses.id', '=', 'booked_tickets.bus_id')
+        ->select('buses.bus_type', DB::raw('COUNT(booked_tickets.id) as total_booked_tickets'))
+        ->groupBy('buses.bus_type')
+        ->orderBy('buses.bus_type', 'asc')
+        ->get();
+    }
 }

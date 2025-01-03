@@ -60,4 +60,9 @@ class BusService
             throw new \Exception('No available seats');
         }
     }
+
+    public function getBookingPerBusTypeData(): Collection
+    {
+        return $this->busRepository->getBookingPerBusTypeData();
+    }
 }
