@@ -59,10 +59,10 @@ watch(filterStatus, debounce((newValue) => watchDebounced('filterStatus', newVal
                 </div>
             </div>
             <div class="overflow-x-auto max-w-7xl mx-auto bg-white dark:bg-gray-800 shadow-md rounded-lg">
-                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 table-fixed">
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                     <THead :headers="headers" :actionsVisible="false"/>
                     <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                        <tr v-for="(booking, index) in bookings.data" :key="booking.index">
+                        <tr v-for="(booking, index) in bookings.data" :key="booking.index" class="transition duration-300 ease-in-out hover:bg-neutral-100">
                             <TCellBooking :bookdId="booking.id" href="customer.booked-tickets.show" :value="(booking.id).toString()"/>
                             <TCellBooking :bookdId="booking.id" href="customer.booked-tickets.show" :value="(booking.bus.bus_type)"/>
                             <TCellBooking :bookdId="booking.id" href="customer.booked-tickets.show" :value="formatDate(booking.travel_date)"/>
