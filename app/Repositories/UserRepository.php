@@ -33,4 +33,9 @@ class UserRepository implements UserRepositoryInterface
 
 		return compact('userStats', 'data');
 	}
+
+	public function getRegisteredUsersCount(): int
+	{
+		return User::where('type', 'customer')->count();
+	}
 }

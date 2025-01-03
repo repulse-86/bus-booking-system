@@ -21,4 +21,9 @@ class UserService
 	{
 		return $this->userRepository->getCurrentWeekNewUsers();
 	}
+
+	public function getRegisteredUserCount(): int
+	{
+		return $this->userRepository->getRegisteredUsersCount();
+	}
 }

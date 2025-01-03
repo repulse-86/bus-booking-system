@@ -10,4 +10,5 @@ namespace App\Interfaces;
 interface UserRepositoryInterface
 {
 	public function getCurrentWeekNewUsers(): array;
+	public function getRegisteredUsersCount(): int;
 } // END interface UserRepositoryInterface
