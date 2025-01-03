@@ -57,4 +57,9 @@ class BookedTicketRepository implements BookedTicketRepositoryInterface
         $bookedTicket->status = $status;
         $bookedTicket->save();
     }
+
+    public function getBookingsCountByStatus(string $status): int
+    {
+        return BookedTicket::where('status', $status)->count();
+    }
 }

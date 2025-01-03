@@ -52,4 +52,9 @@ class BookedTicketService
 
         $user->notify(new BookingStatusNotification($bookedTicket, $bus, $status));
     }
+
+    public function getBookingsCountByStatus(string $status): int
+    {
+        return $this->bookedTicketRepository->getBookingsCountByStatus($status);
+    }
 }

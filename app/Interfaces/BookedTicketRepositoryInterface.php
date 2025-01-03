@@ -18,4 +18,6 @@ interface BookedTicketRepositoryInterface
     public function delete(BookedTicket $bookedTicket): void;
 
     public function updateStatus(BookedTicket $bookedTicket, string $status): void;
+
+    public function getBookingsCountByStatus(string $status): int;
 }
