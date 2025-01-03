@@ -8,26 +8,49 @@ defineProps({
 </script>
 
 <template>
-	<div class="max-w-sm mx-auto bg-white border border-gray-300 rounded-lg shadow-lg">
-		<!-- Image Section -->
-		<img 
-			:src="bus.bus_type === 'Economy' ? '../../../luxury.png' : '../../../economy.png'" 
-			alt="Bus Image" 
-			class="w-full h-64 object-cover rounded-t-lg"
-		/>
+	<div class="max-w-sm mx-auto bg-white border border-gray-300 rounded-lg shadow-lg overflow-hidden">
+	    <!-- Image Section -->
+	    <img 
+	        :src="bus.bus_type === 'Economy' ? '../../../luxury.png' : '../../../economy.png'" 
+	        alt="Bus Image" 
+	        class="w-full h-64 object-cover"
+	    />
 
-		<!-- Text Section with padding -->
-		<div class="p-4 space-y-4">
-			<h3 class="text-2xl font-semibold text-center text-blue-600">{{ bus.bus_type }}</h3>
-			<div class="space-y-2 text-gray-700">
-				<p class="text-lg font-medium"><strong>Departure Location:</strong> {{ bus.departure_location }}</p>
-				<p class="text-lg font-medium"><strong>Destination Location:</strong> {{ bus.destination_location }}</p>
-				<p class="text-lg font-medium"><strong>Time Available:</strong> {{ bus.time_available_start }} - {{ bus.time_available_end }}</p>
-			</div>
-			<div class="space-y-2 mt-4">
-				<p class="text-xl font-semibold"><strong>Price Per Ticket:</strong> {{ bus.price_per_ticket }}</p>
-				<p class="text-xl font-semibold"><strong>Available Seats:</strong> {{ bus.available_seats }}</p>
-			</div>
-		</div>
+	    <!-- Content Section -->
+	    <div class="p-6">
+	        <!-- Header Section -->
+	        <div class="mb-4">
+	            <h3 class="text-3xl font-bold text-blue-600">{{ bus.bus_type }}</h3>
+	        </div>
+
+	        <!-- Details Section -->
+	        <div class="space-y-4 ">
+	        	<div>
+	                <p class="text-sm text-gray-500 uppercase tracking-wide">Departure Location</p>
+	                <p class="text-lg text-gray-800">{{ bus.departure_location }}</p>
+	            </div>
+
+	            <div>
+	                <p class="text-sm text-gray-500 uppercase tracking-wide">Destination Location</p>
+	                <p class="text-lg text-gray-800">{{ bus.destination_location }}</p>
+	            </div>
+
+	            <div>
+	                <p class="text-sm text-gray-500 uppercase tracking-wide">Time Available</p>
+	                <p class="text-lg text-gray-800">{{ bus.time_available_start }} - {{ bus.time_available_end }}</p>
+	            </div>
+
+	            <!-- Price and Seats -->
+	            <div>
+	                <p class="text-sm text-gray-500 uppercase tracking-wide">Price Per Ticket</p>
+	                <p class="text-lg font-semibold text-gray-800">P {{ bus.price_per_ticket }}</p>
+	            </div>
+	            <div>
+	                <p class="text-sm text-gray-500 uppercase tracking-wide">Available Seats</p>
+	                <p class="text-lg font-semibold text-gray-800">{{ bus.available_seats }}</p>
+	            </div>
+	        </div>
+	    </div>
 	</div>
+
 </template>
