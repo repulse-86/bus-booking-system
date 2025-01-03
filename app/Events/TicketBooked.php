@@ -5,10 +5,11 @@ namespace App\Events;
 use App\Models\BookedTicket;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TicketBooked
+class TicketBooked implements ShouldQueue
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
