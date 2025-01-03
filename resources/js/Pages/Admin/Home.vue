@@ -3,6 +3,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import AreaChart from '@/Components/AreaChart.vue';
 import DonutChart from '@/Components/DonutChart.vue';
 import RecordCountCard from '@/Components/RecordCountCard.vue';
+import CumulativeAreaChart from '@/Components/CumulativeAreaChart.vue';
 
 defineProps({
     usersData: Object,
@@ -11,6 +12,9 @@ defineProps({
     pendingBookingsCount: Number,
     approvedBookingsCount: Number,
     declinedBookingsCount: Number,
+    cumulativeSalesPerMonth: Array,
+    cumulativeBookingsCountPerMonth: Array,
+    cumulativeUsersCountPerMonth: Array,
 });
 
 </script>
@@ -32,6 +36,7 @@ defineProps({
                 </div>
 
                 <div class="lg:col-span-2">
+                    <CumulativeAreaChart :cumulativeSalesPerMonth="cumulativeSalesPerMonth" :cumulativeUsersCountPerMonth="cumulativeUsersCountPerMonth" :cumulativeBookingsCountPerMonth="cumulativeBookingsCountPerMonth"/>
                     <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <DonutChart :chartData="bookingPerBusTypeData" label="Bookings"/>
                         <AreaChart :chartData="usersData" label="New Users"/>

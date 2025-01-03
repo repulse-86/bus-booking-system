@@ -7,7 +7,6 @@ use App\Services\BusService;
 use App\Services\UserService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class PageController extends Controller
 {
@@ -34,7 +33,10 @@ class PageController extends Controller
         $pendingBookingsCount = $this->bookedTicketService->getBookingsCountByStatus('pending');
         $approvedBookingsCount = $this->bookedTicketService->getBookingsCountByStatus('approved');
         $declinedBookingsCount = $this->bookedTicketService->getBookingsCountByStatus('declined');
+        $cumulativeUsersCountPerMonth = $this->userService->getCumulativeUsersCountPerMonth();
+        $cumulativeSalesPerMonth = $this->bookedTicketService->getCumulativeSalesPerMonth();
+        $cumulativeBookingsCountPerMonth = $this->bookedTicketService->getCumulativeBookingsCountPerMonth();
 
-        return inertia('Admin/Home', compact('usersData', 'bookingPerBusTypeData', 'registeredUserCount', 'pendingBookingsCount', 'approvedBookingsCount', 'declinedBookingsCount'));
+        return inertia('Admin/Home', compact('usersData', 'bookingPerBusTypeData', 'registeredUserCount', 'pendingBookingsCount', 'approvedBookingsCount', 'declinedBookingsCount', 'cumulativeSalesPerMonth', 'cumulativeUsersCountPerMonth', 'cumulativeBookingsCountPerMonth'));
     }
 }
