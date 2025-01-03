@@ -2,10 +2,12 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import AreaChart from '@/Components/AreaChart.vue';
 import DonutChart from '@/Components/DonutChart.vue';
+import RecordCountCard from '@/Components/RecordCountCard.vue';
 
 defineProps({
     usersData: Object,
     bookingPerBusTypeData: Object,
+    registeredUserCount: Number,
 });
 
 </script>
@@ -19,8 +21,9 @@ defineProps({
         </template>
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <AreaChart :chartData="usersData" label="New Users"/>
+                <RecordCountCard label="Registered Users" :value="registeredUserCount"/>
                 <DonutChart :chartData="bookingPerBusTypeData" label="Bookings"/>
+                <AreaChart :chartData="usersData" label="New Users"/>
             </div>
         </div>
     </AppLayout>

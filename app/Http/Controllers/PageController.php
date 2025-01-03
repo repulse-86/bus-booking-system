@@ -28,7 +28,8 @@ class PageController extends Controller
     {
         $usersData = $this->userService->getCurrentWeekUsers();
         $bookingPerBusTypeData = $this->busService->getBookingPerBusTypeData();
+        $registeredUserCount = $this->userService->getRegisteredUserCount();
 
-        return inertia('Admin/Home', compact('usersData', 'bookingPerBusTypeData'));
+        return inertia('Admin/Home', compact('usersData', 'bookingPerBusTypeData', 'registeredUserCount'));
     }
 }
