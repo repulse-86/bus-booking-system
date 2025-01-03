@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Services\BusService;
+use App\Services\UserService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
-    public function __construct(protected BusService $busService) {}
+    public function __construct(protected BusService $busService, protected UserService $userService) {}
 
     public function customerIndex(Request $request)
     {
@@ -23,8 +24,10 @@ class PageController extends Controller
         return inertia('Customer/Home', compact('buses', 'destinations'));
     }
 
-    public function adminIndex(Request $request)
+    public function adminIndex()
     {
-        return inertia('Admin/Home');
+        $usersData = $this->userService->getCurrentWeekUsers();
+
+        return inertia('Admin/Home', compact('usersData'));
     }
 }
