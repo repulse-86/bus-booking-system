@@ -35,7 +35,7 @@ watch(localFilterDestinationLocation, (newValue) => {
 <template>
     <div class="flex justify-center gap-8 mb-8">
         <TextInput v-model="localFilterBus" placeholder="Search bus..." class="w-64"/>
-        <TextInput v-model="localFilterTravelDate" type="datetime-local" placeholder="Search bus..." class="w-64"/>
+        <TextInput v-model="localFilterTravelDate" type="date" placeholder="Search bus..." class="w-64"/>
         <SelectInput v-model="localFilterDestinationLocation" :options="destinations" selected="Select destination"/>
     </div>
 </template>
