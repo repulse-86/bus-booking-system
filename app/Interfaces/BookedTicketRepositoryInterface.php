@@ -4,6 +4,7 @@ namespace App\Interfaces;
 
 use App\Models\BookedTicket;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 interface BookedTicketRepositoryInterface
 {
@@ -20,4 +21,8 @@ interface BookedTicketRepositoryInterface
     public function updateStatus(BookedTicket $bookedTicket, string $status): void;
 
     public function getBookingsCountByStatus(string $status): int;
+
+    public function getCumulativeSalesPerMonth(): Collection;
+
+    public function getCumulativeBookingsCountPerMonth(): Collection;
 }

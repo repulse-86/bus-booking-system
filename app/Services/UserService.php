@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\UserRepository;
+use Illuminate\Support\Collection;
 
 /**
  * undocumented class
@@ -25,5 +26,10 @@ class UserService
 	public function getRegisteredUserCount(): int
 	{
 		return $this->userRepository->getRegisteredUsersCount();
+	}
+
+	public function getCumulativeUsersCountPerMonth(): Collection
+	{
+		return $this->userRepository->getCumulativeUsersCountPerMonth();
 	}
 }

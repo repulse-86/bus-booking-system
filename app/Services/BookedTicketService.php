@@ -9,6 +9,7 @@ use App\Notifications\BookingPendingApprovalNotification;
 use App\Notifications\BookingStatusNotification;
 use App\Repositories\BookedTicketRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class BookedTicketService
@@ -56,5 +57,15 @@ class BookedTicketService
     public function getBookingsCountByStatus(string $status): int
     {
         return $this->bookedTicketRepository->getBookingsCountByStatus($status);
+    }
+
+    public function getCumulativeSalesPerMonth(): Collection
+    {
+        return $this->bookedTicketRepository->getCumulativeSalesPerMonth();
+    }
+
+    public function getCumulativeBookingsCountPerMonth(): Collection
+    {
+        return $this->bookedTicketRepository->getCumulativeBookingsCountPerMonth();
     }
 }
