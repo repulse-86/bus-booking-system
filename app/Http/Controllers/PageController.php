@@ -27,7 +27,8 @@ class PageController extends Controller
     public function adminIndex()
     {
         $usersData = $this->userService->getCurrentWeekUsers();
+        $bookingPerBusTypeData = $this->busService->getBookingPerBusTypeData();
 
-        return inertia('Admin/Home', compact('usersData'));
+        return inertia('Admin/Home', compact('usersData', 'bookingPerBusTypeData'));
     }
 }
