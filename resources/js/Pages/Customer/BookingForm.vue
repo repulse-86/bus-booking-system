@@ -13,6 +13,7 @@ import 'filepond/dist/filepond.min.css';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.esm.js';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.esm.js';
+import { showConfirmation, showAlert } from '@/helpers'; 
 
 const FilePond = VueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
 
@@ -58,16 +59,33 @@ const selectSeat = (seat) => {
 };
 
 const submitForm = () => {
-    form.post(route('customer.booked-tickets.store'), {
-        onSuccess: () => {
-            alert('Success');
-            window.location.href = route('customer.booked-tickets.index'); 
-        },
-        onError: (error) => {
-            alert('Error');
-            console.error(error);
-        },
-    });
+     showConfirmation({
+        title: 'Are you sure you want to book this ticket?',
+        text: 'Please review your details before proceeding. This action cannot be undone.',
+        confirmButtonText: 'Yes, book it!',
+        cancelButtonText: 'No, cancel'
+     }).then((result) => {
+        if (result.isConfirmed) {
+            form.post(route('customer.booked-tickets.store'), {
+                onSuccess: () => {
+                    showAlert({
+                        icon: 'success',
+                        title: 'Ticket Booked Successfully!',
+                        text: 'Your ticket has been booked and is awaiting approval. You will receive a confirmation email shortly.',
+                    });
+                    window.location.href = route('customer.booked-tickets.index'); 
+                },
+                onError: (error) => {
+                    showAlert({
+                        icon: 'error',
+                        title: 'Ticket Booking Failed!',
+                        text: 'There was an issue with your booking. Please try again.',
+                    });
+                    console.error(error);
+                },
+            });
+        }
+    })
 };
 
 const handleFilePondLoad = (response) => {

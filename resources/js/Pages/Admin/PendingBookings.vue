@@ -4,6 +4,7 @@ import { useDebouncedFilters, filterId, filterCustomerName } from '@/Utilities/u
 import AppLayout from '@/Layouts/AppLayout.vue';
 import BookingFilter from '@/Components/BookingFilter.vue';
 import BookingsTable from '@/Components/BookingsTable.vue';
+import { showAlert } from '@/helpers';
 
 defineProps({
     bookings: {
@@ -23,7 +24,11 @@ const updateBookingStatus = (bookingId, status) => {
             alert('Booking approved!');
         },
         onError: (error) => {
-            alert('Action failed!');
+            showAlert({
+                icon: 'error',
+                title: 'Ticket Approval Failed',
+                text: 'There was an issue with your approval. Please try again.',
+            });
             console.error(error);
         }
     });
