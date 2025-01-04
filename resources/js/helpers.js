@@ -1,3 +1,5 @@
+import Swal from 'sweetalert2'
+
 export const formatDate = (date) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(date).toLocaleDateString('en-US', options);
@@ -13,3 +15,28 @@ export function formatNumber(num) {
     }
     return num.toString();
 }
+
+export const showConfirmation = ({ title, text, confirmButtonText, cancelButtonText }) => {
+    return Swal.fire({
+        title: title,
+        text: text,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: confirmButtonText || 'Yes, proceed!',
+        cancelButtonText: cancelButtonText || 'No, cancel!',
+        customClass: {
+            confirmButton: 'my-primary-btn-bg-color',
+            cancelButton: 'my-secondary-btn-bg-color',
+        }
+    });
+};
+
+export const showAlert = ({ icon, title, text = null }) => {
+    Swal.fire({
+        icon: icon,
+        title: title,
+        text: text,
+        showConfirmButton: false,
+        timer: 1000,
+    });
+};
