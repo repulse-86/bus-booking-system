@@ -1,10 +1,12 @@
 <script setup>
-import { router } from '@inertiajs/vue3';
+import { useForm } from '@inertiajs/vue3';
 import { useDebouncedFilters, filterId, filterCustomerName } from '@/Utilities/useBookingFilter.js';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import BookingFilter from '@/Components/BookingFilter.vue';
 import BookingsTable from '@/Components/BookingsTable.vue';
-import { showAlert } from '@/helpers';
+import { showAlert, toast } from '@/helpers';
+
+const form = useForm({});
 
 defineProps({
     bookings: {
@@ -14,22 +16,16 @@ defineProps({
 });
 
 const updateBookingStatus = (bookingId, status) => {
-    router.put(
-            route('admin.booked-tickets.update', {
-                bookedTicket: bookingId, 
-                status: status
-            }), 
-    {
+    form.put(route('admin.booked-tickets.update', { bookedTicket: bookingId, status: status }), {
         onSuccess: () => {
-            alert('Booking approved!');
+            toast('Booking ticket approved successfully! An email has been sent to the customer.');
         },
         onError: (error) => {
             showAlert({
                 icon: 'error',
-                title: 'Ticket Approval Failed',
+                title: 'Ticket Approval Failed!',
                 text: 'There was an issue with your approval. Please try again.',
             });
-            console.error(error);
         }
     });
 };
