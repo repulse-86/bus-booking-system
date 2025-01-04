@@ -21,6 +21,7 @@ Route::middleware([
     Route::group([
         'prefix' => 'customer',
         'as' => 'customer.',
+        'middleware' => 'customer',
     ], function () {
         Route::get('home', [PageController::class, 'customerIndex'])->name('home');
         Route::get('booked-tickets/create/{bus}', [CustomerBookedTicketController::class, 'create'])->name('booked-tickets.create');
@@ -33,6 +34,7 @@ Route::middleware([
     Route::group([
         'prefix' => 'admin',
         'as' => 'admin.',
+        'middleware' => 'admin',
     ], function () {
         Route::get('home', [PageController::class, 'adminIndex'])->name('home');
         Route::get('pending/booked-tickets', [AdminBookedTicketController::class, 'pendingBookings'])->name('booked-tickets.pendingBookings');
