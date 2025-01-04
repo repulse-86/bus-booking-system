@@ -1,4 +1,8 @@
 import Swal from 'sweetalert2'
+import { useToast } from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+
+const $toast = useToast();
 
 export const formatDate = (date) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -40,3 +44,7 @@ export const showAlert = ({ icon, title, text = null }) => {
         timer: 1000,
     });
 };
+
+export function toast(message) {
+    $toast.success(message);
+}
