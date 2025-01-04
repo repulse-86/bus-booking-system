@@ -2,11 +2,11 @@
 import { ref } from 'vue';
 import { useForm, usePage } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
-import TextInput from '@/Components/TextInput.vue';
-import SelectInput from '@/Components/SelectInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
+import TextInput from '@/Components/TextInput.vue';
 
 const { auth } = usePage().props;
 
@@ -14,7 +14,7 @@ const props = defineProps({
     bus: {
         type: Object,
         required: true,
-    }
+    },
 });
 
 const form = useForm({
@@ -25,37 +25,55 @@ const form = useForm({
     payment_image: null,
 });
 
-const seatNumbers = ref([]);
-for (let i = 1; i <= props.bus.available_seats; i++) {
-    seatNumbers.value.push({ label: `Seat ${i}`, value: i });
-}
+const modalOpen = ref(false);
+const selectedSeatLabel = ref('Select Seat');
+
+const seatRows = ref([]);
+for (let i = 1; i <= props.bus.available_seats; i += 4) {
+    seatRows.value.push({
+        left: [i, i + 1].filter(seat => seat <= props.bus.available_seats),
+        right: [i + 2, i + 3].filter(seat => seat <= props.bus.available_seats),
+    });
+}   
+
+const openModal = () => {
+    modalOpen.value = true;
+};
+
+const closeModal = () => {
+    modalOpen.value = false;
+};
+
+const selectSeat = (seat) => {
+    form.seat = seat;
+    selectedSeatLabel.value = `Seat ${seat}`;
+};
 
 const submitForm = () => {
-    console.log(form);
     form.post(route('customer.booked-tickets.store'), {
         onSuccess: () => {
-            alert('success');
+            alert('Success');
             resetForm();
         },
         onError: (error) => {
-            alert('error');
+            alert('Error');
             console.error(error);
-        }
+        },
     });
 };
 
 const handleFileChange = (e) => {
     const file = e.target.files[0];
-    console.log('File selected:', file);
     form.payment_image = file;
 };
 
-const resetFileInput = (e) => {
+const resetFileInput = () => {
     document.getElementById('file').value = '';
 };
 
 const resetForm = () => {
     form.reset();
+    selectedSeatLabel.value = 'Select seat';
     resetFileInput();
 };
 </script>
@@ -74,7 +92,7 @@ const resetForm = () => {
                     <!-- Left Column -->
                     <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full space-y-6">
                         <h1 class="text-4xl font-semibold mb-6 text-left">Booking Details</h1>
-                        
+
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                             <div class="space-y-6">
                                 <div>
@@ -98,52 +116,129 @@ const resetForm = () => {
                             </div>
                         </div>
 
-                        <div class="mb-6">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                                <div class="">
-                                    <InputLabel value="Select Seat" class="text-lg font-medium  mb-2"/>
-                                    <SelectInput v-model="form.seat" :options="seatNumbers" class="w-full" selected="Seats"/>
-                                    <InputError class="mt-2 text-red-500" :message="form.errors.seat" />
-                                </div>
-                                <div class="">
-                                    <InputLabel value="Travel Date" class="text-lg font-medium  mb-2"/>
-                                    <TextInput v-model="form.travel_date" type="date" class="w-full"/>
-                                    <InputError class="mt-2 text-red-500" :message="form.errors.travel_date" />
-                                </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div class="">
+                                <InputLabel value="Select Seat" class="text-lg font-medium mb-2" />
+                                <SecondaryButton 
+                                    type="button" 
+                                    @click="openModal"
+                                    class="w-full h-10"
+                                >
+                                    {{ selectedSeatLabel }}
+                                </SecondaryButton>
+                                <InputError class="mt-2 text-red-500" :message="form.errors.seat" />
+                            </div>
+                            <div class="mb-6">
+                                <InputLabel value="Travel Date" class="text-lg font-medium mb-2" />
+                                <TextInput v-model="form.travel_date" type="date" class="w-full" />
+                                <InputError class="mt-2 text-red-500" :message="form.errors.travel_date" />
                             </div>
                         </div>
                     </div>
 
-                    <!-- Right Column (Payment Details) -->
-                    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full space-y-6">
-                        <h1 class="text-4xl font-semibold text-left">Payment Information</h1>
+                    <!-- Right Column -->
+                    <div class="">
+                        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full space-y-6">
+                            <h1 class="text-4xl font-semibold text-left">Payment Information</h1>
 
-                        <div class="space-y-4">
-                            <p class="text-lg text-red-600">Please make your payment to this GCash number and upload your receipt below.</p>
-                            <p class="text-xl font-medium text-gray-900 mb-4">
-                                <strong>GCash Number:</strong> <span class="font-bold text-blue-600">0917-123-4567</span>
-                            </p>
-                        </div>
+                            <div class="space-y-4">
+                                <p class="text-lg text-red-600">Please make your payment to this GCash number and upload your receipt below.</p>
+                                <p class="text-xl font-medium text-gray-900 mb-4">
+                                    <strong>GCash Number:</strong> <span class="font-bold text-blue-600">0917-123-4567</span>
+                                </p>
+                            </div>
 
-                        <div class="mb-6">
-                            <InputLabel value="Upload Payment Image" class="text-lg font-medium mb-2"/>
-                            <TextInput 
-                                type="file"
-                                class="mt-1 w-full py-2 px-4 border rounded-lg"
-                                @change="handleFileChange"
-                                :message="form.errors.file"
-                                id="file" />
-                            <InputError class="mt-2 text-red-500" :message="form.errors.file" />
-                        </div>
+                            <div class="mb-6">
+                                <InputLabel value="Upload Payment Image" class="text-lg font-medium mb-2" />
+                                <TextInput 
+                                    type="file"
+                                    class="mt-1 w-full py-2 px-4 border rounded-lg"
+                                    @change="handleFileChange"
+                                    id="file" 
+                                />
+                                <InputError class="mt-2 text-red-500" :message="form.errors.payment_image" />
+                            </div>
 
-                        <div class="mt-6">
-                            <PrimaryButton class="w-full" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                                Submit
-                            </PrimaryButton>
+                            <div class="mt-6">
+                                <PrimaryButton class="w-full" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                                    Submit
+                                </PrimaryButton>
+                            </div>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
+
+        <!-- Seat Selection Modal -->
+        <div v-if="modalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white dark:bg-gray-800 rounded-lg p-6 w-96 h-4/5 overflow-hidden flex flex-col space-y-8">
+                <h3 class="text-xl font-bold mb-2">Bus Seat Layout</h3>
+                <div class="flex-1 overflow-y-auto">
+                    <div class="grid grid-cols-2 gap-12">
+                        <!-- Left Column -->
+                        <div class="space-y-4">
+                            <div 
+                                v-for="row in seatRows" 
+                                :key="'left-' + row.left" 
+                                class="grid grid-cols-2 gap-2"
+                            >
+                                <div 
+                                    v-for="seat in row.left" 
+                                    :key="'seat-' + seat" 
+                                    class="text-center"
+                                >
+                                    <button 
+                                        type="button" 
+                                        @click="selectSeat(seat)"
+                                        :class="{
+                                            'bg-blue-600 text-white': form.seat === seat,
+                                            'bg-gray-200 dark:bg-gray-700 text-black dark:text-white': form.seat !== seat
+                                        }"
+                                        class="w-full py-2 px-4 rounded-lg font-medium"
+                                    >
+                                        {{ seat }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Right Column -->
+                        <div class="space-y-4">
+                            <div 
+                                v-for="row in seatRows" 
+                                :key="'right-' + row.right" 
+                                class="grid grid-cols-2 gap-2"
+                            >
+                                <div 
+                                    v-for="seat in row.right" 
+                                    :key="'seat-' + seat" 
+                                    class="text-center"
+                                >
+                                    <button 
+                                        type="button" 
+                                        @click="selectSeat(seat)"
+                                        :class="{
+                                            'bg-blue-600 text-white': form.seat === seat,
+                                            'bg-gray-200 dark:bg-gray-700 text-black dark:text-white': form.seat !== seat
+                                        }"
+                                        class="w-full py-2 px-4 rounded-lg font-medium"
+                                    >
+                                        {{ seat }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button 
+                    type="button" 
+                    class="w-full py-2 px-4 bg-red-600 text-white font-medium rounded-lg"
+                    @click="closeModal"
+                >
+                    Close
+                </button>
+            </div>
+        </div>
+
     </AppLayout>
 </template>
