@@ -11,7 +11,7 @@ const props = defineProps({
     }
 });
 
-const imageSrc = `../../files/payments/${props.bookedTicket.payment_image}.png`;
+const imageSrc = `../../files/payments/${props.bookedTicket.payment_image}`;
 </script>
 
 <template>
