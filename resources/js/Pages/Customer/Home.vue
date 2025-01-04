@@ -16,10 +16,9 @@ const props = defineProps({
 
 <template>
     <AppLayout title="Browse Buses">
-
-        <div class="my-4">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="dark:bg-gray-800 overflow-hidden sm:rounded-lg">
+        <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
+            <div class="relative flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
+                <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                     <Buses :destinations="destinations" :buses="buses"/>
                 </div>
             </div>
