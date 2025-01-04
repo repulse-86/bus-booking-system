@@ -22,8 +22,7 @@ class StorePaymentReceipt
      */
     public function handle(TicketBooked $event): void
     {
-        $fileName = $event->bookedTicket->payment_image;
-        $fileName = basename($fileName).'.png';
+        $fileName = $event->imageName;
         $image = $event->image;
         $image->storeAs('payments', $fileName, 'public');
     }

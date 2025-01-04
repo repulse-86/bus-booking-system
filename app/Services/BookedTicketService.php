@@ -18,16 +18,19 @@ class BookedTicketService
 
     public function createBookedTicket(array $data): BookedTicket
     {
-        $data['payment_image'] = strtoupper(Str::random(6)).'_'.now()->format('YmdHis');
         $bus = $this->busService->find($data['bus_id']);
         auth()->user()->notify(new BookingPendingApprovalNotification($bus));
 
         return $this->bookedTicketRepository->create($data);
     }
 
-    public function storeImage(BookedTicket $bookedTicket, $image): void
+    public function storeImage($image): string
     {
-        TicketBooked::dispatch($bookedTicket, $image);
+        $fileName = strtoupper(Str::random(6)).'_'.now()->format('YmdHis');
+        $fileName = basename($fileName).'.png';
+        TicketBooked::dispatch($fileName, $image);
+
+        return $fileName;
     }
 
     public function getBookedTicketsByCustomer(?string $filterId, ?string $filterStatus, string $customerId): LengthAwarePaginator

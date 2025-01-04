@@ -18,7 +18,7 @@ class TicketBooked implements ShouldQueue
      */
     use SerializesModels;
 
-    public function __construct(public BookedTicket $bookedTicket, public $image)
+    public function __construct(public string $imageName, public $image)
     {
         //
     }

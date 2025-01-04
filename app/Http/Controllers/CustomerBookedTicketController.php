@@ -8,6 +8,7 @@ use App\Models\Bus;
 use App\Services\BookedTicketService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class CustomerBookedTicketController extends Controller
 {
@@ -58,11 +59,7 @@ class CustomerBookedTicketController extends Controller
     {
         Gate::authorize('create', BookedTicket::class);
 
-        $bookedTicket = $this->bookedTicketService->createBookedTicket($request->validated());
-
-        if ($request->hasFile('payment_image')) {
-            $this->bookedTicketService->storeImage($bookedTicket, $request->file('payment_image'));
-        }
+        $this->bookedTicketService->createBookedTicket($request->validated());
     }
 
     /**
@@ -91,5 +88,24 @@ class CustomerBookedTicketController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function storePaymentReceipt(Request $request)
+    {
+        if ($request->hasFile('payment_image')) {
+            $fileName = $this->bookedTicketService->storeImage($request->file('payment_image'));
+            return $fileName;
+        }
+
+        return '';
+    }
+
+    public function deletePaymentReceipt(string $paymentReceipt)
+    {
+        $filePath = "payments/{$paymentReceipt}";
+
+        if (Storage::disk('public')->exists($filePath)) {
+            Storage::disk('public')->delete($filePath);
+        }
     }
 }

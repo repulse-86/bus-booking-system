@@ -28,8 +28,8 @@ class StoreBookedTicketRequest extends FormRequest
             'customer_id' => 'required|integer|exists:users,id',
             'bus_id' => 'required|integer|exists:buses,id',
             'seat' => 'required|integer',
-            'travel_date' => 'required|date',
-            'payment_image' => 'required|file|mimes:png,jpg,jpeg',
+            'travel_date' => 'required|date|after_or_equal:today',
+            'payment_image' => 'required|string',
         ];
     }
 

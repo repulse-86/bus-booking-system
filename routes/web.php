@@ -26,6 +26,8 @@ Route::middleware([
         Route::get('booked-tickets/create/{bus}', [CustomerBookedTicketController::class, 'create'])->name('booked-tickets.create');
         Route::resource('booked-tickets', CustomerBookedTicketController::class)->except('create');
         Route::get('history', [CustomerBookedTicketController::class, 'viewHistory'])->name('booked-tickets.history');
+        Route::post('payment-receipt-upload', [CustomerBookedTicketController::class, 'storePaymentReceipt'])->name('payment-receipt-upload');
+        Route::delete('payment-receipt-revert/{paymentReceipt}', [CustomerBookedTicketController::class, 'deletePaymentReceipt'])->name('payment-receipt-revert');
     });
 
     Route::group([
