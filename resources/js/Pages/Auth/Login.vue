@@ -1,12 +1,12 @@
 <script setup>
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import AuthenticationCard from '@/Components/AuthenticationCard.vue';
-import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
 import Checkbox from '@/Components/Checkbox.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import AuthCardHeader from '@/Components/AuthCardHeader.vue';
 
 defineProps({
     canResetPassword: Boolean,
@@ -31,12 +31,8 @@ const submit = () => {
 
 <template>
     <Head title="Log in" />
-
     <AuthenticationCard>
-        <template #logo>
-            <AuthenticationCardLogo />
-        </template>
-
+        <AuthCardHeader title="Welcome Back, Traveler!" subTitle="Sign in here"/>
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
             {{ status }}
         </div>

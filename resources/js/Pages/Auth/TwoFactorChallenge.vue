@@ -2,11 +2,11 @@
 import { nextTick, ref } from 'vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import AuthenticationCard from '@/Components/AuthenticationCard.vue';
-import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import AuthCardHeader from '@/Components/AuthCardHeader.vue';
 
 const recovery = ref(false);
 
@@ -41,10 +41,7 @@ const submit = () => {
     <Head title="Two-factor Confirmation" />
 
     <AuthenticationCard>
-        <template #logo>
-            <AuthenticationCardLogo />
-        </template>
-
+        <AuthCardHeader title="Two-Factor Authentication" subTitle="Enter the code sent to your device" />
         <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
             <template v-if="! recovery">
                 Please confirm access to your account by entering the authentication code provided by your authenticator application.

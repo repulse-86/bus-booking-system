@@ -2,11 +2,11 @@
 import { ref } from 'vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import AuthenticationCard from '@/Components/AuthenticationCard.vue';
-import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import AuthCardHeader from '@/Components/AuthCardHeader.vue';
 
 const form = useForm({
     password: '',
@@ -29,10 +29,7 @@ const submit = () => {
     <Head title="Secure Area" />
 
     <AuthenticationCard>
-        <template #logo>
-            <AuthenticationCardLogo />
-        </template>
-
+        <AuthCardHeader title="Confirm Your Password" subTitle="Please re-enter your password to continue"/>
         <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
             This is a secure area of the application. Please confirm your password before continuing.
         </div>

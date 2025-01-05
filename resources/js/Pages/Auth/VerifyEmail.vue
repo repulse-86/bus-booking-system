@@ -2,8 +2,8 @@
 import { computed } from 'vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import AuthenticationCard from '@/Components/AuthenticationCard.vue';
-import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import AuthCardHeader from '@/Components/AuthCardHeader.vue';
 
 const props = defineProps({
     status: String,
@@ -22,10 +22,7 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
     <Head title="Email Verification" />
 
     <AuthenticationCard>
-        <template #logo>
-            <AuthenticationCardLogo />
-        </template>
-
+        <AuthCardHeader title="Verify Your Email" subTitle="Check your inbox for the verification link" />
         <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
             Before continuing, could you verify your email address by clicking on the link we just emailed to you? If you didn't receive the email, we will gladly send you another.
         </div>

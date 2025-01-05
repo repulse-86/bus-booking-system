@@ -1,12 +1,12 @@
 <script setup>
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import AuthenticationCard from '@/Components/AuthenticationCard.vue';
-import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
 import Checkbox from '@/Components/Checkbox.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import AuthCardHeader from '@/Components/AuthCardHeader.vue';
 
 const form = useForm({
     name: '',
@@ -28,10 +28,7 @@ const submit = () => {
     <Head title="Register" />
 
     <AuthenticationCard>
-        <template #logo>
-            <AuthenticationCardLogo />
-        </template>
-
+        <AuthCardHeader title="Ready to Travel? Let’s Go!" subTitle="Sign up here"/>
         <form @submit.prevent="submit">
             <div>
                 <InputLabel for="name" value="Name" />
