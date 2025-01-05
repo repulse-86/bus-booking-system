@@ -27,8 +27,8 @@ useDebouncedFilters('home');
 
 <template>
     <Head title="Bus Search" />
-    <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
-        <div class="relative flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
+    <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50 min-h-screen">
+        <div class="relative flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white flex-grow">
             <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                 
                 <!-- Header Section -->
@@ -75,8 +75,18 @@ useDebouncedFilters('home');
                 />
 
                 <!-- Bus Info Cards -->
-                <div class="grid gap-6 lg:grid-cols-3 lg:gap-8">
-                    <BusCard v-for="(bus, index) in buses" :key="index" :bus="bus"/>
+                <div 
+                    class="grid gap-6 lg:grid-cols-3 lg:gap-8 flex-grow"
+                    :class="{'min-h-[200px]': buses.length === 0 }"
+                >
+                    <template v-if="buses.length > 0">
+                        <BusCard v-for="(bus, index) in buses" :key="index" :bus="bus"/>
+                    </template>
+                    <template v-else>
+                        <p class="text-center text-gray-500 dark:text-gray-400 col-span-full">
+                            No buses available for the selected criteria.
+                        </p>
+                    </template>
                 </div>
 
                 <!-- Footer Section -->
@@ -87,3 +97,4 @@ useDebouncedFilters('home');
         </div>
     </div>
 </template>
+
