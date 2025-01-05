@@ -54,11 +54,10 @@ const adminLinks = ref([
                         <div class="flex">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
-                                <Link :href="route('dashboard')">
-                                    <ApplicationMark class="block h-9 w-auto" />
-                                </Link>
+                                <h1 class="">Balibago Complex</h1>
                             </div>
-
+                        </div>
+                        <div class="flex">
                             <!-- Navigation Links -->
                             <div v-if="$page.props.auth.user.type === 'customer'" class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink v-for="link in customerLinks" :key="link.label" :href="route(link.href)" :active="route().current(link.href)">
@@ -71,9 +70,7 @@ const adminLinks = ref([
                                     {{ link.label }}
                                 </NavLink>
                             </div>
-
                         </div>
-
                         <div class="hidden sm:flex sm:items-center sm:ms-6">
                             <div class="ms-3 relative">
                                 <!-- Teams Dropdown -->
