@@ -22,17 +22,21 @@ const loadMore = () => {
 </script>
 
 <template>
-    <AppLayout title="My Bookings">
+    <AppLayout title="History">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                My Bookings
+                History
             </h2>
         </template>
 
         <div class="py-12">
-            <div class="overflow-x-auto max-w-2xl mx-auto bg-white dark:bg-gray-800 shadow-md rounded-lg">
-                <HistoryContainer v-for="(booking, index) in bookings" :key="index" :booking="booking"/>
-                
+            <div class="space-y-8">
+                <h1 class="text-6xl text-gray-800 text-center">You've explored so many places!</h1>
+
+                <div class="overflow-x-auto max-w-2xl mx-auto bg-white dark:bg-gray-800 shadow-md rounded-lg">
+                    <HistoryContainer v-for="(booking, index) in bookings" :key="index" :booking="booking"/>
+                    
+                </div>
             </div>
             <div v-if="currentPage < lastPage" class="text-center p-6">
                 <PrimaryButton @click="loadMore">Load more</PrimaryButton>
