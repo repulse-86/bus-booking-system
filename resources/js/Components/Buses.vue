@@ -27,8 +27,8 @@ useDebouncedFilters('customer.home');
 
 <template>
     <Head title="Home" />
-    <div class="text-center my-8">
-        <h1 class="text-4xl font-semibold">Find Your Perfect Bus Ride</h1>
+    <div class="text-center my-8 space-y-10">
+        <h1 class="text-4xl">Find Your Perfect Bus Ride</h1>
     </div>
 
     <BusFilter

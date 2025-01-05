@@ -63,8 +63,9 @@ useDebouncedFilters('home');
                 </header>
 
                 <!-- Tagline Section -->
-                <div class="text-center my-4">
-                    <h1 class="text-4xl font-semibold">Find Your Perfect Bus Ride</h1>
+                <div class="text-center space-y-10 mb-6">
+                    <h1 class="text-6xl text-gray-500 font-semibold">Balibago Complex Bus Terminal</h1>
+                    <h1 class="text-4xl">Find Your Perfect Bus Ride</h1>
                 </div>
 
                 <BusFilter
