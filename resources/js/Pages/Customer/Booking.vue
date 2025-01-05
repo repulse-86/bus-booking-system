@@ -31,35 +31,35 @@ const imageSrc = `../../files/payments/${props.booking.payment_image}`;
 
                         <div class="space-y-6">
                             <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
-                                <p class="text-lg font-black text-gray-700">Customer Name:</p>
-                                <p class="text-xl text-gray-700">{{ capitalize($page.props.auth.user.name) }}</p>
+                                <p class="text-lg font-black text-gray-700 dark:text-gray-300">Customer Name:</p>
+                                <p class="text-xl text-gray-700 dark:text-gray-300">{{ capitalize($page.props.auth.user.name) }}</p>
                             </div>
                             <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
-                                <p class="text-lg font-black text-gray-700">Bus Type:</p>
-                                <p class="text-xl text-gray-700">{{ booking.bus.bus_type }}</p>
+                                <p class="text-lg font-black text-gray-700 dark:text-gray-300">Bus Type:</p>
+                                <p class="text-xl text-gray-700 dark:text-gray-300">{{ booking.bus.bus_type }}</p>
                             </div>
                             <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
-                                <p class="text-lg font-black text-gray-700">Date:</p>
-                                <p class="text-xl text-gray-700">{{ formatDate(booking.travel_date) }}</p>
+                                <p class="text-lg font-black text-gray-700 dark:text-gray-300">Date:</p>
+                                <p class="text-xl text-gray-700 dark:text-gray-300">{{ formatDate(booking.travel_date) }}</p>
                             </div>
                             <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
-                                <p class="text-lg font-black text-gray-700">Departure Location:</p>
-                                <p class="text-xl text-gray-700">{{ capitalize(booking.bus.departure_location) }}</p>
+                                <p class="text-lg font-black text-gray-700 dark:text-gray-300">Departure Location:</p>
+                                <p class="text-xl text-gray-700 dark:text-gray-300">{{ capitalize(booking.bus.departure_location) }}</p>
                             </div>
                             <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
-                                <p class="text-lg font-black text-gray-700">Destination Location:</p>
-                                <p class="text-xl text-gray-700">{{ capitalize(booking.bus.destination_location) }}</p>
+                                <p class="text-lg font-black text-gray-700 dark:text-gray-300">Destination Location:</p>
+                                <p class="text-xl text-gray-700 dark:text-gray-300">{{ capitalize(booking.bus.destination_location) }}</p>
                             </div>
                             <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
-                                <p class="text-lg font-black text-gray-700">Seat Number:</p>
-                                <p class="text-xl text-gray-700">{{ booking.seat }}</p>
+                                <p class="text-lg font-black text-gray-700 dark:text-gray-300">Seat Number:</p>
+                                <p class="text-xl text-gray-700 dark:text-gray-300">{{ booking.seat }}</p>
                             </div>
                             <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
-                                <p class="text-lg font-black text-gray-700">Price:</p>
-                                <p class="text-xl text-gray-700">P{{ booking.bus.price_per_ticket }}</p>
+                                <p class="text-lg font-black text-gray-700 dark:text-gray-300">Price:</p>
+                                <p class="text-xl text-gray-700 dark:text-gray-300">P{{ booking.bus.price_per_ticket }}</p>
                             </div>
                             <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
-                                <p class="text-lg font-black text-gray-700">Payment Status:</p>
+                                <p class="text-lg font-black text-gray-700 dark:text-gray-300">Payment Status:</p>
                                 <div class="">
                                     <BookingStatusBadge :status="booking.status"/>
                                 </div>

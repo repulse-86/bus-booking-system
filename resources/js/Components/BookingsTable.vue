@@ -29,7 +29,7 @@ const headers = ref(['#', 'Customer', 'From', 'To', 'Price']);
 	<table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
 	    <THead :headers="headers" :actionsVisible="actionsVisible"/>
 	    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-	        <tr v-for="(booking, index) in bookings.data" :key="booking.index" class="transition duration-300 ease-in-out hover:bg-neutral-100">
+	        <tr v-for="(booking, index) in bookings.data" :key="booking.index" class="transition duration-300 ease-in-out hover:bg-gray-200 dark:hover:bg-gray-600">
 	            <TCellBooking :bookdId="booking.id" href="admin.bookings.show" :value="(booking.id).toString()"/>
 	            <TCellBooking :bookdId="booking.id" href="admin.bookings.show" :value="(booking.customer.name).toString()"/>
 	            <TCellBooking :bookdId="booking.id" href="admin.bookings.show" :value="(booking.bus.departure_location).toString()"/>

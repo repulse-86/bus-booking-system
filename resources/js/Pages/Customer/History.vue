@@ -31,7 +31,7 @@ const loadMore = () => {
 
         <div class="py-12">
             <div class="space-y-8">
-                <h1 class="text-6xl text-gray-800 text-center">You've explored so many places!</h1>
+                <h1 class="text-6xl text-gray-800 dark:text-gray-300 text-center">You've explored so many places!</h1>
 
                 <div class="overflow-x-auto max-w-2xl mx-auto bg-white dark:bg-gray-800 shadow-md rounded-lg">
                     <HistoryContainer v-for="(booking, index) in bookings" :key="index" :booking="booking"/>

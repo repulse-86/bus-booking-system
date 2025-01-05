@@ -54,7 +54,7 @@ const adminLinks = ref([
                         <div class="flex">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
-                                <h1 class="">Balibago Complex</h1>
+                                <h1 class="text-gray-800 dark:text-gray-300">Balibago Complex</h1>
                             </div>
                         </div>
                         <div class="flex">

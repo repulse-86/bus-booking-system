@@ -32,7 +32,7 @@ for (let i = 1; i <= totalPages; i++) {
 
 <template>
     <!-- Right side: Pagination controls -->
-    <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+    <div class="flex items-center justify-between border-t border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 py-3 sm:px-6">
         <!-- Mobile Pagination Controls -->
         <div class="flex flex-1 justify-between sm:hidden">
             <button
@@ -55,7 +55,7 @@ for (let i = 1; i <= totalPages; i++) {
         <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
             <!-- Display Pagination Information -->
             <div>
-                <p class="text-sm text-gray-700">
+                <p class="text-sm text-gray-800 dark:text-gray-300">
                     Showing
                     <span class="font-medium">{{ startItem }}</span>
                     to
@@ -85,7 +85,7 @@ for (let i = 1; i <= totalPages; i++) {
                     <button
                         v-for="page in pageNumbers"
                         :key="page"
-                        :class="{'bg-indigo-600 text-white': currentPage === page, 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50': currentPage !== page}"
+                        :class="{'bg-indigo-600 text-white': currentPage === page, 'text-gray-900 dark:text-gray-300 ring-1 ring-inset ring-gray-300 hover:bg-gray-50': currentPage !== page}"
                         @click="router.get(props.object.path + `?page=${page}`)"
                         class="relative inline-flex items-center px-4 py-2 text-sm font-semibold"
                     >

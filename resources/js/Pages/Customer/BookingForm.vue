@@ -112,29 +112,29 @@ const handleFilePondRevert = () => {
                     <!-- Left Column -->
                     <div class="">
                         <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full space-y-6">
-                            <h1 class="text-4xl font-semibold">Booking Details</h1>
+                            <h1 class="text-4xl dark:text-gray-300 font-semibold">Booking Details</h1>
                             <div class="space-y-4">
-                                <p class="text-lg text-gray-600">Choose your seat and select your preferred travel date to complete the booking.</p>
+                                <p class="text-lg text-gray-600 dark:text-gray-400">Choose your seat and select your preferred travel date to complete the booking.</p>
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 flex-grow">
                                 <div class="space-y-6 flex flex-col justify-center">
                                     <div>
                                         <Label>Departure Location</Label>
-                                        <p class="text-lg text-gray-800">{{ bus.departure_location }}</p>
+                                        <p class="text-lg text-gray-800 dark:text-gray-300">{{ bus.departure_location }}</p>
                                     </div>
                                     <div>
                                         <Label>Destination Location</Label>
-                                        <p class="text-lg text-gray-800">{{ bus.destination_location }}</p>
+                                        <p class="text-lg text-gray-800 dark:text-gray-300">{{ bus.destination_location }}</p>
                                     </div>
                                 </div>
                                 <div class="space-y-6 flex flex-col justify-center">
                                     <div>
                                         <Label>Number of Seats</Label>
-                                        <p class="text-lg text-gray-800">{{ bus.available_seats }}</p>
+                                        <p class="text-lg text-gray-800 dark:text-gray-300">{{ bus.available_seats }}</p>
                                     </div>
                                     <div>
                                         <Label>Price Per Ticket</Label>
-                                        <p class="text-lg text-gray-800">P {{ bus.price_per_ticket }}</p>
+                                        <p class="text-lg text-gray-800 dark:text-gray-300">P {{ bus.price_per_ticket }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -157,12 +157,12 @@ const handleFilePondRevert = () => {
 
                     <div class="space-y-6">
                         <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full space-y-6">
-                            <h1 class="text-4xl font-semibold">Payment Information</h1>
+                            <h1 class="text-4xl dark:text-gray-300 font-semibold">Payment Information</h1>
                             <div class="space-y-4">
                                 <p class="text-lg text-red-600">Choose your seat and select your preferred travel date to complete the booking.</p>
                             </div>
                             <div class="space-y-6">
-                                <p class="text-xl font-medium text-gray-900">
+                                <p class="text-xl font-medium text-gray-900 dark:text-gray-300">
                                     <strong>GCash Number:</strong> <span class="font-bold text-blue-600">0917-123-4567</span>
                                 </p>
 
@@ -203,7 +203,7 @@ const handleFilePondRevert = () => {
         <!-- Seat Selection Modal -->
         <div v-if="modalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div class="bg-white dark:bg-gray-800 rounded-lg p-6 w-96 h-4/5 overflow-hidden flex flex-col space-y-8">
-                <h3 class="text-xl font-bold mb-2">Bus Seat Layout</h3>
+                <h3 class="text-xl dark:text-gray-300 font-bold mb-2">Bus Seat Layout</h3>
                 <div class="flex-1 overflow-y-auto">
                     <div class="grid grid-cols-2 gap-12">
                         <!-- Left Column -->
@@ -222,7 +222,7 @@ const handleFilePondRevert = () => {
                                         type="button" 
                                         @click="selectSeat(seat)"
                                         :class="{
-                                            'bg-gray-800 text-white': form.seat === seat,
+                                            'bg-gray-800 dark:bg-gray-300 text-white dark:text-gray-800': form.seat === seat,
                                             'bg-gray-200 dark:bg-gray-700 text-black dark:text-white': form.seat !== seat
                                         }"
                                         class="w-full py-2 px-4 rounded-lg font-medium"
@@ -248,7 +248,7 @@ const handleFilePondRevert = () => {
                                         type="button" 
                                         @click="selectSeat(seat)"
                                         :class="{
-                                            'bg-gray-800 text-white': form.seat === seat,
+                                            'bg-gray-800 dark:bg-gray-300 text-white dark:text-gray-800': form.seat === seat,
                                             'bg-gray-200 dark:bg-gray-700 text-black dark:text-white': form.seat !== seat
                                         }"
                                         class="w-full py-2 px-4 rounded-lg font-medium"

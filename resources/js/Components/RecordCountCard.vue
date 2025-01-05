@@ -15,7 +15,7 @@ defineProps({
 
 <template>
     <div class="w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 flex items-center justify-between mb-6">
-        <h1 class="text-4xl font-bold text-gray-800">{{ label }}</h1>
+        <h1 class="text-4xl font-bold text-gray-800 dark:text-gray-300">{{ label }}</h1>
         <p class="text-9xl text-green-500 text-end">{{ formatNumber(value) }}</p>
     </div>
 </template>
