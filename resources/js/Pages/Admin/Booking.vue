@@ -11,7 +11,9 @@ const props = defineProps({
     }
 });
 
-const imageSrc = `../../files/payments/${props.booking.payment_image}`;
+const imageSrc = props.booking.payment_image === 'none' 
+    ? '../../files/receipt.png' 
+    : `../../files/payments/${props.booking.payment_image}`;
 </script>
 
 <template>
