@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\AdminBookedTicketController;
-use App\Http\Controllers\CustomerBookedTicketController;
+use App\Http\Controllers\AdminBookingController;
+use App\Http\Controllers\CustomerBookingController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
@@ -24,11 +24,11 @@ Route::middleware([
         'middleware' => 'customer',
     ], function () {
         Route::get('home', [PageController::class, 'customerIndex'])->name('home');
-        Route::get('booked-tickets/create/{bus}', [CustomerBookedTicketController::class, 'create'])->name('booked-tickets.create');
-        Route::resource('booked-tickets', CustomerBookedTicketController::class)->except('create');
-        Route::get('history', [CustomerBookedTicketController::class, 'viewHistory'])->name('booked-tickets.history');
-        Route::post('payment-receipt-upload', [CustomerBookedTicketController::class, 'storePaymentReceipt'])->name('payment-receipt-upload');
-        Route::delete('payment-receipt-revert/{paymentReceipt}', [CustomerBookedTicketController::class, 'deletePaymentReceipt'])->name('payment-receipt-revert');
+        Route::get('bookings/create/{bus}', [CustomerBookingController::class, 'create'])->name('bookings.create');
+        Route::resource('bookings', CustomerBookingController::class)->except('create');
+        Route::get('history', [CustomerBookingController::class, 'viewHistory'])->name('bookings.history');
+        Route::post('payment-receipt-upload', [CustomerBookingController::class, 'storePaymentReceipt'])->name('payment-receipt-upload');
+        Route::delete('payment-receipt-revert/{paymentReceipt}', [CustomerBookingController::class, 'deletePaymentReceipt'])->name('payment-receipt-revert');
     });
 
     Route::group([
@@ -37,10 +37,10 @@ Route::middleware([
         'middleware' => 'admin',
     ], function () {
         Route::get('home', [PageController::class, 'adminIndex'])->name('home');
-        Route::get('pending/booked-tickets', [AdminBookedTicketController::class, 'pendingBookings'])->name('booked-tickets.pendingBookings');
-        Route::get('approved/booked-tickets', [AdminBookedTicketController::class, 'approvedBookings'])->name('booked-tickets.approvedBookings');
-        Route::get('declined/booked-tickets', [AdminBookedTicketController::class, 'declinedBookings'])->name('booked-tickets.declinedBookings');
-        Route::put('booked-tickets/{bookedTicket}/{status}', [AdminBookedTicketController::class, 'update'])->name('booked-tickets.update');
-        Route::get('booked-tickets/{bookedTicket}', [AdminBookedTicketController::class, 'show'])->name('booked-tickets.show');
+        Route::get('pending/bookings', [AdminBookingController::class, 'viewPendingBookings'])->name('bookings.pendingBookings');
+        Route::get('approved/bookings', [AdminBookingController::class, 'viewApprovedBookings'])->name('bookings.approvedBookings');
+        Route::get('declined/bookings', [AdminBookingController::class, 'viewDeclinedBookings'])->name('bookings.declinedBookings');
+        Route::put('bookings/{booking}/{status}', [AdminBookingController::class, 'update'])->name('bookings.update');
+        Route::get('bookings/{booking}', [AdminBookingController::class, 'show'])->name('bookings.show');
     });
 });

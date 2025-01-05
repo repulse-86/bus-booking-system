@@ -23,7 +23,7 @@ class UserRepository implements UserRepositoryInterface
         $this->currentYear = date('Y');
     }
 
-	public function getCurrentWeekNewUsers(): array
+	public function getCurrentWeekNewUserCount(): array
 	{
 		$startOfWeek = Carbon::now()->startOfWeek();
 		$endOfWeek = Carbon::now()->endOfWeek();
@@ -43,12 +43,12 @@ class UserRepository implements UserRepositoryInterface
 		return compact('userStats', 'data');
 	}
 
-	public function getRegisteredUsersCount(): int
+	public function getRegisteredUserCount(): int
 	{
 		return User::where('type', 'customer')->count();
 	}
 
-	public function getCumulativeUsersCountPerMonth(): Collection
+	public function getCumulativePerMonthUserCount(): Collection
 	{
 		$cumulativeUserCountPerMonth = DB::table('users')
 		    ->select(

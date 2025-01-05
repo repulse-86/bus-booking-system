@@ -2,7 +2,7 @@
 
 namespace App\Notifications;
 
-use App\Models\BookedTicket;
+use App\Models\Booking;
 use App\Models\Bus;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -17,7 +17,7 @@ class BookingStatusNotification extends Notification implements ShouldQueue
      * Create a new notification instance.
      */
     public function __construct(
-        public BookedTicket $bookedTicket,
+        public Booking $booking,
         public Bus $bus,
         public string $status)
     {
@@ -39,12 +39,12 @@ class BookingStatusNotification extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $bookingId = $this->bookedTicket->id;
+        $bookingId = $this->booking->id;
         $departureLocation = $this->bus->departure_location;
         $destinationLocation = $this->bus->destination_location;
 
         return (new MailMessage)
-            ->subject('Your Ticket Booking is '.$this->status)
+            ->subject('Your Booking is '.$this->status)
             ->line("Your booking #{$bookingId} for the bus from {$departureLocation} to {$destinationLocation} has been {$this->status}.")
             ->line('Thank you for using our application!');
     }

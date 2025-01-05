@@ -15,11 +15,11 @@ onMounted(() => {
     }
 });
 
-const totalCount = props.chartData.reduce((sum, stat) => sum + stat.total_booked_tickets, 0);
+const totalCount = props.chartData.reduce((sum, stat) => sum + stat.total_bookings, 0);
 
 const getChartOptions = () => {
   return {
-    series: props.chartData.map(stat => stat.total_booked_tickets),
+    series: props.chartData.map(stat => stat.total_bookings),
     colors: [
         "#1C64F2", "#16BDCA", "#9061F9", "#FACC15", "#F43F5E", "#0EA5E9", 
         "#8B5CF6", "#10B981", "#F59E0B", "#EF4444", "#3B82F6", "#9333EA", 

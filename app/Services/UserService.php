@@ -18,18 +18,18 @@ class UserService
 		
 	}
 
-	public function getCurrentWeekUsers(): array
+	public function getCurrentWeekNewUserCount(): array
 	{
-		return $this->userRepository->getCurrentWeekNewUsers();
+		return $this->userRepository->getCurrentWeekNewUserCount();
 	}
 
 	public function getRegisteredUserCount(): int
 	{
-		return $this->userRepository->getRegisteredUsersCount();
+		return $this->userRepository->getRegisteredUserCount();
 	}
 
-	public function getCumulativeUsersCountPerMonth(): Collection
+	public function getCumulativePerMonthUserCount(): Collection
 	{
-		return $this->userRepository->getCumulativeUsersCountPerMonth();
+		return $this->userRepository->getCumulativePerMonthUserCount();
 	}
 }

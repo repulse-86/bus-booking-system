@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('booked_tickets', function (Blueprint $table) {
+        Schema::create('bookings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('bus_id')->constrained('buses')->cascadeOnDelete()->cascadeOnUpdate();

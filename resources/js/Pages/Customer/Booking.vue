@@ -5,13 +5,13 @@ import BookingStatusBadge from '@/Components/BookingStatusBadge.vue';
 import { formatDate } from '@/helpers';
 
 const props = defineProps({
-    bookedTicket: {
+    booking: {
         type: Object,
         required: true,
     }
 });
 
-const imageSrc = `../../files/payments/${props.bookedTicket.payment_image}`;
+const imageSrc = `../../files/payments/${props.booking.payment_image}`;
 </script>
 
 <template>
@@ -36,32 +36,32 @@ const imageSrc = `../../files/payments/${props.bookedTicket.payment_image}`;
                             </div>
                             <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
                                 <p class="text-lg font-black text-gray-700">Bus Type:</p>
-                                <p class="text-xl text-gray-700">{{ bookedTicket.bus.bus_type }}</p>
+                                <p class="text-xl text-gray-700">{{ booking.bus.bus_type }}</p>
                             </div>
                             <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
                                 <p class="text-lg font-black text-gray-700">Date:</p>
-                                <p class="text-xl text-gray-700">{{ formatDate(bookedTicket.travel_date) }}</p>
+                                <p class="text-xl text-gray-700">{{ formatDate(booking.travel_date) }}</p>
                             </div>
                             <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
                                 <p class="text-lg font-black text-gray-700">Departure Location:</p>
-                                <p class="text-xl text-gray-700">{{ capitalize(bookedTicket.bus.departure_location) }}</p>
+                                <p class="text-xl text-gray-700">{{ capitalize(booking.bus.departure_location) }}</p>
                             </div>
                             <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
                                 <p class="text-lg font-black text-gray-700">Destination Location:</p>
-                                <p class="text-xl text-gray-700">{{ capitalize(bookedTicket.bus.destination_location) }}</p>
+                                <p class="text-xl text-gray-700">{{ capitalize(booking.bus.destination_location) }}</p>
                             </div>
                             <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
                                 <p class="text-lg font-black text-gray-700">Seat Number:</p>
-                                <p class="text-xl text-gray-700">{{ bookedTicket.seat }}</p>
+                                <p class="text-xl text-gray-700">{{ booking.seat }}</p>
                             </div>
                             <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
                                 <p class="text-lg font-black text-gray-700">Price:</p>
-                                <p class="text-xl text-gray-700">P{{ bookedTicket.bus.price_per_ticket }}</p>
+                                <p class="text-xl text-gray-700">P{{ booking.bus.price_per_ticket }}</p>
                             </div>
                             <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
                                 <p class="text-lg font-black text-gray-700">Payment Status:</p>
                                 <div class="">
-                                    <BookingStatusBadge :status="bookedTicket.status"/>
+                                    <BookingStatusBadge :status="booking.status"/>
                                 </div>
                             </div>
                         </div>

@@ -12,7 +12,7 @@ use Illuminate\Support\Collection;
  **/
 interface UserRepositoryInterface
 {
-	public function getCurrentWeekNewUsers(): array;
-	public function getRegisteredUsersCount(): int;
-	public function getCumulativeUsersCountPerMonth(): Collection;
+	public function getCurrentWeekNewUserCount(): array;
+	public function getRegisteredUserCount(): int;
+	public function getCumulativePerMonthUserCount(): Collection;
 } // END interface UserRepositoryInterface

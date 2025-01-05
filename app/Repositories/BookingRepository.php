@@ -2,14 +2,14 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\BookedTicketRepositoryInterface;
-use App\Models\BookedTicket;
+use App\Interfaces\BookingRepositoryInterface;
+use App\Models\Booking;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
-class BookedTicketRepository implements BookedTicketRepositoryInterface
+class BookingRepository implements BookingRepositoryInterface
 {
     private string $currentYear;
 
@@ -18,9 +18,9 @@ class BookedTicketRepository implements BookedTicketRepositoryInterface
         $this->currentYear = date('Y');
     }
 
-    public function getBookedTicketsByCustomer(?string $filterId, ?string $filterStatus, string $customerId): LengthAwarePaginator
+    public function getBookingsByCustomer(?string $filterId, ?string $filterStatus, string $customerId): LengthAwarePaginator
     {
-        return BookedTicket::with('bus')
+        return Booking::with('bus')
             ->when($filterId, function ($query) use ($filterId) {
                 $query->where('id', $filterId);
             })
@@ -32,9 +32,9 @@ class BookedTicketRepository implements BookedTicketRepositoryInterface
             ->paginate(10);
     }
 
-    public function getBookedTickets(string $status, ?string $filterId, ?string $filterCustomerName): LengthAwarePaginator
+    public function getBookings(string $status, ?string $filterId, ?string $filterCustomerName): LengthAwarePaginator
     {
-        return BookedTicket::with('bus', 'customer')
+        return Booking::with('bus', 'customer')
             ->when($filterId, function ($query) use ($filterId) {
                 $query->where('id', '=', $filterId);
             })
@@ -47,40 +47,40 @@ class BookedTicketRepository implements BookedTicketRepositoryInterface
             ->paginate(10);
     }
 
-    public function create(array $data): BookedTicket
+    public function create(array $data): Booking
     {
-        return BookedTicket::create($data);
+        return Booking::create($data);
     }
 
-    public function find(string $id): BookedTicket
+    public function find(string $id): Booking
     {
-        return BookedTicket::with(['bus', 'customer'])->findOrFail($id);
+        return Booking::with(['bus', 'customer'])->findOrFail($id);
     }
 
-    public function delete(BookedTicket $bookedTicket): void
+    public function delete(Booking $booking): void
     {
-        $bookedTicket->delete();
+        $booking->delete();
     }
 
-    public function updateStatus(BookedTicket $bookedTicket, string $status): void
+    public function updateBookingStatus(Booking $booking, string $status): void
     {
-        $bookedTicket->status = $status;
-        $bookedTicket->save();
+        $booking->status = $status;
+        $booking->save();
     }
 
-    public function getBookingsCountByStatus(string $status): int
+    public function getByStatusBookingCount(string $status): int
     {
-        return BookedTicket::where('status', $status)->count();
+        return Booking::where('status', $status)->count();
     }
 
-    public function getCumulativeSalesPerMonth(): Collection
+    public function getCumulativePerMonthSales(): Collection
     {
-        $cumulativeSalesPerMonth = DB::table('booked_tickets')
-            ->select(DB::raw('strftime("%m", booked_tickets.created_at) as month'), DB::raw('sum(price_per_ticket) as total_sales'))
-            ->join('buses', 'booked_tickets.bus_id', '=', 'buses.id')
-            ->whereRaw('strftime("%Y", booked_tickets.created_at) = ?', [$this->currentYear])
-            ->groupBy(DB::raw('strftime("%m", booked_tickets.created_at)'))
-            ->orderBy(DB::raw('strftime("%m", booked_tickets.created_at)'))
+        $cumulativeSalesPerMonth = DB::table('bookings')
+            ->select(DB::raw('strftime("%m", bookings.created_at) as month'), DB::raw('sum(price_per_ticket) as total_sales'))
+            ->join('buses', 'bookings.bus_id', '=', 'buses.id')
+            ->whereRaw('strftime("%Y", bookings.created_at) = ?', [$this->currentYear])
+            ->groupBy(DB::raw('strftime("%m", bookings.created_at)'))
+            ->orderBy(DB::raw('strftime("%m", bookings.created_at)'))
             ->get();
 
         $cumulativeSales = 0;
@@ -95,9 +95,9 @@ class BookedTicketRepository implements BookedTicketRepositoryInterface
         return $cumulativeSalesPerMonth;
     }
 
-    public function getCumulativeBookingsCountPerMonth(): Collection
+    public function getCumulativePerMonthBookingCount(): Collection
     {
-        $cumulativeBookingsCountPerMonth = DB::table('booked_tickets')
+        $cumulativeBookingsCountPerMonth = DB::table('bookings')
             ->select(
                 DB::raw('strftime("%m", created_at) as month_number'),
                 DB::raw('count(*) as total_bookings')

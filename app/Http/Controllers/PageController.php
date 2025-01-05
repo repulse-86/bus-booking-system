@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\BookedTicketService;
+use App\Services\BookingService;
 use App\Services\BusService;
 use App\Services\UserService;
 use Carbon\Carbon;
@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
-    public function __construct(protected BusService $busService, protected UserService $userService, protected BookedTicketService $bookedTicketService) {}
+    public function __construct(protected BusService $busService, protected UserService $userService, protected BookingService $bookingService) {}
 
     public function customerIndex(Request $request)
     {
@@ -27,16 +27,16 @@ class PageController extends Controller
 
     public function adminIndex()
     {
-        $usersData = $this->userService->getCurrentWeekUsers();
-        $bookingPerBusTypeData = $this->busService->getBookingPerBusTypeData();
+        $usersData = $this->userService->getCurrentWeekNewUserCount();
+        $bookingPerBusTypeData = $this->busService->getBookingsPerBusTypeData();
         $registeredUserCount = $this->userService->getRegisteredUserCount();
-        $pendingBookingsCount = $this->bookedTicketService->getBookingsCountByStatus('pending');
-        $approvedBookingsCount = $this->bookedTicketService->getBookingsCountByStatus('approved');
-        $declinedBookingsCount = $this->bookedTicketService->getBookingsCountByStatus('declined');
-        $cumulativeUsersCountPerMonth = $this->userService->getCumulativeUsersCountPerMonth();
-        $cumulativeSalesPerMonth = $this->bookedTicketService->getCumulativeSalesPerMonth();
-        $cumulativeBookingsCountPerMonth = $this->bookedTicketService->getCumulativeBookingsCountPerMonth();
+        $pendingBookingsCount = $this->bookingService->getByStatusBookingCount('pending');
+        $approvedBookingsCount = $this->bookingService->getByStatusBookingCount('approved');
+        $declinedBookingsCount = $this->bookingService->getByStatusBookingCount('declined');
+        $cumulativePerMonthUserCount = $this->userService->getCumulativePerMonthUserCount();
+        $cumulativePerMonthSales = $this->bookingService->getCumulativePerMonthSales();
+        $cumulativePerMonthBookingCount = $this->bookingService->getCumulativePerMonthBookingCount();
 
-        return inertia('Admin/Home', compact('usersData', 'bookingPerBusTypeData', 'registeredUserCount', 'pendingBookingsCount', 'approvedBookingsCount', 'declinedBookingsCount', 'cumulativeSalesPerMonth', 'cumulativeUsersCountPerMonth', 'cumulativeBookingsCountPerMonth'));
+        return inertia('Admin/Home', compact('usersData', 'bookingPerBusTypeData', 'registeredUserCount', 'pendingBookingsCount', 'approvedBookingsCount', 'declinedBookingsCount', 'cumulativePerMonthSales', 'cumulativePerMonthUserCount', 'cumulativePerMonthBookingCount'));
     }
 }

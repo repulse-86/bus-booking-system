@@ -12,9 +12,9 @@ defineProps({
     pendingBookingsCount: Number,
     approvedBookingsCount: Number,
     declinedBookingsCount: Number,
-    cumulativeSalesPerMonth: Array,
-    cumulativeBookingsCountPerMonth: Array,
-    cumulativeUsersCountPerMonth: Array,
+    cumulativePerMonthSales: Array,
+    cumulativePerMonthBookingCount: Array,
+    cumulativePerMonthUserCount: Array,
 });
 
 </script>
@@ -36,7 +36,7 @@ defineProps({
                 </div>
 
                 <div class="lg:col-span-2">
-                    <CumulativeAreaChart :cumulativeSalesPerMonth="cumulativeSalesPerMonth" :cumulativeUsersCountPerMonth="cumulativeUsersCountPerMonth" :cumulativeBookingsCountPerMonth="cumulativeBookingsCountPerMonth" class="mb-8"/>
+                    <CumulativeAreaChart :cumulativePerMonthSales="cumulativePerMonthSales" :cumulativePerMonthUserCount="cumulativePerMonthUserCount" :cumulativePerMonthBookingCount="cumulativePerMonthBookingCount" class="mb-8"/>
                     <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <DonutChart :chartData="bookingPerBusTypeData" label="Bookings"/>
                         <AreaChart :chartData="usersData" label="New Users"/>

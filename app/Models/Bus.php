@@ -20,8 +20,8 @@ class Bus extends Model
         'available_seats',
     ];
 
-    public function bookedTickets()
+    public function booking()
     {
-        return $this->hasMany(BookedTicket::class, 'bus_id');
+        return $this->hasMany(Booking::class, 'bus_id');
     }
 }

@@ -30,7 +30,7 @@ const options = [
 const headers = ref(['ID', 'Type', 'Date', 'From', 'To', 'Seat', 'Price', 'Status']);
 
 const watchDebounced = (field, value) => {
-    router.get(route('customer.booked-tickets.index'), {
+    router.get(route('customer.bookings.index'), {
         filterId: filterId.value,
         filterStatus: filterStatus.value,
     }, { preserveState: true });
@@ -63,16 +63,16 @@ watch(filterStatus, debounce((newValue) => watchDebounced('filterStatus', newVal
                     <THead :headers="headers" :actionsVisible="false"/>
                     <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                         <tr v-for="(booking, index) in bookings.data" :key="booking.index" class="transition duration-300 ease-in-out hover:bg-neutral-100">
-                            <TCellBooking :bookdId="booking.id" href="customer.booked-tickets.show" :value="(booking.id).toString()"/>
-                            <TCellBooking :bookdId="booking.id" href="customer.booked-tickets.show" :value="(booking.bus.bus_type)"/>
-                            <TCellBooking :bookdId="booking.id" href="customer.booked-tickets.show" :value="formatDate(booking.travel_date)"/>
-                            <TCellBooking :bookdId="booking.id" href="customer.booked-tickets.show" :value="(booking.bus.departure_location).toString()"/>
-                            <TCellBooking :bookdId="booking.id" href="customer.booked-tickets.show" :value="(booking.bus.destination_location).toString()"/>
-                            <TCellBooking :bookdId="booking.id" href="customer.booked-tickets.show" :value="(booking.seat).toString()"/>
-                            <TCellBooking :bookdId="booking.id" href="customer.booked-tickets.show" :value="`P ${booking.bus.price_per_ticket}`" />
+                            <TCellBooking :bookdId="booking.id" href="customer.bookings.show" :value="(booking.id).toString()"/>
+                            <TCellBooking :bookdId="booking.id" href="customer.bookings.show" :value="(booking.bus.bus_type)"/>
+                            <TCellBooking :bookdId="booking.id" href="customer.bookings.show" :value="formatDate(booking.travel_date)"/>
+                            <TCellBooking :bookdId="booking.id" href="customer.bookings.show" :value="(booking.bus.departure_location).toString()"/>
+                            <TCellBooking :bookdId="booking.id" href="customer.bookings.show" :value="(booking.bus.destination_location).toString()"/>
+                            <TCellBooking :bookdId="booking.id" href="customer.bookings.show" :value="(booking.seat).toString()"/>
+                            <TCellBooking :bookdId="booking.id" href="customer.bookings.show" :value="`P ${booking.bus.price_per_ticket}`" />
                             
                             <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200">
-                                <Link :href="route('customer.booked-tickets.show', booking.id)">
+                                <Link :href="route('customer.bookings.show', booking.id)">
                                     <BookingStatusBadge :status="booking.status"/>
                                 </Link>
                             </td>

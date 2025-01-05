@@ -66,14 +66,14 @@ const submitForm = () => {
         cancelButtonText: 'No, cancel'
      }).then((result) => {
         if (result.isConfirmed) {
-            form.post(route('customer.booked-tickets.store'), {
+            form.post(route('customer.bookings.store'), {
                 onSuccess: () => {
                     showAlert({
                         icon: 'success',
                         title: 'Ticket Booked Successfully!',
                         text: 'Your ticket has been booked and is awaiting approval. You will receive a confirmation email shortly.',
                     });
-                    window.location.href = route('customer.booked-tickets.index'); 
+                    window.location.href = route('customer.bookings.index'); 
                 },
                 onError: (error) => {
                     showAlert({

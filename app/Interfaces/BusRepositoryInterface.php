@@ -14,5 +14,5 @@ interface BusRepositoryInterface
 
     public function find(string $id): Bus;
 
-    public function getBookingPerBusTypeData(): Collection;
+    public function getBookingsPerBusTypeData(): Collection;
 }

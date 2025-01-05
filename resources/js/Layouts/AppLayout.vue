@@ -28,15 +28,15 @@ const logout = () => {
 
 const customerLinks = ref([
     { label: 'Browse', href: 'customer.home'},
-    { label: 'My Bookings', href: 'customer.booked-tickets.index'},
-    { label: 'History', href: 'customer.booked-tickets.history'},
+    { label: 'My Bookings', href: 'customer.bookings.index'},
+    { label: 'History', href: 'customer.bookings.history'},
 ]);
 
 const adminLinks = ref([
     { label: 'Dashboard', href: 'admin.home'},
-    { label: 'Pending Bookings', href: 'admin.booked-tickets.pendingBookings'},
-    { label: 'Approved Bookings', href: 'admin.booked-tickets.approvedBookings'},
-    { label: 'Declined Bookings', href: 'admin.booked-tickets.declinedBookings'},
+    { label: 'Pending Bookings', href: 'admin.bookings.pendingBookings'},
+    { label: 'Approved Bookings', href: 'admin.bookings.approvedBookings'},
+    { label: 'Declined Bookings', href: 'admin.bookings.declinedBookings'},
 ]);
 </script>
 

@@ -1,10 +1,11 @@
 <script setup>
 import { onMounted } from 'vue';
+import ApexCharts from 'apexcharts'
 
 const props = defineProps({
-	cumulativeSalesPerMonth: Array,
-	cumulativeUsersCountPerMonth: Array,
-	cumulativeBookingsCountPerMonth: Array,
+	cumulativePerMonthSales: Array,
+	cumulativePerMonthUserCount: Array,
+	cumulativePerMonthBookingCount: Array,
 });
 
 onMounted(() => {
@@ -14,23 +15,23 @@ onMounted(() => {
 	}
 })
 
-const totalSales = props.cumulativeSalesPerMonth.reduce((total, item) => total + item.total_sales, 0);
+const totalSales = props.cumulativePerMonthSales.reduce((total, item) => total + item.total_sales, 0);
 
 const options = {
 series: [
   {
     name: "Sales",
-    data:  props.cumulativeSalesPerMonth.map(item => item.total_sales),
+    data:  props.cumulativePerMonthSales.map(item => item.total_sales),
     color: "#1A56DB",
   },
   {
     name: "Customers",
-    data: props.cumulativeUsersCountPerMonth.map(item => item.total_users),
+    data: props.cumulativePerMonthUserCount.map(item => item.total_users),
     color: "#7E3BF2",
   },
   {
     name: "Bookings",
-    data: props.cumulativeBookingsCountPerMonth.map(item => item.total_bookings),
+    data: props.cumulativePerMonthBookingCount.map(item => item.total_bookings),
     color: "#7E3BF2",
   },
 ],
@@ -80,7 +81,7 @@ grid: {
   },
 },
 xaxis: {
-  categories: props.cumulativeUsersCountPerMonth.map(item => item.month_name),
+  categories: props.cumulativePerMonthUserCount.map(item => item.month_name),
   labels: {
     show: false,
   },

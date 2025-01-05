@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests;
 
-use App\Models\BookedTicket;
+use App\Models\Booking;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 use Carbon\Carbon;
 
-class StoreBookedTicketRequest extends FormRequest
+class StoreBookingRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -66,7 +66,7 @@ class StoreBookedTicketRequest extends FormRequest
 
     private function isSeatAvailableForDate(): bool
     {
-        $bus = BookedTicket::where('seat', $this->seat)
+        $bus = Booking::where('seat', $this->seat)
             ->where('bus_id', $this->bus_id)
             ->where('travel_date', $this->travel_date)
             ->exists();

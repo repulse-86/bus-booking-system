@@ -61,8 +61,8 @@ class BusService
         }
     }
 
-    public function getBookingPerBusTypeData(): Collection
+    public function getBookingsPerBusTypeData(): Collection
     {
-        return $this->busRepository->getBookingPerBusTypeData();
+        return $this->busRepository->getBookingsPerBusTypeData();
     }
 }

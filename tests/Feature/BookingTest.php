@@ -4,14 +4,14 @@ namespace Tests\Feature;
 
 use App\Models\Bus;
 use App\Models\User;
-use App\Repositories\BookedTicketRepository;
+use App\Repositories\BookingRepository;
 use App\Repositories\BusRepository;
-use App\Services\BookedTicketService;
+use App\Services\BookingService;
 use App\Services\BusService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class BookedTicketTest extends TestCase
+class BookingTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -29,12 +29,12 @@ class BookedTicketTest extends TestCase
         $this->bus = Bus::factory()->create();
     }
 
-    public function test_create_booked_ticket(): void
+    public function test_create_booking(): void
     {
         $this->actingAs($this->user);
 
         $data = [
-            'travel_date' => '2025-01-01',
+            'travel_date' => now(),
             'customer_id' => $this->user->id,
             'bus_id' => $this->bus->id,
             'seat' => 1,
@@ -42,14 +42,14 @@ class BookedTicketTest extends TestCase
             'status' => 'pending',
         ];
 
-        $bookedTicketService = new BookedTicketService(
-            new BookedTicketRepository(),
+        $bookingService = new BookingService(
+            new BookingRepository(),
             new BusService(new BusRepository())
         );
 
-        $bookedTicket = $bookedTicketService->createBookedTicket($data);
+        $booking = $bookingService->createBooking($data);
 
-        $this->assertDatabaseHas('booked_tickets', [
+        $this->assertDatabaseHas('bookings', [
             'customer_id' => $this->user->id,
             'bus_id' => $this->bus->id,
             'status' => 'pending',
@@ -58,8 +58,8 @@ class BookedTicketTest extends TestCase
 
     public function test_update_booking_status()
     {
-        $bookedTicket = $this->user->bookedTickets()->create([
-            'travel_date' => '2025-01-02',
+        $booking = $this->user->bookings()->create([
+            'travel_date' => now(),
             'bus_id' => $this->bus->id,
             'seat' => 1,
             'payment_image' => 'payment_image.png',
@@ -67,11 +67,11 @@ class BookedTicketTest extends TestCase
         ]);
 
         // Update the status using the service
-        $bookedTicketService = new BookedTicketService(new BookedTicketRepository(),
+        $bookingService = new BookingService(new BookingRepository(),
             new BusService(new BusRepository()));
-        $bookedTicketService->updateStatus($bookedTicket, 'approved');
+        $bookingService->updateBookingStatus($booking, 'approved');
 
         // Assertions
-        $this->assertEquals('approved', $bookedTicket->fresh()->status);
+        $this->assertEquals('approved', $booking->fresh()->status);
     }
 }

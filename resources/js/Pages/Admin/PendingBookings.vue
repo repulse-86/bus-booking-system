@@ -16,7 +16,7 @@ defineProps({
 });
 
 const updateBookingStatus = (bookingId, status) => {
-    form.put(route('admin.booked-tickets.update', { bookedTicket: bookingId, status: status }), {
+    form.put(route('admin.bookings.update', { booking: bookingId, status: status }), {
         onSuccess: () => {
             toast('Booking ticket approved successfully! An email has been sent to the customer.');
         },
@@ -30,7 +30,7 @@ const updateBookingStatus = (bookingId, status) => {
     });
 };
 
-useDebouncedFilters('admin.booked-tickets.pendingBookings');
+useDebouncedFilters('admin.bookings.pendingBookings');
 </script>
 
 <template>

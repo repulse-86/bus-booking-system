@@ -76,9 +76,9 @@ class User extends Authenticatable
         };
     }
 
-    public function bookedTickets()
+    public function bookings()
     {
-        return $this->hasMany(BookedTicket::class, 'customer_id');
+        return $this->hasMany(Booking::class, 'customer_id');
     }
 
     public function isCustomer()

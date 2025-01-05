@@ -10,7 +10,7 @@ defineProps({
         required: true,
     }
 });
-useDebouncedFilters('admin.booked-tickets.declinedBookings');
+useDebouncedFilters('admin.bookings.declinedBookings');
 </script>
 <template>
     <AppLayout title="Declined Bookings">

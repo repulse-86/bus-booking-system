@@ -2,26 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreBookedTicketRequest;
-use App\Models\BookedTicket;
+use App\Http\Requests\StoreBookingRequest;
+use App\Models\Booking;
 use App\Models\Bus;
-use App\Services\BookedTicketService;
+use App\Services\BookingService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
-class CustomerBookedTicketController extends Controller
+class CustomerBookingController extends Controller
 {
-    public function __construct(public BookedTicketService $bookedTicketService) {}
+    public function __construct(public BookingService $bookingService) {}
 
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        Gate::authorize('viewAny', BookedTicket::class);
+        Gate::authorize('viewAny', Booking::class);
 
-        $bookings = $this->bookedTicketService->getBookedTicketsByCustomer((string) $request->filterId, $request->filterStatus, auth()->user()->id);
+        $bookings = $this->bookingService->getBookingsByCustomer((string) $request->filterId, $request->filterStatus, auth()->user()->id);
 
         return inertia('Customer/MyBookings', compact('bookings'));
     }
@@ -31,9 +31,9 @@ class CustomerBookedTicketController extends Controller
      */
     public function viewHistory()
     {
-        Gate::authorize('viewAny', BookedTicket::class);
+        Gate::authorize('viewAny', Booking::class);
 
-        $bookings = $this->bookedTicketService->getBookedTicketsByCustomer('', 'approved', auth()->user()->id);
+        $bookings = $this->bookingService->getBookingsByCustomer('', 'approved', auth()->user()->id);
 
         return inertia('Customer/History', [
             'bookings' => inertia()->merge(fn () => $bookings->items()),
@@ -47,7 +47,7 @@ class CustomerBookedTicketController extends Controller
      */
     public function create(Bus $bus)
     {
-        Gate::authorize('create', BookedTicket::class);
+        Gate::authorize('create', Booking::class);
 
         return inertia('Customer/BookingForm', compact('bus'));
     }
@@ -55,11 +55,11 @@ class CustomerBookedTicketController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBookedTicketRequest $request)
+    public function store(StoreBookingRequest $request)
     {
-        Gate::authorize('create', BookedTicket::class);
+        Gate::authorize('create', Booking::class);
 
-        $this->bookedTicketService->createBookedTicket($request->validated());
+        $this->bookingService->createBooking($request->validated());
     }
 
     /**
@@ -67,11 +67,11 @@ class CustomerBookedTicketController extends Controller
      */
     public function show(string $id)
     {
-        $bookedTicket = $this->bookedTicketService->find($id);
+        $booking = $this->bookingService->find($id);
 
-        Gate::authorize('view', $bookedTicket);
+        Gate::authorize('view', $booking);
 
-        return inertia('Customer/BookedTicket', compact('bookedTicket'));
+        return inertia('Customer/Booking', compact('booking'));
     }
 
     /**
@@ -93,7 +93,7 @@ class CustomerBookedTicketController extends Controller
     public function storePaymentReceipt(Request $request)
     {
         if ($request->hasFile('payment_image')) {
-            $fileName = $this->bookedTicketService->storeImage($request->file('payment_image'));
+            $fileName = $this->bookingService->storeImage($request->file('payment_image'));
             return $fileName;
         }
 

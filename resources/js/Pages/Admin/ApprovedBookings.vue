@@ -11,7 +11,7 @@ defineProps({
     }
 });
 
-useDebouncedFilters('admin.booked-tickets.approvedBookings');
+useDebouncedFilters('admin.bookings.approvedBookings');
 </script>
 
 <template>
