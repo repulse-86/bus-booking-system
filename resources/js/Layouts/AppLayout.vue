@@ -38,6 +38,17 @@ const adminLinks = ref([
     { label: 'Approved Bookings', href: 'admin.bookings.approvedBookings'},
     { label: 'Declined Bookings', href: 'admin.bookings.declinedBookings'},
 ]);
+
+let switchOn = localStorage.getItem('isDark') === 'true';
+
+const switchTheme = () => {
+    if (switchOn) {
+        document.documentElement.classList.add('dark')
+    } else {
+        document.documentElement.classList.remove('dark')
+    }
+    localStorage.setItem('isDark', switchOn)
+}
 </script>
 
 <template>
@@ -151,6 +162,21 @@ const adminLinks = ref([
 
                                     <template #content>
                                         <!-- Account Management -->
+                                        <div class="block px-4 py-2 text-xs text-gray-400 flex items-center">
+                                            <button 
+                                                x-ref="switchButton"
+                                                type="button" 
+                                                @click="switchOn = !switchOn; switchTheme()"
+                                                :class="switchOn ? 'bg-blue-600' : 'bg-neutral-200'" 
+                                                class="relative inline-flex h-6 py-0.5 ml-4 focus:outline-none rounded-full w-10">
+                                                <span :class="switchOn ? 'translate-x-[18px]' : 'translate-x-0.5'" class="w-5 h-5 duration-200 ease-in-out bg-white rounded-full shadow-md"></span>
+                                            </button>
+                                            <label
+                                                :class="{ 'text-blue-600': switchOn, 'text-gray-400': ! switchOn }"
+                                                class="text-sm select-none ms-2">
+                                                Dark Mode
+                                            </label>
+                                        </div>
                                         <div class="block px-4 py-2 text-xs text-gray-400">
                                             Manage Account
                                         </div>
@@ -208,7 +234,7 @@ const adminLinks = ref([
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                        <ResponsiveNavLink :href="route('customer.home')" :active="route().current('customer.home')">
                             Dashboard
                         </ResponsiveNavLink>
                     </div>
