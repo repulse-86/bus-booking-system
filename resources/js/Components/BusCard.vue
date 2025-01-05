@@ -20,7 +20,7 @@ defineProps({
 	    <div class="p-6">
 	        <!-- Header Section -->
 	        <div class="mb-4">
-	            <h3 class="text-3xl font-bold text-blue-600">{{ bus.bus_type }}</h3>
+	            <h3 class="text-3xl font-bold text-gray-800 tracking-wide">{{ bus.bus_type }}</h3>
 	        </div>
 
 	        <!-- Details Section -->
@@ -43,11 +43,7 @@ defineProps({
 	            <!-- Price and Seats -->
 	            <div>
 	                <p class="text-sm text-gray-500 uppercase tracking-wide">Price Per Ticket</p>
-	                <p class="text-lg font-semibold text-gray-800">P {{ bus.price_per_ticket }}</p>
-	            </div>
-	            <div>
-	                <p class="text-sm text-gray-500 uppercase tracking-wide">Available Seats</p>
-	                <p class="text-lg font-semibold text-gray-800">{{ bus.available_seats }}</p>
+	                <p class="text-lg text-gray-800">P {{ bus.price_per_ticket }}</p>
 	            </div>
 	        </div>
 	    </div>
