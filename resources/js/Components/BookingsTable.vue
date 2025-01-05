@@ -5,7 +5,6 @@ import TCellBooking from '@/Components/TCellBooking.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import Paginator from '@/Components/Paginator.vue';
-import { formatDate } from '@/helpers';
 
 defineProps({
 	bookings: {
@@ -22,7 +21,7 @@ defineProps({
 	}
 })
 
-const headers = ref(['ID', 'Customer', 'Type', 'Date', 'From', 'To', 'Seat', 'Price']);
+const headers = ref(['#', 'Customer', 'From', 'To', 'Price']);
 
 </script>
 
@@ -33,11 +32,8 @@ const headers = ref(['ID', 'Customer', 'Type', 'Date', 'From', 'To', 'Seat', 'Pr
 	        <tr v-for="(booking, index) in bookings.data" :key="booking.index" class="transition duration-300 ease-in-out hover:bg-neutral-100">
 	            <TCellBooking :bookdId="booking.id" href="admin.bookings.show" :value="(booking.id).toString()"/>
 	            <TCellBooking :bookdId="booking.id" href="admin.bookings.show" :value="(booking.customer.name).toString()"/>
-	            <TCellBooking :bookdId="booking.id" href="admin.bookings.show" :value="(booking.bus.bus_type)"/>
-	            <TCellBooking :bookdId="booking.id" href="admin.bookings.show" :value="formatDate(booking.travel_date)"/>
 	            <TCellBooking :bookdId="booking.id" href="admin.bookings.show" :value="(booking.bus.departure_location).toString()"/>
 	            <TCellBooking :bookdId="booking.id" href="admin.bookings.show" :value="(booking.bus.destination_location).toString()"/>
-	            <TCellBooking :bookdId="booking.id" href="admin.bookings.show" :value="(booking.seat).toString()"/>
 	            <TCellBooking :bookdId="booking.id" href="admin.bookings.show" :value="`P ${booking.bus.price_per_ticket}`" />
 	            
 	            <td v-if="actionsVisible" class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200 break-words">
