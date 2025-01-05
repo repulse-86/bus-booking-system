@@ -27,7 +27,7 @@ const imageSrc = `../../files/payments/${props.booking.payment_image}`;
                 <!-- Left Column: Ticket Details -->
                 <div>
                     <div class="space-y-8 bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg">
-                        <h1 class="text-3xl font-semibold text-left text-gray-800 dark:text-gray-200">Booked Ticket Details</h1>
+                        <h1 class="text-3xl font-semibold text-left text-gray-800 dark:text-gray-200">Booking Details</h1>
 
                         <div class="space-y-6">
                             <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
@@ -70,7 +70,7 @@ const imageSrc = `../../files/payments/${props.booking.payment_image}`;
 
                 <!-- Right Column: Payment Receipt -->
                 <div class="space-y-6 bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg">
-                    <h2 class="text-2xl font-medium text-gray-700">Payment Receipt</h2>
+                    <h2 class="text-3xl font-semibold text-gray-800 dark:text-gray-200">Payment Receipt</h2>
                     <div class="flex justify-center">
                         <img :src="imageSrc" alt="Payment Receipt" class="w-full max-w-sm object-contain">
                     </div>
