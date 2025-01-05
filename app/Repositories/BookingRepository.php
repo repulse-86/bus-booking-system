@@ -76,12 +76,16 @@ class BookingRepository implements BookingRepositoryInterface
     public function getCumulativePerMonthSales(): Collection
     {
         $cumulativeSalesPerMonth = DB::table('bookings')
-            ->select(DB::raw('strftime("%m", bookings.created_at) as month'), DB::raw('sum(price_per_ticket) as total_sales'))
+            ->select(DB::raw('strftime("%m", bookings.created_at) as month_number'), DB::raw('sum(price_per_ticket) as total_sales'))
             ->join('buses', 'bookings.bus_id', '=', 'buses.id')
             ->whereRaw('strftime("%Y", bookings.created_at) = ?', [$this->currentYear])
             ->groupBy(DB::raw('strftime("%m", bookings.created_at)'))
             ->orderBy(DB::raw('strftime("%m", bookings.created_at)'))
-            ->get();
+            ->get()
+            ->map(function ($item) {
+                $item->month_name = Carbon::createFromFormat('m', $item->month_number)->format('F');
+                return $item;
+            });
 
         $cumulativeSales = 0;
 

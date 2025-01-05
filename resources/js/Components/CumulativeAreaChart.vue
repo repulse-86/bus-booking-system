@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted } from 'vue';
 import ApexCharts from 'apexcharts'
+import { formatNumber } from '@/helpers';
 
 const props = defineProps({
 	cumulativePerMonthSales: Array,
@@ -15,7 +16,7 @@ onMounted(() => {
 	}
 })
 
-const totalSales = props.cumulativePerMonthSales.reduce((total, item) => total + item.total_sales, 0);
+const totalSales = formatNumber(props.cumulativePerMonthSales.reduce((total, item) => total + item.total_sales, 0));
 
 const options = {
 series: [
@@ -81,7 +82,7 @@ grid: {
   },
 },
 xaxis: {
-  categories: props.cumulativePerMonthUserCount.map(item => item.month_name),
+  categories: props.cumulativePerMonthSales.map(item => item.month_name),
   labels: {
     show: false,
   },
