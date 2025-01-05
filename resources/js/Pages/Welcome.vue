@@ -37,7 +37,7 @@ useDebouncedFilters('home');
                     <nav v-if="canLogin" class="flex items-center space-x-4">
                         <Link
                             v-if="$page.props.auth.user"
-                            :href="route('dashboard')"
+                            :href="route('customer.home')"
                             class="text-black dark:text-white"
                         >
                             Dashboard
