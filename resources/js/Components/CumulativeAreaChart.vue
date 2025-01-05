@@ -107,7 +107,7 @@ yaxis: {
 	<div class="w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
 		<div class="flex justify-between">
 			<div>
-				<h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">P {{ totalSales }}</h5>
+				<h5 class="leading-none text-xl font-bold text-gray-800 dark:text-white pb-2">P {{ totalSales }}</h5>
 				<p class="text-base font-normal text-gray-500 dark:text-gray-400">Cumulative sales, users, & bookings per month</p>
 			</div>
 		</div>

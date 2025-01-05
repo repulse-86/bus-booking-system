@@ -222,7 +222,7 @@ const handleFilePondRevert = () => {
                                         type="button" 
                                         @click="selectSeat(seat)"
                                         :class="{
-                                            'bg-blue-600 text-white': form.seat === seat,
+                                            'bg-gray-800 text-white': form.seat === seat,
                                             'bg-gray-200 dark:bg-gray-700 text-black dark:text-white': form.seat !== seat
                                         }"
                                         class="w-full py-2 px-4 rounded-lg font-medium"
@@ -248,7 +248,7 @@ const handleFilePondRevert = () => {
                                         type="button" 
                                         @click="selectSeat(seat)"
                                         :class="{
-                                            'bg-blue-600 text-white': form.seat === seat,
+                                            'bg-gray-800 text-white': form.seat === seat,
                                             'bg-gray-200 dark:bg-gray-700 text-black dark:text-white': form.seat !== seat
                                         }"
                                         class="w-full py-2 px-4 rounded-lg font-medium"

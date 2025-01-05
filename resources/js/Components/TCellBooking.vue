@@ -18,7 +18,7 @@ defineProps({
 </script>
 
 <template>
-	<td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200 break-words">
+	<td class="px-6 py-4 text-sm text-gray-800 dark:text-gray-200 break-words">
 	    <Link :href="route(href, bookdId)">
 	        {{ value }}
 	    </Link>
