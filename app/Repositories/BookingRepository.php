@@ -81,6 +81,7 @@ class BookingRepository implements BookingRepositoryInterface
             ->whereRaw('strftime("%Y", bookings.created_at) = ?', [$this->currentYear])
             ->groupBy(DB::raw('strftime("%m", bookings.created_at)'))
             ->orderBy(DB::raw('strftime("%m", bookings.created_at)'))
+            ->where('status', 'approved')
             ->get()
             ->map(function ($item) {
                 $item->month_name = Carbon::createFromFormat('m', $item->month_number)->format('F');
