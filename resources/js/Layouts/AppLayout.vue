@@ -1,12 +1,14 @@
 <script setup>
-import { ref } from 'vue';
-import { Head, Link, router } from '@inertiajs/vue3';
-import ApplicationMark from '@/Components/ApplicationMark.vue';
+import { ref, onMounted } from 'vue';
+import { Head, router, usePage } from '@inertiajs/vue3';
 import Banner from '@/Components/Banner.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import { toast } from '@/helpers';
+
+const { auth } = usePage().props;
 
 defineProps({
     title: String,
@@ -49,6 +51,14 @@ const switchTheme = () => {
     }
     localStorage.setItem('isDark', switchOn)
 }
+
+onMounted(() => {
+    Echo.private(`booking.update.${auth.user.id}`)
+        .listen('BookingStatusUpdate', (event) => {
+            toast(`Your booking #${event.booking.id} has been ${event.booking.status}`);
+            console.log(event)
+        })
+});
 </script>
 
 <template>
