@@ -23,11 +23,6 @@ const loadMore = () => {
 
 <template>
     <AppLayout title="History">
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                History
-            </h2>
-        </template>
 
         <div class="py-12">
             <div class="space-y-8">
