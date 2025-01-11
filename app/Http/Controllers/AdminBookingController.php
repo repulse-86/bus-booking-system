@@ -77,8 +77,6 @@ class AdminBookingController extends Controller
         $status = $request->status;
 
         $this->bookingService->updateBookingStatus($booking, $status);
-
-        broadcast(new BookingStatusUpdate($booking));
     }
 
     /**

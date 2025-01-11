@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\BookingStatusUpdate;
 use App\Events\TicketBooked;
 use App\Models\Booking;
 use App\Models\User;
@@ -55,6 +56,8 @@ class BookingService
         $this->bookingRepository->updateBookingStatus($booking, $status);
 
         $user->notify(new BookingStatusNotification($booking, $bus, $status));
+
+        broadcast(new BookingStatusUpdate($booking));
     }
 
     public function getByStatusBookingCount(string $status): int
