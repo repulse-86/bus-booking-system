@@ -35,7 +35,7 @@ defineProps({
                             :href="route('customer.home')"
                             class="text-black dark:text-white"
                         >
-                            Dashboard
+                            Home
                         </Link>
 
                         <template v-else>

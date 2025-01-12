@@ -244,9 +244,16 @@ onMounted(() => {
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink :href="route('customer.home')" :active="route().current('customer.home')">
-                            Dashboard
-                        </ResponsiveNavLink>
+                        <div v-if="$page.props.auth.user.type === 'customer'">
+                            <ResponsiveNavLink v-for="link in customerLinks" :key="link.label" :href="route(link.href)" :active="route().current(link.href)">
+                                {{ link.label }}
+                            </ResponsiveNavLink>
+                        </div>
+                        <div v-if="$page.props.auth.user.type === 'admin'">
+                            <ResponsiveNavLink v-for="link in adminLinks" :key="link.label" :href="route(link.href)" :active="route().current(link.href)">
+                                {{ link.label }}
+                            </ResponsiveNavLink>
+                        </div>
                     </div>
 
                     <!-- Responsive Settings Options -->
