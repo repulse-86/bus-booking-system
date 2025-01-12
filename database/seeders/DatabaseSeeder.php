@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             BookingSeeder::class,
         ]);
 
-        $filePath = "payments";
+        $filePath = 'payments';
 
         if (Storage::disk('public')->exists($filePath)) {
             Storage::disk('public')->deleteDirectory($filePath);

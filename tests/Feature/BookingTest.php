@@ -16,9 +16,10 @@ class BookingTest extends TestCase
     use RefreshDatabase;
 
     protected $user;
+
     protected $bus;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -43,8 +44,8 @@ class BookingTest extends TestCase
         ];
 
         $bookingService = new BookingService(
-            new BookingRepository(),
-            new BusService(new BusRepository())
+            new BookingRepository,
+            new BusService(new BusRepository)
         );
 
         $booking = $bookingService->createBooking($data);
@@ -67,8 +68,8 @@ class BookingTest extends TestCase
         ]);
 
         // Update the status using the service
-        $bookingService = new BookingService(new BookingRepository(),
-            new BusService(new BusRepository()));
+        $bookingService = new BookingService(new BookingRepository,
+            new BusService(new BusRepository));
         $bookingService->updateBookingStatus($booking, 'approved');
 
         // Assertions

@@ -4,8 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
+use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
 {

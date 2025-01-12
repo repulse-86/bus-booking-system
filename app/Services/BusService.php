@@ -39,7 +39,7 @@ class BusService
         return $destinations->map(function ($destination) {
             return [
                 'label' => $destination,
-                'value' => $destination
+                'value' => $destination,
             ];
         });
     }

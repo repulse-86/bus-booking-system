@@ -7,12 +7,13 @@ use Illuminate\Support\Collection;
 /**
  * interface for retrieving user data
  *
- * @package default
- * @author 
+ * @author
  **/
 interface UserRepositoryInterface
 {
-	public function getCurrentWeekNewUserCount(): array;
-	public function getRegisteredUserCount(): int;
-	public function getCumulativePerMonthUserCount(): Collection;
+    public function getCurrentWeekNewUserCount(): array;
+
+    public function getRegisteredUserCount(): int;
+
+    public function getCumulativePerMonthUserCount(): Collection;
 } // END interface UserRepositoryInterface

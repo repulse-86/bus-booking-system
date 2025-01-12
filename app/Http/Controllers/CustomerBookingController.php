@@ -37,8 +37,8 @@ class CustomerBookingController extends Controller
 
         return inertia('Customer/History', [
             'bookings' => inertia()->merge(fn () => $bookings->items()),
-            'currentPage' => $bookings->currentPage(), 
-            'lastPage' => $bookings->lastPage(), 
+            'currentPage' => $bookings->currentPage(),
+            'lastPage' => $bookings->lastPage(),
         ]);
     }
 
@@ -94,6 +94,7 @@ class CustomerBookingController extends Controller
     {
         if ($request->hasFile('payment_image')) {
             $fileName = $this->bookingService->storeImage($request->file('payment_image'));
+
             return $fileName;
         }
 

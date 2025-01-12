@@ -39,7 +39,7 @@ class BookingPendingApprovalNotification extends Notification implements ShouldQ
             ->subject('Your Ticket Booking is Pending Approval')
             ->line('We have received your ticket booking request for '.$this->bus->bus_type.' and it has been successfully processed.')
             ->line('Currently, your booking is awaiting approval. You will be notified once it is approved.')
-                   //->action('View Booking Details', url('/bookings'))
+                   // ->action('View Booking Details', url('/bookings'))
             ->line('Thank you for choosing our service! We appreciate your trust in us.');
     }
 

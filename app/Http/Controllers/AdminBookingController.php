@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\BookingStatusUpdate;
 use App\Models\Booking;
 use App\Services\BookingService;
 use Illuminate\Http\Request;

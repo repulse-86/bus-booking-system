@@ -85,6 +85,7 @@ class BookingRepository implements BookingRepositoryInterface
             ->get()
             ->map(function ($item) {
                 $item->month_name = Carbon::createFromFormat('m', $item->month_number)->format('F');
+
                 return $item;
             });
 
@@ -114,6 +115,7 @@ class BookingRepository implements BookingRepositoryInterface
             ->get()
             ->map(function ($item) {
                 $item->month_name = Carbon::createFromFormat('m', $item->month_number)->format('F');
+
                 return $item;
             });
 
@@ -121,6 +123,7 @@ class BookingRepository implements BookingRepositoryInterface
         $cumulativeBookingsCountPerMonth = $cumulativeBookingsCountPerMonth->map(function ($item) use (&$cumulativeBookings) {
             $cumulativeBookings += $item->total_bookings;
             $item->total_bookings = $cumulativeBookings;
+
             return $item;
         });
 

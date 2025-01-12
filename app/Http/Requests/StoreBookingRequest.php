@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use App\Models\Booking;
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
-use Carbon\Carbon;
 
 class StoreBookingRequest extends FormRequest
 {
@@ -39,11 +39,11 @@ class StoreBookingRequest extends FormRequest
     public function withValidator(Validator $validator): void
     {
         $validator->after(function ($validator) {
-            if (!$this->isSeatAvailableForDate()) {
-                $validator->errors()->add('seat', 'The selected seat is not available for Bus ' . $this->bus_id . ' on '. Carbon::parse($this->travel_date)->format('M d, Y'));
+            if (! $this->isSeatAvailableForDate()) {
+                $validator->errors()->add('seat', 'The selected seat is not available for Bus '.$this->bus_id.' on '.Carbon::parse($this->travel_date)->format('M d, Y'));
             }
 
-            if (!$this->isBusInCorrectWeek()) {
+            if (! $this->isBusInCorrectWeek()) {
                 $validator->errors()->add('travel_date', 'The selected bus is not available for the specified week.');
             }
         });
@@ -70,6 +70,7 @@ class StoreBookingRequest extends FormRequest
             ->where('bus_id', $this->bus_id)
             ->where('travel_date', $this->travel_date)
             ->exists();
-        return !$bus;
+
+        return ! $bus;
     }
 }

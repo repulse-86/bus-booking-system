@@ -28,7 +28,7 @@ class CreateNewUser implements CreatesNewUsers
         ]);
 
         $validator->after(function ($validator) use ($input) {
-            if (!$this->isEmailValid($input['email'])) {
+            if (! $this->isEmailValid($input['email'])) {
                 $validator->errors()->add('email', 'The email address is not valid or deliverable.');
             }
         });
@@ -47,7 +47,7 @@ class CreateNewUser implements CreatesNewUsers
     {
         $ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_URL, 'https://emailvalidation.abstractapi.com/v1/?api_key=b9dca19f419847aeaa92e5e9644cf192&email=' . $email);
+        curl_setopt($ch, CURLOPT_URL, 'https://emailvalidation.abstractapi.com/v1/?api_key=b9dca19f419847aeaa92e5e9644cf192&email='.$email);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
@@ -58,6 +58,6 @@ class CreateNewUser implements CreatesNewUsers
 
         $decodedData = json_decode($data, true);
 
-        return isset($decodedData['deliverability']) && $decodedData['deliverability'] === "DELIVERABLE";
+        return isset($decodedData['deliverability']) && $decodedData['deliverability'] === 'DELIVERABLE';
     }
 }
