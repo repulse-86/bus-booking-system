@@ -23,7 +23,7 @@ watch(localFilterCustomerName, (newValue) => {
 
 <template>
 	<div class="max-w-7xl mx-auto mb-6">
-	    <div class="flex items-center space-x-4">
+	    <div class="flex flex-col sm:flex-row justify-start gap-4 mb-8">
 	    	<TextInput v-model="localFilterId" placeholder="Search bookings"/>
 	    	<TextInput v-model="localFilterCustomerName" placeholder="Search customer"/>
 	    </div>

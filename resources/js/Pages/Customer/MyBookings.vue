@@ -51,7 +51,7 @@ watch(filterStatus, debounce((newValue) => watchDebounced('filterStatus', newVal
         <div class="py-12">
             <!-- Filters Section -->
             <div class="max-w-7xl mx-auto mb-6">
-                <div class="flex items-center space-x-4">
+                <div class="flex flex-col sm:flex-row justify-start gap-4 mb-8">
 
                     <TextInput v-model="filterId" placeholder="Search bookings"/>
                     <SelectInput v-model="filterStatus" :options="options" selected="Status"/>
