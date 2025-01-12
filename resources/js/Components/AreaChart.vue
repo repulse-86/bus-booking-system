@@ -87,7 +87,7 @@ const options = {
 
 <template>
 	<div class="">
-	    <div class="max-w-sm w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+	    <div class="bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
 	        <div class="flex justify-between">
 	            <div>
 	                <h5 class="leading-none text-xl font-bold text-gray-800 dark:text-white pb-2">{{ totalCount }}</h5>

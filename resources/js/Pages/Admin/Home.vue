@@ -27,17 +27,17 @@ defineProps({
             </h2>
         </template>
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="lg:col-span-1">
+            <div class="max-w-7xl mx-auto sm:px-6 grid grid-cols-1 lg:grid-cols-3 lg:px-8 gap-6">
+                <div class="grid grid-cols-1 lg:col-span-1 gap-6 ">
                     <RecordCountCard label="Registered Customers" :value="registeredUserCount"/>
                     <RecordCountCard label="Pending Bookings" :value="pendingBookingsCount"/>
                     <RecordCountCard label="Approved Bookings" :value="approvedBookingsCount"/>
                     <RecordCountCard label="Declined Bookings" :value="declinedBookingsCount"/>
                 </div>
 
-                <div class="lg:col-span-2">
-                    <CumulativeAreaChart :cumulativePerMonthSales="cumulativePerMonthSales" :cumulativePerMonthUserCount="cumulativePerMonthUserCount" :cumulativePerMonthBookingCount="cumulativePerMonthBookingCount" class="mb-8"/>
-                    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 lg:col-span-2 sm:col-span-2 gap-6 ">
+                    <CumulativeAreaChart :cumulativePerMonthSales="cumulativePerMonthSales" :cumulativePerMonthUserCount="cumulativePerMonthUserCount" :cumulativePerMonthBookingCount="cumulativePerMonthBookingCount"/>
+                    <div class="grid lg:grid-cols-2 sm:grid-cols-1 gap-6 overflow-auto">
                         <DonutChart :chartData="bookingPerBusTypeData" label="Bookings"/>
                         <AreaChart :chartData="usersData" label="New Users"/>
                     </div>
