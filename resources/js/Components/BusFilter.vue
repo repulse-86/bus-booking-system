@@ -31,11 +31,25 @@ watch(localFilterDestinationLocation, (newValue) => {
     emit('update:filterDestinationLocation', newValue);
 });
 </script>
-
 <template>
-    <div class="flex justify-center gap-8 mb-8">
-        <TextInput v-model="localFilterBus" placeholder="Search bus..." class="w-64"/>
-        <TextInput v-model="localFilterTravelDate" type="date" placeholder="Search bus..." class="w-64"/>
-        <SelectInput v-model="localFilterDestinationLocation" :options="destinations" selected="Select destination"/>
+    <div class="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 mb-8">
+        <TextInput 
+            v-model="localFilterBus" 
+            placeholder="Search bus..." 
+            class="w-full sm:w-64"
+        />
+        <TextInput 
+            v-model="localFilterTravelDate" 
+            type="date" 
+            placeholder="Search bus..." 
+            class="w-full sm:w-64"
+        />
+        <SelectInput 
+            v-model="localFilterDestinationLocation" 
+            :options="destinations" 
+            selected="Select destination" 
+            class="w-full sm:w-64"
+        />
     </div>
 </template>
+

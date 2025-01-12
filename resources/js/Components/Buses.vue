@@ -1,5 +1,6 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { defineProps, ref, onMounted, onBeforeUnmount } from 'vue';
+import { Link } from '@inertiajs/vue3';
 import { useDebouncedFilters, filterBus, filterTravelDate, filterDestinationLocation } from '@/Utilities/useBusFilter.js';
 import BusCard from '@/Components/BusCard.vue';
 import BusFilter from '@/Components/BusFilter.vue';
@@ -13,24 +14,33 @@ const props = defineProps({
         type: Array,
         required: true,
     },
-    canLogin: {
-        type: Boolean,
-    },
-    canRegister: {
-        type: Boolean,
+    routeFilter: {
+        type: String,
+        required: true,
     },
 });
 
-useDebouncedFilters('customer.home');
+useDebouncedFilters(props.routeFilter);
+
+
+const isLgScreen = ref(false); // Flag to track large screen visibility
+
+const checkScreenSize = () => {
+    isLgScreen.value = window.innerWidth >= 800; // or another breakpoint for lg screen size
+};
+
+onMounted(() => {
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize); // Listen for window resize
+});
+
+onBeforeUnmount(() => {
+    window.removeEventListener('resize', checkScreenSize); // Clean up event listener
+});
 
 </script>
 
 <template>
-    <Head title="Home" />
-    <div class="text-center my-8 space-y-10">
-        <h1 class="text-4xl">Find Your Perfect Bus Ride</h1>
-    </div>
-
     <BusFilter
         v-model:filterBus="filterBus"
         v-model:filterTravelDate="filterTravelDate"
@@ -38,23 +48,40 @@ useDebouncedFilters('customer.home');
         :destinations="destinations"
     />
 
-    <!-- Bus Info Cards -->
-    <div class="grid gap-6 lg:grid-cols-3 lg:gap-8 flex-grow">
-        <template v-if="buses.length > 0">
+    <!-- Conditional Rendering for Bus Info Cards -->
+    <div v-if="buses.length > 0">
+        <!-- For LG screens -->
+        <div 
+            v-if="isLgScreen"
+            class="grid grid-cols-3 gap-8 flex-grow"
+            :class="{'min-h-[200px]': buses.length === 0 }"
+        >
             <Link v-for="(bus, index) in buses" :key="index" :href="route('customer.bookings.create', bus.id)">
                 <BusCard :bus="bus"/>
             </Link>
-        </template>
-        <template v-else>
-            <p class="text-center text-gray-500 dark:text-gray-400 col-span-full">
-                No buses available for the selected criteria.
-            </p>
-        </template>
+        </div>
+
+        <!-- For SM screens -->
+        <div 
+            v-else
+            class="sm:grid flex-grow"
+            :class="{
+                'min-h-[50px]': buses.length === 0,
+                'grid-cols-1 overflow-x-auto': buses.length > 0
+            }"
+        >
+            <div class="flex gap-4">
+                <Link v-for="(bus, index) in buses" :key="index" :href="route('customer.bookings.create', bus.id)" class="shrink-0 w-9/12">
+                    <BusCard :bus="bus"/>
+                </Link>
+            </div>
+        </div>
     </div>
 
-
-    <!-- Footer Section -->
-    <footer class="py-16 text-center text-sm text-black dark:text-white/70">
-        Online Bus Ticketing System
-    </footer>
+    <!-- Fallback message when no buses available -->
+    <div v-else>
+        <p class="text-center text-gray-500 dark:text-gray-400 col-span-full">
+            No buses available for the selected criteria.
+        </p>
+    </div>
 </template>

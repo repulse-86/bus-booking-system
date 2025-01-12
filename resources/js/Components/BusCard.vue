@@ -8,7 +8,7 @@ defineProps({
 </script>
 
 <template>
-	<div class="max-w-sm mx-auto bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg overflow-hidden">
+	<div class="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg overflow-hidden">
 	    <!-- Image Section -->
 	    <img 
 	        :src="'../../../' + bus.bus_type + '.png'" 
