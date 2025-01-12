@@ -23,7 +23,7 @@ const submit = () => {
 <template>
     <Head title="Forgot Password" />
 
-    <AuthenticationCard>
+    <AuthenticationCard class="px-2">
         <AuthCardHeader title="Forgot Your Password?" subTitle="Don't worry, we’ll help you reset it."/>
         <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
             Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.

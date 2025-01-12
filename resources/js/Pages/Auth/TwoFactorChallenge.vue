@@ -40,7 +40,7 @@ const submit = () => {
 <template>
     <Head title="Two-factor Confirmation" />
 
-    <AuthenticationCard>
+    <AuthenticationCard class="px-2">
         <AuthCardHeader title="Two-Factor Authentication" subTitle="Enter the code sent to your device" />
         <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
             <template v-if="! recovery">

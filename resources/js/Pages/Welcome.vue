@@ -24,7 +24,7 @@ defineProps({
     <Head title="Welcome" />
     <div class="bg-gray-50 text-black/50 dark:bg-gray-900 dark:text-white/50 min-h-screen">
         <div class="relative flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white flex-grow">
-            <div class="w-full lg:max-w-7xl px-6">
+            <div class="w-full lg:max-w-7xl px-2">
                 
                 <!-- Header Section -->
                 <header class="flex justify-between items-center py-4">

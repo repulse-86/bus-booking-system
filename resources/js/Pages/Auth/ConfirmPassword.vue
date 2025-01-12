@@ -28,7 +28,7 @@ const submit = () => {
 <template>
     <Head title="Secure Area" />
 
-    <AuthenticationCard>
+    <AuthenticationCard class="px-2">
         <AuthCardHeader title="Confirm Your Password" subTitle="Please re-enter your password to continue"/>
         <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
             This is a secure area of the application. Please confirm your password before continuing.

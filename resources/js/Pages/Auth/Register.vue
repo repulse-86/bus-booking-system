@@ -27,7 +27,7 @@ const submit = () => {
 <template>
     <Head title="Register" />
 
-    <AuthenticationCard>
+    <AuthenticationCard class="px-2">
         <AuthCardHeader title="Ready to Travel? Let’s Go!" subTitle="Sign up here"/>
         <form @submit.prevent="submit">
             <div>

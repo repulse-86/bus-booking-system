@@ -31,7 +31,7 @@ const submit = () => {
 
 <template>
     <Head title="Log in" />
-    <AuthenticationCard>
+    <AuthenticationCard class="px-2">
         <AuthCardHeader title="Welcome Back, Traveler!" subTitle="Sign in here"/>
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
             {{ status }}

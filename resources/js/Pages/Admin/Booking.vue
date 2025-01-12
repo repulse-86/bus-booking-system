@@ -25,7 +25,7 @@ const imageSrc = props.booking.payment_image === 'none'
         </template>
 
         <div class="py-12">
-            <div class="max-w-6xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <!-- Left Column: Ticket Details -->
                 <div>
                     <div class="space-y-8 bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg">
