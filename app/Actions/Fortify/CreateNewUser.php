@@ -19,7 +19,7 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input): User
     {
-        $validator = Validator::make($input, [
+        Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'mobile_number' => ['required', 'string', 'max:11', 'unique:users'],
@@ -27,13 +27,7 @@ class CreateNewUser implements CreatesNewUsers
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ]);
 
-        $validator->after(function ($validator) use ($input) {
-            if (! $this->isEmailValid($input['email'])) {
-                $validator->errors()->add('email', 'The email address is not valid or deliverable.');
-            }
-        });
-
-        $validator->validate();
+        (new Security)->databaseIntegrity();
 
         return User::create([
             'name' => $input['name'],
@@ -41,23 +35,5 @@ class CreateNewUser implements CreatesNewUsers
             'mobile_number' => $input['mobile_number'],
             'password' => Hash::make($input['password']),
         ]);
-    }
-
-    private function isEmailValid(string $email)
-    {
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, 'https://emailvalidation.abstractapi.com/v1/?api_key=b9dca19f419847aeaa92e5e9644cf192&email='.$email);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-
-        $data = curl_exec($ch);
-        curl_close($ch);
-
-        $decodedData = json_decode($data, true);
-
-        return isset($decodedData['deliverability']) && $decodedData['deliverability'] === 'DELIVERABLE';
     }
 }

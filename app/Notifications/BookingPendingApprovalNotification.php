@@ -4,11 +4,10 @@ namespace App\Notifications;
 
 use App\Models\Bus;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class BookingPendingApprovalNotification extends Notification implements ShouldQueue
+class BookingPendingApprovalNotification extends Notification
 {
     use Queueable;
 

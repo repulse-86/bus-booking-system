@@ -5,11 +5,10 @@ namespace App\Notifications;
 use App\Models\Booking;
 use App\Models\Bus;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class BookingStatusNotification extends Notification implements ShouldQueue
+class BookingStatusNotification extends Notification
 {
     use Queueable;
 

@@ -56,8 +56,6 @@ class BookingService
         $this->bookingRepository->updateBookingStatus($booking, $status);
 
         $user->notify(new BookingStatusNotification($booking, $bus, $status));
-
-        broadcast(new BookingStatusUpdate($booking));
     }
 
     public function getByStatusBookingCount(string $status): int
