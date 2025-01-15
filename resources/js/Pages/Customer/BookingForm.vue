@@ -159,7 +159,7 @@ const handleFilePondRevert = () => {
                         <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full space-y-6">
                             <h1 class="text-4xl dark:text-gray-300 font-semibold">Payment Information</h1>
                             <div class="space-y-4">
-                                <p class="text-lg text-red-600">Choose your seat and select your preferred travel date to complete the booking.</p>
+                                <p class="text-lg text-red-600">Please make your payment to this GCash number and upload your receipt below.</p>
                             </div>
                             <div class="space-y-6">
                                 <p class="text-xl font-medium text-gray-900 dark:text-gray-300">
