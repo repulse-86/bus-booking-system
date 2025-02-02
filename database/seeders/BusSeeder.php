@@ -12,24 +12,24 @@ class BusSeeder extends Seeder
      */
     public function run(): void
     {
+        $departure_location = 'Balibago Complex';
+
         $buses = [
-            ['bus_type' => 'Bus 01', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Alabang', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 600],
-            ['bus_type' => 'Bus 02', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Batangas Grand Terminal', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 700],
-            ['bus_type' => 'Bus 03', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Batangas Pier', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 560],
-            ['bus_type' => 'Bus 04', 'departure_location' => 'Balibago Complex', 'destination_location' => 'BGC', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 550],
-            ['bus_type' => 'Bus 05', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Buendia', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 500],
-            ['bus_type' => 'Bus 06', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Calamba', 'time_available_start' => '06:00', 'time_available_end' => '18:00', 'price_per_ticket' => 550],
-            ['bus_type' => 'Bus 07', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Cubao', 'time_available_start' => '06:00', 'time_available_end' => '18:00', 'price_per_ticket' => 600],
-            ['bus_type' => 'Bus 08', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Dasmariñas', 'time_available_start' => '06:00', 'time_available_end' => '18:00', 'price_per_ticket' => 650],
-            ['bus_type' => 'Bus 09', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Lemery', 'time_available_start' => '06:00', 'time_available_end' => '18:00', 'price_per_ticket' => 370],
-            ['bus_type' => 'Bus 10', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Mamatid', 'time_available_start' => '06:00', 'time_available_end' => '18:00', 'price_per_ticket' => 300],
-            ['bus_type' => 'Bus 11', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Nuvali', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 250],
-            ['bus_type' => 'Bus 12', 'departure_location' => 'Balibago Complex', 'destination_location' => 'One Ayala Terminal', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 130],
-            ['bus_type' => 'Bus 13', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Pacita', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 500],
-            ['bus_type' => 'Bus 14', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Pagsanjan', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 700],
-            ['bus_type' => 'Bus 15', 'departure_location' => 'Balibago Complex', 'destination_location' => 'San Pablo', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 600],
-            ['bus_type' => 'Bus 16', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Tagaytay', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 400],
-            ['bus_type' => 'Bus 17', 'departure_location' => 'Balibago Complex', 'destination_location' => 'Tanauan', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 550],
+            ['bus_type' => 'Bus 01', 'departure_location' => $departure_location, 'destination_location' => 'Magalyanes', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 105],
+            ['bus_type' => 'Bus 02', 'departure_location' => $departure_location, 'destination_location' => 'Ama', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 110],
+            ['bus_type' => 'Bus 03', 'departure_location' => $departure_location, 'destination_location' => 'Pasay road', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 115],
+            ['bus_type' => 'Bus 04', 'departure_location' => $departure_location, 'destination_location' => 'Dela rosa', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 120],
+            ['bus_type' => 'Bus 05', 'departure_location' => $departure_location, 'destination_location' => 'Buendia', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 125],
+            ['bus_type' => 'Bus 06', 'departure_location' => $departure_location, 'destination_location' => 'Ayala', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 70],
+            ['bus_type' => 'Bus 07', 'departure_location' => $departure_location, 'destination_location' => 'Glorieta', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 75],
+            ['bus_type' => 'Bus 08', 'departure_location' => $departure_location, 'destination_location' => 'Paseo', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 80],
+            ['bus_type' => 'Bus 09', 'departure_location' => $departure_location, 'destination_location' => 'Makati med.', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 85],
+            ['bus_type' => 'Bus 10', 'departure_location' => $departure_location, 'destination_location' => 'Chino Roses', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 90],
+            ['bus_type' => 'Bus 11', 'departure_location' => $departure_location, 'destination_location' => 'Washington', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 95],
+            ['bus_type' => 'Bus 12', 'departure_location' => $departure_location, 'destination_location' => 'Dela Rosa', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 100],
+            ['bus_type' => 'Bus 13', 'departure_location' => $departure_location, 'destination_location' => 'Ayala one', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 115],
+            ['bus_type' => 'Bus 14', 'departure_location' => $departure_location, 'destination_location' => 'LRT', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 120],
+            ['bus_type' => 'Bus 15', 'departure_location' => $departure_location, 'destination_location' => 'Mantrade', 'time_available_start' => '05:00', 'time_available_end' => '17:00', 'price_per_ticket' => 125],
         ];
 
         foreach ($buses as $bus) {
