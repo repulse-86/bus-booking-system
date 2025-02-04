@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('travel_date');
             $table->string('payment_image');
             $table->enum('status', ['pending', 'approved', 'declined'])->default('pending');
+            $table->text('reason_declined')->nullable();
             $table->timestamps();
         });
     }

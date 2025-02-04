@@ -17,6 +17,7 @@ class Booking extends Model
         'travel_date',
         'payment_image',
         'status',
+        'reason_declined',
     ];
 
     public function customer()
