@@ -74,8 +74,9 @@ class AdminBookingController extends Controller
         Gate::authorize('update', $booking);
 
         $status = $request->status;
+        $reason = $request->reason;
 
-        $this->bookingService->updateBookingStatus($booking, $status);
+        $this->bookingService->updateBookingStatus($booking, $status, $reason);
     }
 
     /**

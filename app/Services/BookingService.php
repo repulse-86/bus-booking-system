@@ -49,11 +49,11 @@ class BookingService
         return $this->bookingRepository->find($id);
     }
 
-    public function updateBookingStatus(Booking $booking, string $status)
+    public function updateBookingStatus(Booking $booking, string $status, ?string $reason)
     {
         $user = User::findOrFail($booking->customer_id);
         $bus = $this->busService->find($booking->bus_id);
-        $this->bookingRepository->updateBookingStatus($booking, $status);
+        $this->bookingRepository->updateBookingStatus($booking, $status, $reason);
 
         $user->notify(new BookingStatusNotification($booking, $bus, $status));
 
