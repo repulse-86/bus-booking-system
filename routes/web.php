@@ -40,7 +40,7 @@ Route::middleware([
         Route::get('pending/bookings', [AdminBookingController::class, 'viewPendingBookings'])->name('bookings.pendingBookings');
         Route::get('approved/bookings', [AdminBookingController::class, 'viewApprovedBookings'])->name('bookings.approvedBookings');
         Route::get('declined/bookings', [AdminBookingController::class, 'viewDeclinedBookings'])->name('bookings.declinedBookings');
-        Route::put('bookings/{booking}/{status}', [AdminBookingController::class, 'update'])->name('bookings.update');
+        Route::put('bookings/{booking}/{status}/{reason}', [AdminBookingController::class, 'update'])->name('bookings.update');
         Route::get('bookings/{booking}', [AdminBookingController::class, 'show'])->name('bookings.show');
     });
 });
