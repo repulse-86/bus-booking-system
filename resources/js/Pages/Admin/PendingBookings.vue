@@ -4,7 +4,7 @@ import { useDebouncedFilters, filterId, filterCustomerName } from '@/Utilities/u
 import AppLayout from '@/Layouts/AppLayout.vue';
 import BookingFilter from '@/Components/BookingFilter.vue';
 import BookingsTable from '@/Components/BookingsTable.vue';
-import { showAlert, toast } from '@/helpers';
+import { showAlert, showInputAlert, toast } from '@/helpers';
 
 const form = useForm({});
 
@@ -16,19 +16,47 @@ defineProps({
 });
 
 const updateBookingStatus = (bookingId, status) => {
-    form.put(route('admin.bookings.update', { booking: bookingId, status: status }), {
-        onSuccess: () => {
-            toast('Booking ticket approved successfully! An email has been sent to the customer.');
-        },
-        onError: (error) => {
-            showAlert({
-                icon: 'error',
-                title: 'Ticket Approval Failed!',
-                text: 'There was an issue with your approval. Please try again.',
-            });
-        }
-    });
+    const updateBooking = (status, reason = null) => {
+        const data = { booking: bookingId, status: status };
+        if (reason) data.reason = reason;
+
+        form.put(route('admin.bookings.update', data), {
+            onSuccess: () => {
+                const message = status === 'approved'
+                    ? 'Booking ticket approved successfully! An email has been sent to the customer.'
+                    : 'Booking ticket declined successfully! An email has been sent to the customer.';
+                toast(message);
+            },
+            onError: () => {
+                const message = status === 'approved'
+                    ? 'Ticket Approval Failed!'
+                    : 'Ticket Decline Failed!';
+                showAlert({
+                    icon: 'error',
+                    title: message,
+                    text: 'There was an issue with your approval. Please try again.',
+                });
+            }
+        });
+    };
+
+    if (status === 'declined') {
+        showInputAlert({
+            title: 'Please provide a reason for declining the booking',
+            text: 'Providing a reason helps track the decisions made for declined bookings.',
+            placeholder: 'Enter reason here...',
+            confirmButtonText: 'Submit',
+            cancelButtonText: 'Cancel',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                updateBooking(status, result.value);
+            }
+        });
+    } else {
+        updateBooking(status);
+    }
 };
+
 
 useDebouncedFilters('admin.bookings.pendingBookings');
 </script>
