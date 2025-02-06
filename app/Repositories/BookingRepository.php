@@ -44,6 +44,7 @@ class BookingRepository implements BookingRepositoryInterface
                 });
             })
             ->where('status', $status)
+            ->latest()
             ->paginate(10);
     }
 
