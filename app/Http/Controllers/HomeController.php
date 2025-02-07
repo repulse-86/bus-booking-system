@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\BusService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 
 class HomeController extends Controller
@@ -17,9 +18,14 @@ class HomeController extends Controller
         $filterDestinationLocation = $request->filterDestinationLocation;
         $filterBus = $request->filterBus ?? '';
 
-        $buses = $this->busService->getFilteredBuses($filterTravelDate, $filterDestinationLocation, $filterBus);
+        $cacheKey = "buses_{$filterTravelDate}_{$filterDestinationLocation}_{$filterBus}";
+        $buses = Cache::rememberForever($cacheKey, function () use ($filterTravelDate, $filterDestinationLocation, $filterBus) {
+            return $this->busService->getFilteredBuses($filterTravelDate, $filterDestinationLocation, $filterBus);
+        });
 
-        $destinations = $this->busService->getDestinations();
+        $destinations = Cache::rememberForever('destinations', function () {
+            return $this->busService->getDestinations();
+        });
 
         $canLogin = Route::has('login');
         $canRegister = Route::has('register');
