@@ -81,7 +81,7 @@ onMounted(() => {
                         <div class="flex">
                             <!-- Navigation Links -->
                             <div v-if="$page.props.auth.user.type === 'customer'" class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink v-for="link in customerLinks" :key="link.label" :href="route(link.href)" :active="route().current(link.href)">
+                                <NavLink v-for="link in customerLinks" :key="link.label" :href="route(link.href)" :active="route().current(link.href)" prefetch cache-for="1m">
                                     {{ link.label }}
                                 </NavLink>
                             </div>
@@ -245,7 +245,7 @@ onMounted(() => {
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
                         <div v-if="$page.props.auth.user.type === 'customer'">
-                            <ResponsiveNavLink v-for="link in customerLinks" :key="link.label" :href="route(link.href)" :active="route().current(link.href)">
+                            <ResponsiveNavLink v-for="link in customerLinks" :key="link.label" :href="route(link.href)" :active="route().current(link.href)" prefetch cache-for="1m">
                                 {{ link.label }}
                             </ResponsiveNavLink>
                         </div>
