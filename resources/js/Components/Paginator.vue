@@ -73,7 +73,7 @@ for (let i = 1; i <= totalPages; i++) {
                     <button
                         @click="router.get(props.object.prev_page_url, {}, { preserveScroll: true })"
                         :disabled="!showPrevious"
-                        class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                        class="relative inline-flex items-center rounded-md dark:bg-gray-200 border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                     >
                         Previous
                     </button>
@@ -91,7 +91,7 @@ for (let i = 1; i <= totalPages; i++) {
                     <button
                         @click="router.get(props.object.next_page_url, {}, { preserveScroll: true })"
                         :disabled="!showNext"
-                        class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                        class="relative ml-3 inline-flex items-center rounded-md dark:bg-gray-200 border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                     >
                         Next
                     </button>
