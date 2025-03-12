@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useForm, usePage, router } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import InputLabel from '@/Components/InputLabel.vue';
@@ -8,14 +8,9 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import Label from '@/Components/Label.vue';
-import VueFilePond from 'vue-filepond';
 import 'filepond/dist/filepond.min.css';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
-import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.esm.js';
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.esm.js';
-import { showConfirmation, showAlert } from '@/helpers'; 
-
-const FilePond = VueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
+import { showConfirmation, showAlert } from '@/helpers';
 
 const { auth } = usePage().props;
 
@@ -29,13 +24,14 @@ const props = defineProps({
 const form = useForm({
     bus_id: props.bus.id,
     customer_id: auth.user.id,
-    seat: null,
+    seats: [],
     travel_date: null,
-    payment_image: null,
 });
 
-const modalOpen = ref(false);
-const selectedSeatLabel = ref('Select Seat');
+const isOpenSeatModal = ref(false);
+const selectedSeatLabel = computed(() => {
+    return form.seats.length ? `Seats: ${form.seats.join(', ')}` : 'Select Seat';
+});
 
 const seatRows = ref([]);
 for (let i = 1; i <= props.bus.available_seats; i += 4) {
@@ -43,19 +39,18 @@ for (let i = 1; i <= props.bus.available_seats; i += 4) {
         left: [i, i + 1].filter(seat => seat <= props.bus.available_seats),
         right: [i + 2, i + 3].filter(seat => seat <= props.bus.available_seats),
     });
-}   
+}
 
-const openModal = () => {
-    modalOpen.value = true;
-};
-
-const closeModal = () => {
-    modalOpen.value = false;
+const toggleSeatModal = () => {
+    isOpenSeatModal.value = !isOpenSeatModal.value;
 };
 
 const selectSeat = (seat) => {
-    form.seat = seat;
-    selectedSeatLabel.value = `Seat ${seat}`;
+    if (form.seats.includes(seat)) {
+        form.seats = form.seats.filter(s => s !== seat);
+    } else {
+        form.seats.push(seat);
+    }
 };
 
 const submitForm = () => {
@@ -73,7 +68,7 @@ const submitForm = () => {
                         title: 'Ticket Booked Successfully!',
                         text: 'Your ticket has been booked and is awaiting approval. You will receive a confirmation email shortly.',
                     });
-                    window.location.href = route('customer.bookings.index'); 
+                    window.location.href = route('customer.bookings.index');
                 },
                 onError: (error) => {
                     showAlert({
@@ -87,15 +82,6 @@ const submitForm = () => {
         }
     })
 };
-
-const handleFilePondLoad = (response) => {
-    form.payment_image = response;
-}
-
-const handleFilePondRevert = () => {
-    router.delete(route('customer.payment-receipt-revert', form.payment_image));
-    form.payment_image = null;
-}
 </script>
 
 <template>
@@ -107,123 +93,76 @@ const handleFilePondRevert = () => {
         </template>
 
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <form @submit.prevent="submitForm" enctype="multipart/form-data" class="grid grid-cols-1 lg:grid-cols-2 gap-8 p-6">
-                    <!-- Left Column -->
-                    <div class="">
-                        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full space-y-6">
+            <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+                <form @submit.prevent="submitForm">
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full space-y-6">
+                        <div class="space-y-2">
                             <h1 class="text-4xl dark:text-gray-300 font-semibold">Booking Details</h1>
                             <div class="space-y-4">
                                 <p class="text-lg text-gray-600 dark:text-gray-400">Choose your seat and select your preferred travel date to complete the booking.</p>
                             </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 flex-grow">
-                                <div class="space-y-6 flex flex-col justify-center">
-                                    <div>
-                                        <Label>Departure Location</Label>
-                                        <p class="text-lg text-gray-800 dark:text-gray-300">{{ bus.departure_location }}</p>
-                                    </div>
-                                    <div>
-                                        <Label>Destination Location</Label>
-                                        <p class="text-lg text-gray-800 dark:text-gray-300">{{ bus.destination_location }}</p>
-                                    </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 flex-grow">
+                            <div class="space-y-6 flex flex-col justify-center">
+                                <div>
+                                    <Label>Departure Location</Label>
+                                    <p class="text-lg text-gray-800 dark:text-gray-300">{{ bus.departure_location }}</p>
                                 </div>
-                                <div class="space-y-6 flex flex-col justify-center">
-                                    <div>
-                                        <Label>Number of Seats</Label>
-                                        <p class="text-lg text-gray-800 dark:text-gray-300">{{ bus.available_seats }}</p>
-                                    </div>
-                                    <div>
-                                        <Label>Price Per Ticket</Label>
-                                        <p class="text-lg text-gray-800 dark:text-gray-300">P {{ bus.price_per_ticket }}</p>
-                                    </div>
+                                <div>
+                                    <Label>Destination Location</Label>
+                                    <p class="text-lg text-gray-800 dark:text-gray-300">{{ bus.destination_location }}</p>
                                 </div>
                             </div>
-
-                            <div class="mt-auto grid lg:grid-cols-2 gap-6">
+                            <div class="space-y-6 flex flex-col justify-center">
                                 <div>
-                                    <InputLabel value="Select Seat" class="text-lg font-medium mb-2" />
-                                    <SecondaryButton type="button" @click="openModal" class="w-full py-3">{{ selectedSeatLabel }}</SecondaryButton>
-                                    <InputError class="mt-2 text-red-500" :message="form.errors.seat" />
+                                    <Label>Number of Seats</Label>
+                                    <p class="text-lg text-gray-800 dark:text-gray-300">{{ bus.available_seats }}</p>
                                 </div>
-
                                 <div>
-                                    <InputLabel value="Travel Date" class="text-lg font-medium mb-2" />
-                                    <TextInput v-model="form.travel_date" type="date" class="w-full" />
-                                    <InputError class="mt-2 text-red-500" :message="form.errors.travel_date" />
+                                    <Label>Price Per Ticket</Label>
+                                    <p class="text-lg text-gray-800 dark:text-gray-300">P {{ bus.price_per_ticket }}</p>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="space-y-6">
-                        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full space-y-6">
-                            <h1 class="text-4xl dark:text-gray-300 font-semibold">Payment Information</h1>
-                            <div class="space-y-4">
-                                <p class="text-lg text-red-600">Please make your payment to this GCash number and upload your receipt below.</p>
+                        <div class="mt-auto grid lg:grid-cols-2 gap-6">
+                            <div>
+                                <InputLabel value="Select Seat" class="text-lg font-medium mb-2" />
+                                <SecondaryButton type="button" @click="toggleSeatModal" class="w-full py-3">{{ selectedSeatLabel }}</SecondaryButton>
+                                <InputError class="mt-2 text-red-500" :message="form.errors.seats" />
                             </div>
-                            <div class="space-y-6">
-                                <p class="text-xl font-medium text-gray-900 dark:text-gray-300">
-                                    <strong>GCash Number:</strong> <span class="font-bold text-blue-600">0917-123-4567</span>
-                                </p>
 
-                                <div class="">
-                                    <InputLabel value="Upload Payment Image" class="text-lg font-medium mb-2" />
-                                    <file-pond
-                                        name="payment_image"
-                                        ref="pond"
-                                        class-name="my-pond"
-                                        label-idle="Drop files here..."
-                                        allow-multiple="false"
-                                        accepted-file-types="image/jpeg, image/png"
-                                        :server="{
-                                            url: '',
-                                            process: {
-                                                url: route('customer.payment-receipt-upload'),
-                                                method: 'POST',
-                                                onload: handleFilePondLoad
-                                            },
-                                            revert: handleFilePondRevert,
-                                            headers: {
-                                                'X-CSRF-TOKEN': $page.props.csrf_token
-                                            }
-                                        }
-                                    "/>
-
-                                    <InputError class="mt-2 text-red-500" :message="form.errors.payment_image" />
-                                </div>
+                            <div>
+                                <InputLabel value="Travel Date" class="text-lg font-medium mb-2" />
+                                <TextInput v-model="form.travel_date" type="date" class="w-full" />
+                                <InputError class="mt-2 text-red-500" :message="form.errors.travel_date" />
                             </div>
-                            
-                            <PrimaryButton class="py-3 flex justify-center items-center" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">Submit</PrimaryButton>
                         </div>
+
+                        <PrimaryButton class="py-3 flex justify-center items-center" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">Submit</PrimaryButton>
                     </div>
                 </form>
             </div>
         </div>
 
-        <!-- Seat Selection Modal -->
-        <div v-if="modalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div v-if="isOpenSeatModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div class="bg-white dark:bg-gray-800 rounded-lg p-6 w-96 h-4/5 overflow-hidden flex flex-col space-y-8">
                 <h3 class="text-xl dark:text-gray-300 font-bold mb-2">Bus Seat Layout</h3>
                 <div class="flex-1 overflow-y-auto">
                     <div class="grid grid-cols-2 gap-12">
-                        <!-- Left Column -->
                         <div class="space-y-4">
-                            <div 
-                                v-for="row in seatRows" 
-                                :key="'left-' + row.left" 
+                            <div
+                                v-for="(row, index) in seatRows"
+                                :key="'left-row-' + index"
                                 class="grid grid-cols-2 gap-2"
                             >
-                                <div 
-                                    v-for="seat in row.left" 
-                                    :key="'seat-' + seat" 
-                                    class="text-center"
-                                >
-                                    <button 
-                                        type="button" 
+                                <div v-for="seat in row.left" :key="'seat-' + seat" class="text-center">
+                                    <button
+                                        type="button"
                                         @click="selectSeat(seat)"
                                         :class="{
-                                            'bg-gray-800 dark:bg-gray-300 text-white dark:text-gray-800': form.seat === seat,
-                                            'bg-gray-200 dark:bg-gray-700 text-black dark:text-white': form.seat !== seat
+                                            'bg-gray-800 dark:bg-gray-300 text-white dark:text-gray-800': form.seats.includes(seat),
+                                            'bg-gray-200 dark:bg-gray-700 text-black dark:text-white': !form.seats.includes(seat)
                                         }"
                                         class="w-full py-2 px-4 rounded-lg font-medium"
                                     >
@@ -232,24 +171,20 @@ const handleFilePondRevert = () => {
                                 </div>
                             </div>
                         </div>
-                        <!-- Right Column -->
+
                         <div class="space-y-4">
-                            <div 
-                                v-for="row in seatRows" 
-                                :key="'right-' + row.right" 
+                            <div
+                                v-for="(row, index) in seatRows"
+                                :key="'right-row-' + index"
                                 class="grid grid-cols-2 gap-2"
                             >
-                                <div 
-                                    v-for="seat in row.right" 
-                                    :key="'seat-' + seat" 
-                                    class="text-center"
-                                >
-                                    <button 
-                                        type="button" 
+                                <div v-for="seat in row.right" :key="'seat-' + seat" class="text-center">
+                                    <button
+                                        type="button"
                                         @click="selectSeat(seat)"
                                         :class="{
-                                            'bg-gray-800 dark:bg-gray-300 text-white dark:text-gray-800': form.seat === seat,
-                                            'bg-gray-200 dark:bg-gray-700 text-black dark:text-white': form.seat !== seat
+                                            'bg-gray-800 dark:bg-gray-300 text-white dark:text-gray-800': form.seats.includes(seat),
+                                            'bg-gray-200 dark:bg-gray-700 text-black dark:text-white': !form.seats.includes(seat)
                                         }"
                                         class="w-full py-2 px-4 rounded-lg font-medium"
                                     >
@@ -260,10 +195,10 @@ const handleFilePondRevert = () => {
                         </div>
                     </div>
                 </div>
-                <button 
-                    type="button" 
+                <button
+                    type="button"
                     class="w-full py-2 px-4 bg-red-600 text-white font-medium rounded-lg"
-                    @click="closeModal"
+                    @click="toggleSeatModal"
                 >
                     Close
                 </button>

@@ -27,7 +27,7 @@ const options = [
     { label: 'Declined', value: 'declined' },
 ];
 
-const headers = ref(['#', 'Type', 'Date', 'From', 'To', 'Seat', 'Price', 'Status']);
+const headers = ref(['#', 'Type', 'Date', 'From', 'To', 'Price', 'Status']);
 
 const watchDebounced = (field, value) => {
     router.get(route('customer.bookings.index'), {
@@ -49,7 +49,6 @@ watch(filterStatus, debounce((newValue) => watchDebounced('filterStatus', newVal
         </template>
 
         <div class="py-12">
-            <!-- Filters Section -->
             <div class="max-w-7xl mx-auto mb-6">
                 <div class="flex flex-col sm:flex-row justify-start gap-4 mb-8">
 
@@ -68,7 +67,6 @@ watch(filterStatus, debounce((newValue) => watchDebounced('filterStatus', newVal
                             <TCellBooking :bookdId="booking.id" href="customer.bookings.show" :value="formatDate(booking.travel_date)"/>
                             <TCellBooking :bookdId="booking.id" href="customer.bookings.show" :value="(booking.bus.departure_location).toString()"/>
                             <TCellBooking :bookdId="booking.id" href="customer.bookings.show" :value="(booking.bus.destination_location).toString()"/>
-                            <TCellBooking :bookdId="booking.id" href="customer.bookings.show" :value="(booking.seat).toString()"/>
                             <TCellBooking :bookdId="booking.id" href="customer.bookings.show" :value="`P ${booking.bus.price_per_ticket}`" />
                             
                             <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200">

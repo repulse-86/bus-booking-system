@@ -10,10 +10,6 @@ const props = defineProps({
         required: true,
     }
 });
-
-const imageSrc = props.booking.payment_image === 'none' 
-    ? '../../files/receipt.png' 
-    : `../../files/payments/${props.booking.payment_image}`;
 </script>
 
 <template>
@@ -25,7 +21,7 @@ const imageSrc = props.booking.payment_image === 'none'
         </template>
 
         <div class="py-12">
-            <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
                 <div class="space-y-6">
                     <div class="space-y-8 bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg">
                         <h1 class="text-3xl font-semibold text-gray-800 dark:text-gray-200">Booking Details</h1>
@@ -75,14 +71,6 @@ const imageSrc = props.booking.payment_image === 'none'
                             <h3 class="text-lg font-medium text-yellow-800">Reason for Decline</h3>
                         </div>
                         <p class="text-yellow-800 mt-2">{{ booking.reason_declined }}</p>
-                    </div>
-
-                </div>
-
-                <div class="space-y-6 bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg">
-                    <h2 class="text-3xl font-semibold text-gray-800 dark:text-gray-200">Payment Receipt</h2>
-                    <div class="flex justify-center">
-                        <img :src="imageSrc" alt="Payment Receipt" class="w-full max-w-sm object-contain">
                     </div>
                 </div>
             </div>
