@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBookingRequest;
 use App\Models\Booking;
 use App\Models\Bus;
+use App\Services\BookingSeatService;
 use App\Services\BookingService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 
 class CustomerBookingController extends Controller
 {
-    public function __construct(public BookingService $bookingService) {}
+    public function __construct(protected BookingService $bookingService, protected BookingSeatService $bookingSeatService) {}
 
     /**
      * Display a listing of the resource.
@@ -59,7 +60,9 @@ class CustomerBookingController extends Controller
     {
         Gate::authorize('create', Booking::class);
 
-        $this->bookingService->createBooking($request->validated());
+        $booking = $this->bookingService->createBooking($request->validated());
+
+        $this->bookingSeatService->store($request->seats, $booking);
     }
 
     /**
