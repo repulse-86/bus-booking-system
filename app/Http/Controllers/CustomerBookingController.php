@@ -74,7 +74,9 @@ class CustomerBookingController extends Controller
 
         Gate::authorize('view', $booking);
 
-        return inertia('Customer/Booking', compact('booking'));
+        $seats = $this->bookingSeatService->getBookingSeats($booking);
+
+        return inertia('Customer/Booking', compact('booking', 'seats'));
     }
 
     /**

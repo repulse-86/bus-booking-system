@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Models\Booking;
-use App\Models\BookingSeat;
 use App\Repositories\BookingSeatRepository;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * service layer for booking seat
@@ -17,6 +17,11 @@ class BookingSeatService
 	public function __construct(protected BookingSeatRepository $bookingSeatRepository)
 	{
 
+	}
+
+	public function getBookingSeats(Booking $booking): Collection
+	{
+		return $this->bookingSeatRepository->getBookingSeats($booking);
 	}
 
 	public function store(array $seats, Booking $booking): array
