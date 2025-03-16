@@ -53,11 +53,8 @@ const switchTheme = () => {
 }
 
 onMounted(() => {
-    Echo.private(`booking.update.${auth.user.id}`)
-        .listen('BookingStatusUpdate', (event) => {
-            toast(`Your booking #${event.booking.id} has been ${event.booking.status}`);
-            console.log(event)
-        })
+    switchOn = localStorage.getItem('isDark') === 'true';
+    switchTheme();
 });
 </script>
 
