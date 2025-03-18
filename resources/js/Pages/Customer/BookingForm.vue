@@ -1,6 +1,7 @@
 <script setup>
-import { ref, computed } from 'vue';
-import { useForm, usePage, router } from '@inertiajs/vue3';
+import axios from 'axios';
+import { ref, computed, watch } from 'vue';
+import { useForm, usePage } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
@@ -20,6 +21,8 @@ const props = defineProps({
         required: true,
     },
 });
+
+const takenSeats = ref([]);
 
 const form = useForm({
     bus_id: props.bus.id,
@@ -52,6 +55,26 @@ const selectSeat = (seat) => {
         form.seats.push(seat);
     }
 };
+
+watch(() => form.travel_date, async (newDate) => {
+    if (!newDate) return;
+
+    form.reset("seats");
+
+    try {
+        const response = await axios.get(route('customer.taken-seats'), {
+            params: {
+                travel_date: newDate,
+                bus_id: props.bus.id,
+            }
+        });
+
+        takenSeats.value = response.data.taken_seats;
+        console.log(takenSeats.value);
+    } catch (error) {
+        console.error("Error fetching taken seats:", error);
+    }
+});
 
 const submitForm = () => {
      showConfirmation({
@@ -127,15 +150,26 @@ const submitForm = () => {
 
                         <div class="mt-auto grid lg:grid-cols-2 gap-6">
                             <div>
-                                <InputLabel value="Select Seat" class="text-lg font-medium mb-2" />
-                                <SecondaryButton type="button" @click="toggleSeatModal" class="w-full py-3">{{ selectedSeatLabel }}</SecondaryButton>
-                                <InputError class="mt-2 text-red-500" :message="form.errors.seats" />
-                            </div>
-
-                            <div>
                                 <InputLabel value="Travel Date" class="text-lg font-medium mb-2" />
-                                <TextInput v-model="form.travel_date" type="date" class="w-full" />
+                                <TextInput
+                                    v-model="form.travel_date"
+                                    type="date"
+                                    class="w-full text-white dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-500 appearance-none"
+                                 />
                                 <InputError class="mt-2 text-red-500" :message="form.errors.travel_date" />
+                            </div>
+                            <div cl>
+                                <InputLabel v-if="form.travel_date" value="Select Seat" class="text-lg font-medium mb-2" />
+                                <InputLabel v-else value="To select seats, set your travel date first" class="text-lg font-medium mb-2" />
+                                <SecondaryButton
+                                    type="button"
+                                    @click="toggleSeatModal"
+                                    class="w-full py-3"
+                                    :disabled="!form.travel_date"
+                                >
+                                    {{ selectedSeatLabel }}
+                                </SecondaryButton>
+                                <InputError class="mt-2 text-red-500" :message="form.errors.seats" />
                             </div>
                         </div>
 
@@ -160,9 +194,11 @@ const submitForm = () => {
                                     <button
                                         type="button"
                                         @click="selectSeat(seat)"
+                                        :disabled="takenSeats.includes(seat)"
                                         :class="{
                                             'bg-gray-800 dark:bg-gray-300 text-white dark:text-gray-800': form.seats.includes(seat),
-                                            'bg-gray-200 dark:bg-gray-700 text-black dark:text-white': !form.seats.includes(seat)
+                                            'bg-gray-200 dark:bg-gray-700 text-black dark:text-white': !form.seats.includes(seat),
+                                            'bg-red-300 dark:bg-red-700 text-white opacity-75 cursor-not-allowed': takenSeats.includes(seat)
                                         }"
                                         class="w-full py-2 px-4 rounded-lg font-medium"
                                     >
@@ -182,9 +218,11 @@ const submitForm = () => {
                                     <button
                                         type="button"
                                         @click="selectSeat(seat)"
+                                        :disabled="takenSeats.includes(seat)"
                                         :class="{
                                             'bg-gray-800 dark:bg-gray-300 text-white dark:text-gray-800': form.seats.includes(seat),
-                                            'bg-gray-200 dark:bg-gray-700 text-black dark:text-white': !form.seats.includes(seat)
+                                            'bg-gray-200 dark:bg-gray-700 text-black dark:text-white': !form.seats.includes(seat),
+                                            'bg-red-500 dark:bg-red-700 text-white opacity-75 cursor-not-allowed': takenSeats.includes(seat)
                                         }"
                                         class="w-full py-2 px-4 rounded-lg font-medium"
                                     >
@@ -195,13 +233,13 @@ const submitForm = () => {
                         </div>
                     </div>
                 </div>
-                <button
+                <SecondaryButton
                     type="button"
-                    class="w-full py-2 px-4 bg-red-600 text-white font-medium rounded-lg"
+                    class="p-4 w-full justify-center"
                     @click="toggleSeatModal"
                 >
                     Close
-                </button>
+                </SecondaryButton>
             </div>
         </div>
 

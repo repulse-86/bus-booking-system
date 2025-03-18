@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminBookingController;
 use App\Http\Controllers\CustomerBookingController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\SeatController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -29,6 +30,7 @@ Route::middleware([
         Route::get('history', [CustomerBookingController::class, 'viewHistory'])->name('bookings.history');
         Route::post('payment-receipt-upload', [CustomerBookingController::class, 'storePaymentReceipt'])->name('payment-receipt-upload');
         Route::delete('payment-receipt-revert/{paymentReceipt}', [CustomerBookingController::class, 'deletePaymentReceipt'])->name('payment-receipt-revert');
+        Route::get('taken-seats', [SeatController::class, 'getSeatsTakenForDateAndBus'])->name('taken-seats');
     });
 
     Route::group([
