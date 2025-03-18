@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Services\BookingSeatService;
 use App\Services\BookingService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 class AdminBookingController extends Controller
 {
-    public function __construct(public BookingService $bookingService) {}
+    public function __construct(protected BookingService $bookingService, protected BookingSeatService $bookingSeatService) {}
 
     /**
      * Display a listing of the resource.
@@ -63,7 +64,9 @@ class AdminBookingController extends Controller
 
         Gate::authorize('view', $booking);
 
-        return inertia('Admin/Booking', compact('booking'));
+        $seats = $this->bookingSeatService->getBookingSeats($booking);
+
+        return inertia('Admin/Booking', compact('booking', 'seats'));
     }
 
     /**

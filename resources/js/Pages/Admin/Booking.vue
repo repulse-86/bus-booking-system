@@ -8,7 +8,11 @@ const props = defineProps({
     booking: {
         type: Object,
         required: true,
-    }
+    },
+    seats: {
+        type: Array,
+        required: true,
+    },
 });
 </script>
 
@@ -36,7 +40,7 @@ const props = defineProps({
                         </div>
                         <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
                             <p class="text-lg font-black text-gray-700 dark:text-gray-300">Date:</p>
-                            <p class="text-xl text-gray-700 dark:text-gray-300">{{ formatDate(booking.trave_date) }}</p>
+                            <p class="text-xl text-gray-700 dark:text-gray-300">{{ formatDate(booking.travel_date) }}</p>
                         </div>
                         <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
                             <p class="text-lg font-black text-gray-700 dark:text-gray-300">Departure Location:</p>
@@ -48,7 +52,7 @@ const props = defineProps({
                         </div>
                         <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
                             <p class="text-lg font-black text-gray-700 dark:text-gray-300">Seat Number:</p>
-                            <p class="text-xl text-gray-700 dark:text-gray-300">{{ booking.seat }}</p>
+                            <p class="text-xl text-gray-700 dark:text-gray-300">{{ seats.map(seat => seat.seat).join(", ") }}</p>
                         </div>
                         <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
                             <p class="text-lg font-black text-gray-700 dark:text-gray-300">Price:</p>
