@@ -16,47 +16,50 @@ defineProps({
 });
 
 const updateBookingStatus = (bookingId, status) => {
-    const updateBooking = (status, reason = null) => {
-        const data = { booking: bookingId, status: status };
-        if (reason) data.reason = reason;
+    const handleResponse = (isSuccess, action) => {
+        const messages = {
+            approved: {
+                success: 'Booking ticket approved successfully! An email has been sent to the customer.',
+                error: 'Ticket Approval Failed!',
+            },
+            declined: {
+                success: 'Booking ticket declined successfully! An email has been sent to the customer.',
+                error: 'Ticket Decline Failed!',
+            },
+        };
+
+        if (isSuccess) {
+            toast(messages[action].success);
+        } else {
+            showAlert({
+                icon: 'error',
+                title: messages[action].error,
+                text: 'There was an issue processing your request. Please try again.',
+            });
+        }
+    };
+
+    const updateBooking = (reason = '') => {
+        const data = { booking: bookingId, status, ...(reason && { reason }) };
 
         form.put(route('admin.bookings.update', data), {
-            onSuccess: () => {
-                const message = status === 'approved'
-                    ? 'Booking ticket approved successfully! An email has been sent to the customer.'
-                    : 'Booking ticket declined successfully! An email has been sent to the customer.';
-                toast(message);
-            },
-            onError: () => {
-                const message = status === 'approved'
-                    ? 'Ticket Approval Failed!'
-                    : 'Ticket Decline Failed!';
-                showAlert({
-                    icon: 'error',
-                    title: message,
-                    text: 'There was an issue with your approval. Please try again.',
-                });
-            }
+            onSuccess: () => handleResponse(true, status),
+            onError: () => handleResponse(false, status),
         });
     };
 
     if (status === 'declined') {
         showInputAlert({
-            title: 'Please provide a reason for declining the booking',
-            text: 'Providing a reason helps track the decisions made for declined bookings.',
+            title: 'Provide a reason for declining the booking',
+            text: 'This helps track declined bookings.',
             placeholder: 'Enter reason here...',
             confirmButtonText: 'Submit',
             cancelButtonText: 'Cancel',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                updateBooking(status, result.value);
-            }
-        });
+        }).then((result) => result.isConfirmed && updateBooking(result.value));
     } else {
-        updateBooking(status);
+        updateBooking();
     }
 };
-
 
 useDebouncedFilters('admin.bookings.pendingBookings');
 </script>
