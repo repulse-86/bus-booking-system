@@ -154,7 +154,7 @@ const submitForm = () => {
                                 <TextInput
                                     v-model="form.travel_date"
                                     type="date"
-                                    class="w-full text-white dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-500 appearance-none"
+                                    class="w-full text-dark dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-500 appearance-none"
                                  />
                                 <InputError class="mt-2 text-red-500" :message="form.errors.travel_date" />
                             </div>
