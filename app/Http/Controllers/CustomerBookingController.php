@@ -60,7 +60,7 @@ class CustomerBookingController extends Controller
     {
         Gate::authorize('create', Booking::class);
 
-        $booking = $this->bookingService->createBooking($request->validated());
+        $booking = $this->bookingService->createBooking($request->validated(), count($request->seats));
 
         $this->bookingSeatService->store($request->seats, $booking);
     }

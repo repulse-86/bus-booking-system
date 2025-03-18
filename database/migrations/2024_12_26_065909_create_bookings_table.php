@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('bus_id')->constrained('buses')->cascadeOnDelete()->cascadeOnUpdate();
             $table->date('travel_date');
             $table->enum('status', ['pending', 'approved', 'declined'])->default('pending');
+            $table->integer('total_price');
             $table->text('reason_declined')->nullable();
             $table->timestamps();
         });

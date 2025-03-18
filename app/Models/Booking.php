@@ -16,6 +16,7 @@ class Booking extends Model
         'bus_id',
         'travel_date',
         'status',
+        'total_price',
         'reason_declined',
     ];
 

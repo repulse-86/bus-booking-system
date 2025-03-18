@@ -61,7 +61,7 @@ const props = defineProps({
                             </div>
                             <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
                                 <p class="text-lg font-black text-gray-700 dark:text-gray-300">Price:</p>
-                                <p class="text-xl text-gray-700 dark:text-gray-300">P{{ booking.bus.price_per_ticket }}</p>
+                                <p class="text-xl text-gray-700 dark:text-gray-300">P{{ booking.total_price }}</p>
                             </div>
                             <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
                                 <p class="text-lg font-black text-gray-700 dark:text-gray-300">Payment Status:</p>

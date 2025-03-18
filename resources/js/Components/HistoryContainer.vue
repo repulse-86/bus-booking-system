@@ -14,7 +14,7 @@ defineProps({
 	            <h1 class="text-2xl font-black text-gray-800 dark:text-gray-300">{{ booking.bus.destination_location }}</h1>
 	            <p class="text-gray-500 dark:text-gray-300">{{ formatDate(booking.travel_date) }}</p>
 	        </div>
-	        <div class="text-xl text-gray-600 dark:text-gray-300">P {{ booking.bus.price_per_ticket }}</div>
+	        <div class="text-xl text-gray-600 dark:text-gray-300">P {{ booking.total_price }}</div>
 	    </div>
 	    <hr class="h-px bg-gray-200 border-0 dark:bg-gray-700">
 	</div>

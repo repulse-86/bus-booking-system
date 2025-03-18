@@ -51,12 +51,12 @@ const props = defineProps({
                             <p class="text-xl text-gray-700 dark:text-gray-300">{{ capitalize(booking.bus.destination_location) }}</p>
                         </div>
                         <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
-                            <p class="text-lg font-black text-gray-700 dark:text-gray-300">Seat Number:</p>
+                            <p class="text-lg font-black text-gray-700 dark:text-gray-300">Seat/s:</p>
                             <p class="text-xl text-gray-700 dark:text-gray-300">{{ seats.map(seat => seat.seat).join(", ") }}</p>
                         </div>
                         <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
                             <p class="text-lg font-black text-gray-700 dark:text-gray-300">Price:</p>
-                            <p class="text-xl text-gray-700 dark:text-gray-300">P{{ booking.bus.price_per_ticket }}</p>
+                            <p class="text-xl text-gray-700 dark:text-gray-300">P{{ booking.total_price }}</p>
                         </div>
                         <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
                             <p class="text-lg font-black text-gray-700 dark:text-gray-300">Payment Status:</p>

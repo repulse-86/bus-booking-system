@@ -17,10 +17,12 @@ class BookingService
 {
     public function __construct(protected BookingRepository $bookingRepository, protected BusService $busService) {}
 
-    public function createBooking(array $data): Booking
+    public function createBooking(array $data, int $seats): Booking
     {
         $bus = $this->busService->find($data['bus_id']);
         auth()->user()->notify(new BookingPendingApprovalNotification($bus));
+
+        $data['total_price'] = $bus->price_per_ticket * $seats;
 
         return $this->bookingRepository->create($data);
     }
