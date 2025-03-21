@@ -48,3 +48,26 @@ export const showAlert = ({ icon, title, text = null }) => {
 export function toast(message) {
     $toast.success(message);
 }
+
+export const showInputAlert = ({ title, text, placeholder, confirmButtonText, cancelButtonText }) => {
+    return Swal.fire({
+        title: title,
+        text: text,
+        input: 'textarea',
+        inputPlaceholder: placeholder || 'Enter your text here...',
+        showCancelButton: true,
+        confirmButtonText: confirmButtonText || 'Submit',
+        cancelButtonText: cancelButtonText || 'Cancel',
+        customClass: {
+            confirmButton: 'my-primary-btn-bg-color',
+            cancelButton: 'my-secondary-btn-bg-color',
+        },
+        preConfirm: (inputValue) => {
+            if (!inputValue) {
+                Swal.showValidationMessage('Please enter some text');
+                return false;
+            }
+            return inputValue;
+        }
+    });
+};

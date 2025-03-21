@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Booking;
+use App\Models\BookingSeat;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
@@ -27,9 +27,9 @@ class StoreBookingRequest extends FormRequest
         return [
             'customer_id' => 'required|integer|exists:users,id',
             'bus_id' => 'required|integer|exists:buses,id',
-            'seat' => 'required|integer',
+            'seats' => 'required|array|min:1',
+            'seats.*' => 'integer|min:1',
             'travel_date' => 'required|date|after_or_equal:today',
-            'payment_image' => 'required|string',
         ];
     }
 
@@ -39,12 +39,18 @@ class StoreBookingRequest extends FormRequest
     public function withValidator(Validator $validator): void
     {
         $validator->after(function ($validator) {
-            if (! $this->isSeatAvailableForDate()) {
-                $validator->errors()->add('seat', 'The selected seat is not available for Bus '.$this->bus_id.' on '.Carbon::parse($this->travel_date)->format('M d, Y'));
+            if ($this->areSeatsTaken()) {
+                $validator->errors()->add(
+                    'seats',
+                    'One or more of the selected seats are already booked for Bus '.$this->bus_id.' on '.Carbon::parse($this->travel_date)->format('M d, Y')
+                );
             }
 
             if (! $this->isBusInCorrectWeek()) {
-                $validator->errors()->add('travel_date', 'The selected bus is not available for the specified week.');
+                $validator->errors()->add(
+                    'travel_date',
+                    'The selected bus is not available for the specified week.'
+                );
             }
         });
     }
@@ -64,13 +70,22 @@ class StoreBookingRequest extends FormRequest
         }
     }
 
-    private function isSeatAvailableForDate(): bool
+    /**
+     * Check if any of the selected seats are already taken for the given bus_id and travel_date.
+     */
+    private function areSeatsTaken(): bool
     {
-        $bus = Booking::where('seat', $this->seat)
-            ->where('bus_id', $this->bus_id)
-            ->where('travel_date', $this->travel_date)
-            ->exists();
+        $selectedSeats = is_array($this->seats) ? $this->seats : [];
 
-        return ! $bus;
+        if (empty($selectedSeats)) {
+            return false;
+        }
+
+        return BookingSeat::whereIn('seat', $selectedSeats)
+            ->whereHas('booking', function ($query) {
+                $query->where('bus_id', $this->bus_id)
+                      ->where('travel_date', $this->travel_date);
+            })
+            ->exists();
     }
 }

@@ -34,7 +34,7 @@ const headers = ref(['#', 'Customer', 'From', 'To', 'Price']);
 	            <TCellBooking :bookdId="booking.id" href="admin.bookings.show" :value="(booking.customer.name).toString()"/>
 	            <TCellBooking :bookdId="booking.id" href="admin.bookings.show" :value="(booking.bus.departure_location).toString()"/>
 	            <TCellBooking :bookdId="booking.id" href="admin.bookings.show" :value="(booking.bus.destination_location).toString()"/>
-	            <TCellBooking :bookdId="booking.id" href="admin.bookings.show" :value="`P ${booking.bus.price_per_ticket}`" />
+	            <TCellBooking :bookdId="booking.id" href="admin.bookings.show" :value="`P ${booking.total_price}`" />
 	            
 	            <td v-if="actionsVisible" class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200 break-words">
 	                <div class="flex space-x-2">

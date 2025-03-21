@@ -10,7 +10,7 @@ export const useDebouncedFilters = (routeName, delay = 500) => {
         router.get(route(routeName), {
             filterId: filterId.value,
             filterCustomerName: filterCustomerName.value,
-        }, { preserveState: true });
+        }, { preserveState: true, preserveScroll: true, });
     }, delay);
 
     [filterId, filterCustomerName].forEach((field) => {

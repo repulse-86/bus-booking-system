@@ -44,6 +44,7 @@ class BookingRepository implements BookingRepositoryInterface
                 });
             })
             ->where('status', $status)
+            ->latest()
             ->paginate(10);
     }
 
@@ -62,9 +63,14 @@ class BookingRepository implements BookingRepositoryInterface
         $booking->delete();
     }
 
-    public function updateBookingStatus(Booking $booking, string $status): void
+    public function updateBookingStatus(Booking $booking, string $status, ?string $reason): void
     {
         $booking->status = $status;
+
+        if ($reason) {
+            $booking->reason_declined = $reason;
+        }
+
         $booking->save();
     }
 

@@ -17,14 +17,6 @@ class UserSeeder extends Seeder
         $faker = Faker::create();
 
         User::factory()->create([
-            'type' => 'admin',
-            'name' => 'Administrator',
-            'email' => 'admin@email.com',
-            'mobile_number' => \Faker\Factory::create()->numerify('09#########'),
-            'password' => bcrypt('password'),
-        ]);
-
-        User::factory()->create([
             'type' => 'customer',
             'name' => 'Kate Ruaza',
             'email' => 'lambsauceraw.218@gmail.com',

@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminBookingController;
 use App\Http\Controllers\CustomerBookingController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\SeatController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -29,6 +30,7 @@ Route::middleware([
         Route::get('history', [CustomerBookingController::class, 'viewHistory'])->name('bookings.history');
         Route::post('payment-receipt-upload', [CustomerBookingController::class, 'storePaymentReceipt'])->name('payment-receipt-upload');
         Route::delete('payment-receipt-revert/{paymentReceipt}', [CustomerBookingController::class, 'deletePaymentReceipt'])->name('payment-receipt-revert');
+        Route::get('taken-seats', [SeatController::class, 'getSeatsTakenForDateAndBus'])->name('taken-seats');
     });
 
     Route::group([
@@ -40,7 +42,7 @@ Route::middleware([
         Route::get('pending/bookings', [AdminBookingController::class, 'viewPendingBookings'])->name('bookings.pendingBookings');
         Route::get('approved/bookings', [AdminBookingController::class, 'viewApprovedBookings'])->name('bookings.approvedBookings');
         Route::get('declined/bookings', [AdminBookingController::class, 'viewDeclinedBookings'])->name('bookings.declinedBookings');
-        Route::put('bookings/{booking}/{status}', [AdminBookingController::class, 'update'])->name('bookings.update');
+        Route::put('bookings/{booking}/{status}/{reason?}', [AdminBookingController::class, 'update'])->name('bookings.update');
         Route::get('bookings/{booking}', [AdminBookingController::class, 'show'])->name('bookings.show');
     });
 });

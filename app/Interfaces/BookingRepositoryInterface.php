@@ -18,7 +18,7 @@ interface BookingRepositoryInterface
 
     public function delete(Booking $booking): void;
 
-    public function updateBookingStatus(Booking $booking, string $status): void;
+    public function updateBookingStatus(Booking $booking, string $status, ?string $reason): void;
 
     public function getByStatusBookingCount(string $status): int;
 

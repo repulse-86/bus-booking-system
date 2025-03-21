@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Booking extends Model
 {
@@ -13,10 +14,10 @@ class Booking extends Model
     protected $fillable = [
         'customer_id',
         'bus_id',
-        'seat',
         'travel_date',
-        'payment_image',
         'status',
+        'total_price',
+        'reason_declined',
     ];
 
     public function customer()
@@ -27,5 +28,10 @@ class Booking extends Model
     public function bus()
     {
         return $this->belongsTo(Bus::class);
+    }
+
+    public function seats(): HasMany
+    {
+        return $this->hasMany(BookingSeat::class);
     }
 }

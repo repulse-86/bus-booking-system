@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,14 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             UserSeeder::class,
-            BusSeeder::class,
             BookingSeeder::class,
         ]);
-
-        $filePath = 'payments';
-
-        if (Storage::disk('public')->exists($filePath)) {
-            Storage::disk('public')->deleteDirectory($filePath);
-        }
     }
 }

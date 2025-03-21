@@ -17,10 +17,12 @@ class BookingService
 {
     public function __construct(protected BookingRepository $bookingRepository, protected BusService $busService) {}
 
-    public function createBooking(array $data): Booking
+    public function createBooking(array $data, int $seats): Booking
     {
         $bus = $this->busService->find($data['bus_id']);
         auth()->user()->notify(new BookingPendingApprovalNotification($bus));
+
+        $data['total_price'] = $bus->price_per_ticket * $seats;
 
         return $this->bookingRepository->create($data);
     }
@@ -49,11 +51,11 @@ class BookingService
         return $this->bookingRepository->find($id);
     }
 
-    public function updateBookingStatus(Booking $booking, string $status)
+    public function updateBookingStatus(Booking $booking, string $status, ?string $reason)
     {
         $user = User::findOrFail($booking->customer_id);
         $bus = $this->busService->find($booking->bus_id);
-        $this->bookingRepository->updateBookingStatus($booking, $status);
+        $this->bookingRepository->updateBookingStatus($booking, $status, $reason);
 
         $user->notify(new BookingStatusNotification($booking, $bus, $status));
     }
