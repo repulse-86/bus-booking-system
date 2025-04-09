@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\BookingSeat;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
@@ -39,6 +40,13 @@ class StoreBookingRequest extends FormRequest
     public function withValidator(Validator $validator): void
     {
         $validator->after(function ($validator) {
+            if ($this->hasAlreadyBookedToday()) {
+                $validator->errors()->add(
+                    'travel_date',
+                    'You already have a booking for this date.'
+                );
+            }
+
             if ($this->areSeatsTaken()) {
                 $validator->errors()->add(
                     'seats',
@@ -86,6 +94,14 @@ class StoreBookingRequest extends FormRequest
                 $query->where('bus_id', $this->bus_id)
                       ->where('travel_date', $this->travel_date);
             })
+            ->exists();
+    }
+
+    private function hasAlreadyBookedToday(): bool
+    {
+        return auth()->user()
+            ->bookings()
+            ->whereDate('travel_date', $this->travel_date)
             ->exists();
     }
 }
