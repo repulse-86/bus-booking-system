@@ -31,8 +31,16 @@ const props = defineProps({
 
                     <div class="space-y-6">
                         <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
-                            <p class="text-lg font-black text-gray-700 dark:text-gray-300">Customer Name:</p>
+                            <p class="text-lg font-black text-gray-700 dark:text-gray-300">Name:</p>
                             <p class="text-xl text-gray-700 dark:text-gray-300">{{ capitalize(booking.customer.name ) }}</p>
+                        </div>
+                        <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
+                            <p class="text-lg font-black text-gray-700 dark:text-gray-300">Email:</p>
+                            <p class="text-xl text-gray-700 dark:text-gray-300">{{ capitalize(booking.customer.email ) }}</p>
+                        </div>
+                        <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
+                            <p class="text-lg font-black text-gray-700 dark:text-gray-300">Contact:</p>
+                            <p class="text-xl text-gray-700 dark:text-gray-300">{{ capitalize(booking.customer.mobile_number ) }}</p>
                         </div>
                         <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center text-left">
                             <p class="text-lg font-black text-gray-700 dark:text-gray-300">Bus Type:</p>
