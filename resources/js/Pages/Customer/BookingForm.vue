@@ -116,8 +116,8 @@ const submitForm = () => {
         </template>
 
         <div class="py-12">
-            <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-                <form @submit.prevent="submitForm">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 grid lg:grid-cols-3 sm:grid-cols-1 gap-4">
+                <form @submit.prevent="submitForm" class="lg:col-span-2">
                     <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full space-y-6">
                         <div class="space-y-2">
                             <h1 class="text-4xl dark:text-gray-300 font-semibold">Booking Details</h1>
@@ -176,6 +176,18 @@ const submitForm = () => {
                         <PrimaryButton class="py-3 flex justify-center items-center" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">Submit</PrimaryButton>
                     </div>
                 </form>
+                <div class="">
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full space-y-6">
+                        <div class="space-y-1">
+                            <div class="text-3xl font-bold text-red-600 dark:text-red-400">
+                                Important Notice
+                            </div>
+                            <div class="text-sm text-gray-700 dark:text-gray-300">
+                                You must pay the terminal staff before the bus departs on your scheduled travel date.
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
