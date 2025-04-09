@@ -105,14 +105,46 @@ const submitForm = () => {
         }
     })
 };
+
+const isBusAvailableNow = computed(() => {
+    /*const now = new Date();
+    const [startHour, startMinute] = props.bus.time_available_start.split(':').map(Number);
+    const [endHour, endMinute] = props.bus.time_available_end.split(':').map(Number);
+
+    const start = new Date();
+    start.setHours(startHour, startMinute, 0, 0);
+
+    const end = new Date();
+    end.setHours(endHour, endMinute, 0, 0);
+
+    const withinTimeRange = now >= start && now <= end;*/
+    const allSeatsTaken = takenSeats.value.length >= props.bus.available_seats;
+
+    return !allSeatsTaken;
+});
+
 </script>
 
 <template>
     <AppLayout :title="bus.bus_type + ' Booking Form'">
         <template #header>
-            <h2 class="font-semibold text-xl text-black dark:text-gray-200 leading-tight">
-                Booking Form for {{ bus.bus_type }}
-            </h2>
+            <div class="flex gap-2">
+                <h2 class="font-semibold text-xl text-black dark:text-gray-200 leading-tight">
+                    Booking Form for {{ bus.bus_type }}
+                </h2>
+                <span
+                    v-if="!isBusAvailableNow"
+                    class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100"
+                >
+                    Unavailable
+                </span>
+                <span
+                    v-else
+                    class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100"
+                >
+                    Available
+                </span>
+            </div>
         </template>
 
         <div class="py-12">
