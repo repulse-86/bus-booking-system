@@ -105,19 +105,51 @@ const submitForm = () => {
         }
     })
 };
+
+const isBusAvailableNow = computed(() => {
+    /*const now = new Date();
+    const [startHour, startMinute] = props.bus.time_available_start.split(':').map(Number);
+    const [endHour, endMinute] = props.bus.time_available_end.split(':').map(Number);
+
+    const start = new Date();
+    start.setHours(startHour, startMinute, 0, 0);
+
+    const end = new Date();
+    end.setHours(endHour, endMinute, 0, 0);
+
+    const withinTimeRange = now >= start && now <= end;*/
+    const allSeatsTaken = takenSeats.value.length >= props.bus.available_seats;
+
+    return !allSeatsTaken;
+});
+
 </script>
 
 <template>
     <AppLayout :title="bus.bus_type + ' Booking Form'">
         <template #header>
-            <h2 class="font-semibold text-xl text-black dark:text-gray-200 leading-tight">
-                Booking Form for {{ bus.bus_type }}
-            </h2>
+            <div class="flex gap-2">
+                <h2 class="font-semibold text-xl text-black dark:text-gray-200 leading-tight">
+                    Booking Form for {{ bus.bus_type }}
+                </h2>
+                <span
+                    v-if="!isBusAvailableNow"
+                    class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100"
+                >
+                    Unavailable
+                </span>
+                <span
+                    v-else
+                    class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100"
+                >
+                    Available
+                </span>
+            </div>
         </template>
 
         <div class="py-12">
-            <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-                <form @submit.prevent="submitForm">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 grid lg:grid-cols-3 sm:grid-cols-1 gap-4">
+                <form @submit.prevent="submitForm" class="lg:col-span-2">
                     <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full space-y-6">
                         <div class="space-y-2">
                             <h1 class="text-4xl dark:text-gray-300 font-semibold">Booking Details</h1>
@@ -176,6 +208,18 @@ const submitForm = () => {
                         <PrimaryButton class="py-3 flex justify-center items-center" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">Submit</PrimaryButton>
                     </div>
                 </form>
+                <div class="">
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full space-y-6">
+                        <div class="space-y-1">
+                            <div class="text-3xl font-bold text-red-600 dark:text-red-400">
+                                Important Notice
+                            </div>
+                            <div class="text-sm text-gray-700 dark:text-gray-300">
+                                You must pay the terminal staff before the bus departs on your scheduled travel date.
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
