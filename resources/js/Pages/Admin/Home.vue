@@ -36,7 +36,12 @@ defineProps({
                 </div>
 
                 <div class="grid grid-cols-1 lg:col-span-2 sm:col-span-2 gap-6 ">
-                    <CumulativeAreaChart :cumulativePerMonthSales="cumulativePerMonthSales" :cumulativePerMonthUserCount="cumulativePerMonthUserCount" :cumulativePerMonthBookingCount="cumulativePerMonthBookingCount"/>
+                    <CumulativeAreaChart
+                        :cumulativePerMonthSales="cumulativePerMonthSales"
+                        :cumulativePerMonthUserCount="cumulativePerMonthUserCount"
+                        :cumulativePerMonthBookingCount="cumulativePerMonthBookingCount"
+                    />
+
                     <div class="grid lg:grid-cols-2 sm:grid-cols-1 gap-6 overflow-auto">
                         <DonutChart :chartData="bookingPerBusTypeData" label="Bookings"/>
                         <AreaChart :chartData="usersData" label="New Users"/>

@@ -25,7 +25,7 @@ class CreateNewUser implements CreatesNewUsers
             'mobile_number' => ['required', 'string', 'regex:/^(09\d{9}|\+639\d{9})$/', 'unique:users'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
-        ]);
+        ])->validate();
 
         (new Security)->databaseIntegrity();
 

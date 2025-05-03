@@ -46,6 +46,7 @@ return new class extends Migration
             'name' => 'Administrator',
             'email' => 'admin@email.com',
             'password' => bcrypt('password'),
+            'email_verified_at' => now(),
         ]);
     }
 
