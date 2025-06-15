@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios';
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useForm, usePage } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import InputLabel from '@/Components/InputLabel.vue';
@@ -12,6 +12,8 @@ import Label from '@/Components/Label.vue';
 import 'filepond/dist/filepond.min.css';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
 import { showConfirmation, showAlert } from '@/helpers';
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css'
 
 const { auth } = usePage().props;
 
@@ -22,7 +24,58 @@ const props = defineProps({
     },
 });
 
+const cachedDates = {};
+const getWeeklyUnavailableDates = (year, month, weeksToDisable) => {
+    const key = `${year}-${month}`;
+    if (cachedDates[key]) return cachedDates[key];
+
+    const dates = [];
+    const day = new Date(year, month, 1);
+    while (day.getMonth() === month) {
+        const weekNumber = Math.floor((day.getDate() - 1) / 7) + 1;
+        if (weeksToDisable.includes(weekNumber)) {
+            dates.push(day.toISOString().split('T')[0]);
+        }
+        day.setDate(day.getDate() + 1);
+    }
+
+    cachedDates[key] = dates;
+    return dates;
+};
+
+const getWeeksForBus = (busId) => {
+    if (busId >= 1 && busId <= 10) return [2, 4];
+    if (busId >= 11 && busId <= 15) return [1, 3, 5];
+    return [];
+};
+
 const takenSeats = ref([]);
+onMounted(() => {
+    const weeks = getWeeksForBus(props.bus.id);
+
+    flatpickr('#calendar', {
+        disable: [
+            function(date) {
+                const year = date.getFullYear();
+                const month = date.getMonth();
+                const formatted = date.toISOString().split('T')[0];
+                const disabledDates = getWeeklyUnavailableDates(year, month, weeks);
+                return disabledDates.includes(formatted);
+            }
+        ],
+        dateFormat: 'Y-m-d',
+        onDayCreate: (dObj, dStr, fp, dayElem) => {
+            const date = dayElem.dateObj.toISOString().split('T')[0];
+            const year = dayElem.dateObj.getFullYear();
+            const month = dayElem.dateObj.getMonth();
+            const disabledDates = getWeeklyUnavailableDates(year, month, weeks);
+            if (disabledDates.includes(date)) {
+                dayElem.innerHTML = `<span style="text-decoration: line-through; color: #999;">${dayElem.innerText}</span>`;
+            }
+        }
+    });
+});
+
 
 const form = useForm({
     bus_id: props.bus.id,
@@ -184,9 +237,10 @@ const isBusAvailableNow = computed(() => {
                             <div>
                                 <InputLabel value="Travel Date" class="text-lg font-medium mb-2" />
                                 <TextInput
+                                    id="calendar"
                                     v-model="form.travel_date"
-                                    type="date"
-                                    class="w-full text-dark dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-500 appearance-none"
+                                    class="w-full"
+                                    placeholder="Select a date"
                                  />
                                 <InputError class="mt-2 text-red-500" :message="form.errors.travel_date" />
                             </div>
