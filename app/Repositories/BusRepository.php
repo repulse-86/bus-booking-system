@@ -30,11 +30,6 @@ class BusRepository implements BusRepositoryInterface
         return Bus::distinct()->pluck('destination_location');
     }
 
-    public function find(string $id): Bus
-    {
-        return Bus::findOrFail($id);
-    }
-
     public function getBookingsPerBusTypeData(): Collection
     {
         return DB::table('buses')

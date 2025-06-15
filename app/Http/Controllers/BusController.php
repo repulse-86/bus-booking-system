@@ -13,10 +13,7 @@ class BusController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function __construct(protected BusService $busService)
-    {
-        //
-    }
+    public function __construct(protected BusService $busService) {}
 
     public function index(Request $request)
     {
@@ -38,37 +35,5 @@ class BusController extends Controller
         $canRegister = Route::has('register');
 
         return inertia('Welcome', compact('destinations', 'buses', 'canLogin', 'canRegister'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

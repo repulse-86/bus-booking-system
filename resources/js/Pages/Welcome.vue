@@ -32,7 +32,7 @@ defineProps({
                     <nav v-if="canLogin" class="flex items-center space-x-4">
                         <Link
                             v-if="$page.props.auth.user"
-                            :href="route('customer.home')"
+                            :href="route('customer.index')"
                             class="text-black dark:text-white"
                         >
                             Home

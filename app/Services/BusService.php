@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Bus;
 use App\Repositories\BusRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
@@ -44,14 +43,9 @@ class BusService
         });
     }
 
-    public function find(string $id): Bus
-    {
-        return $this->busRepository->find($id);
-    }
-
     public function decrementAvailableSeats(string $id)
     {
-        $bus = $this->find($id);
+        $bus = $this->busRepository->find($id);
 
         if ($bus->available_seats > 0) {
             $bus->available_seats--;
@@ -59,10 +53,5 @@ class BusService
         } else {
             throw new \Exception('No available seats');
         }
-    }
-
-    public function getBookingsPerBusTypeData(): Collection
-    {
-        return $this->busRepository->getBookingsPerBusTypeData();
     }
 }
