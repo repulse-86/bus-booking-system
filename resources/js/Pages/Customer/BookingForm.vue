@@ -24,58 +24,37 @@ const props = defineProps({
     },
 });
 
-const cachedDates = {};
-const getWeeklyUnavailableDates = (year, month, weeksToDisable) => {
-    const key = `${year}-${month}`;
-    if (cachedDates[key]) return cachedDates[key];
+const isDateDisabled = (date, busId) => {
+    const startOfYear = new Date(date.getFullYear(), 0, 1);
+    const day = new Date(startOfYear);
+    while (day.getDay() !== 0) day.setDate(day.getDate() - 1);
 
-    const dates = [];
-    const day = new Date(year, month, 1);
-    while (day.getMonth() === month) {
-        const weekNumber = Math.floor((day.getDate() - 1) / 7) + 1;
-        if (weeksToDisable.includes(weekNumber)) {
-            dates.push(day.toISOString().split('T')[0]);
-        }
-        day.setDate(day.getDate() + 1);
-    }
+    const diffInDays = Math.floor((date - day) / (1000 * 60 * 60 * 24));
+    const weekIndex = Math.floor(diffInDays / 7);
+    const isEvenWeek = weekIndex % 2 === 0;
 
-    cachedDates[key] = dates;
-    return dates;
-};
-
-const getWeeksForBus = (busId) => {
-    if (busId >= 1 && busId <= 10) return [2, 4];
-    if (busId >= 11 && busId <= 15) return [1, 3, 5];
-    return [];
+    if (busId >= 1 && busId <= 10) return !isEvenWeek;
+    if (busId >= 11 && busId <= 15) return isEvenWeek;
+    return false;
 };
 
 const takenSeats = ref([]);
 onMounted(() => {
-    const weeks = getWeeksForBus(props.bus.id);
-
     flatpickr('#calendar', {
         disable: [
             function(date) {
-                const year = date.getFullYear();
-                const month = date.getMonth();
-                const formatted = date.toISOString().split('T')[0];
-                const disabledDates = getWeeklyUnavailableDates(year, month, weeks);
-                return disabledDates.includes(formatted);
+                return isDateDisabled(date, props.bus.id);
             }
         ],
         dateFormat: 'Y-m-d',
         onDayCreate: (dObj, dStr, fp, dayElem) => {
-            const date = dayElem.dateObj.toISOString().split('T')[0];
-            const year = dayElem.dateObj.getFullYear();
-            const month = dayElem.dateObj.getMonth();
-            const disabledDates = getWeeklyUnavailableDates(year, month, weeks);
-            if (disabledDates.includes(date)) {
+            const date = dayElem.dateObj;
+            if (isDateDisabled(date, props.bus.id)) {
                 dayElem.innerHTML = `<span style="text-decoration: line-through; color: #999;">${dayElem.innerText}</span>`;
             }
         }
     });
 });
-
 
 const form = useForm({
     bus_id: props.bus.id,
