@@ -9,7 +9,6 @@ import THead from '@/Components/THead.vue';
 import TCellBooking from '@/Components/TCellBooking.vue';
 import BookingStatusBadge from '@/Components/BookingStatusBadge.vue';
 import { formatDate, showAlert, showInputAlert, toast } from '@/helpers';
-// import BookingFilter from '@/Components/BookingFilter.vue'; // Assuming BookingFilter is a generic filter component - Removed as not used in provided code
 import { useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
@@ -29,11 +28,11 @@ const props = defineProps({
         type: Array,
         default: () => ['#', 'Customer', 'Type', 'Date', 'From', 'To', 'Price', 'Status']
     },
-    adminView: { // To differentiate between admin and customer views for actions
+    adminView: {
         type: Boolean,
         default: false
     },
-    currentRoute: { // To preserve filters on the correct route
+    currentRoute: {
         type: String,
         required: true,
     }
@@ -42,10 +41,9 @@ const props = defineProps({
 const form = useForm({});
 
 const filterId = ref('');
-const filterCustomerName = ref(''); // For admin view
-const filterStatus = ref(''); // For customer view
+const filterCustomerName = ref('');
+const filterStatus = ref('');
 
-// Watchers for filters
 const watchDebounced = (filters) => {
     router.get(route(props.currentRoute), filters, { preserveState: true, preserveScroll: true });
 };
@@ -54,7 +52,7 @@ watch([filterId, filterCustomerName, filterStatus], debounce(() => {
     let filters = {};
     if (props.adminView) {
         filters = { filterId: filterId.value, filterCustomerName: filterCustomerName.value };
-        if (filterStatus.value) { // Also include status if admin is on a page that can be filtered by status (e.g. all bookings)
+        if (filterStatus.value) {
             filters.filterStatus = filterStatus.value;
         }
     } else {
@@ -110,7 +108,6 @@ const updateBookingStatus = (bookingId, status) => {
     }
 };
 
-// Determine if actions column should be visible
 const actionsVisible = computed(() => props.adminView && props.currentRoute === 'admin.bookings.pendingBookings');
 
 </script>
@@ -122,7 +119,6 @@ const actionsVisible = computed(() => props.adminView && props.currentRoute === 
                 <TextInput v-model="filterId" placeholder="Search by Booking ID" class="w-full sm:w-auto"/>
                 <template v-if="adminView">
                     <TextInput v-model="filterCustomerName" placeholder="Search by Customer Name" class="w-full sm:w-auto"/>
-                     <!-- Added status filter for admin view as well, can be useful on all bookings page -->
                     <SelectInput v-if="currentRoute === 'admin.bookings.index'" v-model="filterStatus" :options="statusOptions" selected="Status" class="w-full sm:w-auto"/>
                 </template>
                 <template v-else>
@@ -135,18 +131,15 @@ const actionsVisible = computed(() => props.adminView && props.currentRoute === 
                 <THead :headers="adminView ? headers : headers.filter(h => h !== 'Customer')" :actionsVisible="actionsVisible"/>
                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                     <tr v-for="booking in bookings.data" :key="booking.id" class="transition duration-300 ease-in-out hover:bg-gray-200 dark:hover:bg-gray-600">
-                        <TCellBooking :bookdId="booking.id" :href="adminView ? route('admin.bookings.show', booking.id) : route('customer.bookings.show', booking.id)" :value="booking.id.toString()"/>
-                        <TCellBooking v-if="adminView" :bookdId="booking.id" :href="route('admin.bookings.show', booking.id)" :value="booking.customer.name"/>
-                        <TCellBooking :bookdId="booking.id" :href="adminView ? route('admin.bookings.show', booking.id) : route('customer.bookings.show', booking.id)" :value="booking.bus.bus_type"/>
-                        <TCellBooking :bookdId="booking.id" :href="adminView ? route('admin.bookings.show', booking.id) : route('customer.bookings.show', booking.id)" :value="formatDate(booking.travel_date)"/>
-                        <TCellBooking :bookdId="booking.id" :href="adminView ? route('admin.bookings.show', booking.id) : route('customer.bookings.show', booking.id)" :value="booking.bus.departure_location.toString()"/>
-                        <TCellBooking :bookdId="booking.id" :href="adminView ? route('admin.bookings.show', booking.id) : route('customer.bookings.show', booking.id)" :value="booking.bus.destination_location.toString()"/>
-                        <TCellBooking :bookdId="booking.id" :href="adminView ? route('admin.bookings.show', booking.id) : route('customer.bookings.show', booking.id)" :value="`P ${booking.total_price}`" />
+                        <TCellBooking :bookdId="booking.id" :href="adminView ? 'admin.bookings.show' : 'customer.bookings.show'" :value="booking.id.toString()"/>
+                        <TCellBooking v-if="adminView" :bookdId="booking.id" :href="'admin.bookings.show'" :value="booking.customer.name"/>
+                        <TCellBooking :bookdId="booking.id" :href="adminView ? 'admin.bookings.show' : 'customer.bookings.show'" :value="booking.bus.bus_type"/>
+                        <TCellBooking :bookdId="booking.id" :href="adminView ? 'admin.bookings.show' : 'customer.bookings.show'" :value="formatDate(booking.travel_date)"/>
+                        <TCellBooking :bookdId="booking.id" :href="adminView ? 'admin.bookings.show' : 'customer.bookings.show'" :value="booking.bus.departure_location.toString()"/>
+                        <TCellBooking :bookdId="booking.id" :href="adminView ? 'admin.bookings.show' : 'customer.bookings.show'" :value="booking.bus.destination_location.toString()"/>
+                        <TCellBooking :bookdId="booking.id" :href="adminView ? 'admin.bookings.show' : 'customer.bookings.show'" :value="`P ${booking.total_price}`" />
                         <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200">
-                            <!-- Corrected: Use Link component for customer view for SPA navigation -->
-                            <component :is="adminView ? 'a' : 'Link'" :href="adminView ? route('admin.bookings.show', booking.id) : route('customer.bookings.show', booking.id)">
-                                <BookingStatusBadge :status="booking.status"/>
-                            </component>
+                            <BookingStatusBadge :status="booking.status"/>
                         </td>
                         <td v-if="actionsVisible" class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                             <button @click="updateBookingStatus(booking.id, 'approved')" class="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-600">Approve</button>
