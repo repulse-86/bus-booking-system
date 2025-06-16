@@ -26,16 +26,16 @@ const logout = () => {
 };
 
 const customerLinks = ref([
-    { label: 'Browse', href: 'customer.home'},
+    { label: 'Browse', href: 'customer.index'},
     { label: 'My Bookings', href: 'customer.bookings.index'},
-    { label: 'History', href: 'customer.bookings.history'},
+    { label: 'History', href: 'customer.booking.history.index'},
 ]);
 
 const adminLinks = ref([
-    { label: 'Dashboard', href: 'admin.home'},
-    { label: 'Pending Bookings', href: 'admin.bookings.pendingBookings'},
-    { label: 'Approved Bookings', href: 'admin.bookings.approvedBookings'},
-    { label: 'Declined Bookings', href: 'admin.bookings.declinedBookings'},
+    { label: 'Dashboard', href: 'admin.index'},
+    { label: 'Pending Bookings', href: 'admin.bookings.index', status: 'pending'},
+    { label: 'Approved Bookings', href: 'admin.bookings.index', status: 'approved'},
+    { label: 'Declined Bookings', href: 'admin.bookings.index', status: 'declined'},
 ]);
 
 </script>
@@ -66,7 +66,14 @@ const adminLinks = ref([
                             </div>
 
                             <div v-else-if="$page.props.auth.user.type === 'admin'" class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink v-for="link in adminLinks" :key="link.label" :href="route(link.href)" :active="route().current(link.href)">
+                                <NavLink
+                                    v-for="link in adminLinks"
+                                    :key="link.label"
+                                    :href="route(link.href, link.status ? { status: link.status } : {})"
+                                    :active="route().current(link.href) && (
+                                        !link.status || link.status === $page.url.split('/').pop()
+                                    )"
+                                >
                                     {{ link.label }}
                                 </NavLink>
                             </div>
@@ -214,7 +221,7 @@ const adminLinks = ref([
                             </ResponsiveNavLink>
                         </div>
                         <div v-if="$page.props.auth.user.type === 'admin'">
-                            <ResponsiveNavLink v-for="link in adminLinks" :key="link.label" :href="route(link.href)" :active="route().current(link.href)">
+                            <ResponsiveNavLink v-for="link in adminLinks" :key="link.label" :href="route(link.href, link?.status)" :active="route().current(link.href)">
                                 {{ link.label }}
                             </ResponsiveNavLink>
                         </div>

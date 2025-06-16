@@ -71,8 +71,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getRedirectRoute(): string
     {
         return match ($this->type) {
-            'admin' => 'admin.home',
-            'customer' => 'customer.home',
+            'admin' => 'admin.index',
+            'customer' => 'customer.index',
         };
     }
 

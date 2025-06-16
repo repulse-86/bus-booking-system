@@ -8,9 +8,10 @@ import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import Label from '@/Components/Label.vue';
-import 'filepond/dist/filepond.min.css';
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
+import BookingFormHeader from '@/Components/BookingFormHeader.vue';
+import BusDetailsStatic from '@/Components/BusDetailsStatic.vue';
+import ImportantNotice from '@/Components/ImportantNotice.vue';
+import SeatSelectionModal from '@/Components/SeatSelectionModal.vue';
 import { showConfirmation, showAlert } from '@/helpers';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css'
@@ -24,58 +25,37 @@ const props = defineProps({
     },
 });
 
-const cachedDates = {};
-const getWeeklyUnavailableDates = (year, month, weeksToDisable) => {
-    const key = `${year}-${month}`;
-    if (cachedDates[key]) return cachedDates[key];
+const isDateDisabled = (date, busId) => {
+    const startOfYear = new Date(date.getFullYear(), 0, 1);
+    const day = new Date(startOfYear);
+    while (day.getDay() !== 0) day.setDate(day.getDate() - 1);
 
-    const dates = [];
-    const day = new Date(year, month, 1);
-    while (day.getMonth() === month) {
-        const weekNumber = Math.floor((day.getDate() - 1) / 7) + 1;
-        if (weeksToDisable.includes(weekNumber)) {
-            dates.push(day.toISOString().split('T')[0]);
-        }
-        day.setDate(day.getDate() + 1);
-    }
+    const diffInDays = Math.floor((date - day) / (1000 * 60 * 60 * 24));
+    const weekIndex = Math.floor(diffInDays / 7);
+    const isEvenWeek = weekIndex % 2 === 0;
 
-    cachedDates[key] = dates;
-    return dates;
-};
-
-const getWeeksForBus = (busId) => {
-    if (busId >= 1 && busId <= 10) return [2, 4];
-    if (busId >= 11 && busId <= 15) return [1, 3, 5];
-    return [];
+    if (busId >= 1 && busId <= 10) return !isEvenWeek;
+    if (busId >= 11 && busId <= 15) return isEvenWeek;
+    return false;
 };
 
 const takenSeats = ref([]);
 onMounted(() => {
-    const weeks = getWeeksForBus(props.bus.id);
-
     flatpickr('#calendar', {
         disable: [
             function(date) {
-                const year = date.getFullYear();
-                const month = date.getMonth();
-                const formatted = date.toISOString().split('T')[0];
-                const disabledDates = getWeeklyUnavailableDates(year, month, weeks);
-                return disabledDates.includes(formatted);
+                return isDateDisabled(date, props.bus.id);
             }
         ],
         dateFormat: 'Y-m-d',
         onDayCreate: (dObj, dStr, fp, dayElem) => {
-            const date = dayElem.dateObj.toISOString().split('T')[0];
-            const year = dayElem.dateObj.getFullYear();
-            const month = dayElem.dateObj.getMonth();
-            const disabledDates = getWeeklyUnavailableDates(year, month, weeks);
-            if (disabledDates.includes(date)) {
+            const date = dayElem.dateObj;
+            if (isDateDisabled(date, props.bus.id)) {
                 dayElem.innerHTML = `<span style="text-decoration: line-through; color: #999;">${dayElem.innerText}</span>`;
             }
         }
     });
 });
-
 
 const form = useForm({
     bus_id: props.bus.id,
@@ -92,8 +72,8 @@ const selectedSeatLabel = computed(() => {
 const seatRows = ref([]);
 for (let i = 1; i <= props.bus.available_seats; i += 4) {
     seatRows.value.push({
-        left: [i, i + 1].filter(seat => seat <= props.bus.available_seats),
-        right: [i + 2, i + 3].filter(seat => seat <= props.bus.available_seats),
+        left: [i, i + 1].filter(seat => seat <= props.bus.available_seats).map(String),
+        right: [i + 2, i + 3].filter(seat => seat <= props.bus.available_seats).map(String),
     });
 }
 
@@ -102,28 +82,22 @@ const toggleSeatModal = () => {
 };
 
 const selectSeat = (seat) => {
-    if (form.seats.includes(seat)) {
-        form.seats = form.seats.filter(s => s !== seat);
+    const seatStr = String(seat);
+    if (form.seats.includes(seatStr)) {
+        form.seats = form.seats.filter(s => s !== seatStr);
     } else {
-        form.seats.push(seat);
+        form.seats.push(seatStr);
     }
 };
 
 watch(() => form.travel_date, async (newDate) => {
     if (!newDate) return;
-
     form.reset("seats");
-
     try {
         const response = await axios.get(route('customer.taken-seats'), {
-            params: {
-                travel_date: newDate,
-                bus_id: props.bus.id,
-            }
+            params: { travel_date: newDate, bus_id: props.bus.id }
         });
-
-        takenSeats.value = response.data.taken_seats;
-        console.log(takenSeats.value);
+        takenSeats.value = response.data.taken_seats.map(String);
     } catch (error) {
         console.error("Error fetching taken seats:", error);
     }
@@ -160,44 +134,15 @@ const submitForm = () => {
 };
 
 const isBusAvailableNow = computed(() => {
-    /*const now = new Date();
-    const [startHour, startMinute] = props.bus.time_available_start.split(':').map(Number);
-    const [endHour, endMinute] = props.bus.time_available_end.split(':').map(Number);
-
-    const start = new Date();
-    start.setHours(startHour, startMinute, 0, 0);
-
-    const end = new Date();
-    end.setHours(endHour, endMinute, 0, 0);
-
-    const withinTimeRange = now >= start && now <= end;*/
-    const allSeatsTaken = takenSeats.value.length >= props.bus.available_seats;
-
-    return !allSeatsTaken;
+    if (!form.travel_date) return true;
+    return takenSeats.value.length < props.bus.available_seats;
 });
-
 </script>
 
 <template>
     <AppLayout :title="bus.bus_type + ' Booking Form'">
         <template #header>
-            <div class="flex gap-2">
-                <h2 class="font-semibold text-xl text-black dark:text-gray-200 leading-tight">
-                    Booking Form for {{ bus.bus_type }}
-                </h2>
-                <span
-                    v-if="!isBusAvailableNow"
-                    class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100"
-                >
-                    Unavailable
-                </span>
-                <span
-                    v-else
-                    class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100"
-                >
-                    Available
-                </span>
-            </div>
+            <BookingFormHeader :busType="bus.bus_type" :isBusAvailableNow="isBusAvailableNow" />
         </template>
 
         <div class="py-12">
@@ -206,32 +151,10 @@ const isBusAvailableNow = computed(() => {
                     <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full space-y-6">
                         <div class="space-y-2">
                             <h1 class="text-4xl dark:text-gray-300 font-semibold">Booking Details</h1>
-                            <div class="space-y-4">
-                                <p class="text-lg text-gray-600 dark:text-gray-400">Choose your seat and select your preferred travel date to complete the booking.</p>
-                            </div>
+                            <p class="text-lg text-gray-600 dark:text-gray-400">Choose your seat and select your preferred travel date to complete the booking.</p>
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 flex-grow">
-                            <div class="space-y-6 flex flex-col justify-center">
-                                <div>
-                                    <Label>Departure Location</Label>
-                                    <p class="text-lg text-gray-800 dark:text-gray-300">{{ bus.departure_location }}</p>
-                                </div>
-                                <div>
-                                    <Label>Destination Location</Label>
-                                    <p class="text-lg text-gray-800 dark:text-gray-300">{{ bus.destination_location }}</p>
-                                </div>
-                            </div>
-                            <div class="space-y-6 flex flex-col justify-center">
-                                <div>
-                                    <Label>Number of Seats</Label>
-                                    <p class="text-lg text-gray-800 dark:text-gray-300">{{ bus.available_seats }}</p>
-                                </div>
-                                <div>
-                                    <Label>Price Per Ticket</Label>
-                                    <p class="text-lg text-gray-800 dark:text-gray-300">P {{ bus.price_per_ticket }}</p>
-                                </div>
-                            </div>
-                        </div>
+
+                        <BusDetailsStatic :bus="bus" />
 
                         <div class="mt-auto grid lg:grid-cols-2 gap-6">
                             <div>
@@ -244,7 +167,7 @@ const isBusAvailableNow = computed(() => {
                                  />
                                 <InputError class="mt-2 text-red-500" :message="form.errors.travel_date" />
                             </div>
-                            <div cl>
+                            <div>
                                 <InputLabel v-if="form.travel_date" value="Select Seat" class="text-lg font-medium mb-2" />
                                 <InputLabel v-else value="To select seats, set your travel date first" class="text-lg font-medium mb-2" />
                                 <SecondaryButton
@@ -259,87 +182,22 @@ const isBusAvailableNow = computed(() => {
                             </div>
                         </div>
 
-                        <PrimaryButton class="py-3 flex justify-center items-center" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">Submit</PrimaryButton>
+                        <PrimaryButton class="py-3 flex justify-center items-center" :class="{ 'opacity-25': form.processing }" :disabled="form.processing || !isBusAvailableNow">Submit</PrimaryButton>
                     </div>
                 </form>
-                <div class="">
-                    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full space-y-6">
-                        <div class="space-y-1">
-                            <div class="text-3xl font-bold text-red-600 dark:text-red-400">
-                                Important Notice
-                            </div>
-                            <div class="text-sm text-gray-700 dark:text-gray-300">
-                                You must pay the terminal staff before the bus departs on your scheduled travel date.
-                            </div>
-                        </div>
-                    </div>
+                <div class="lg:col-span-1">
+                    <ImportantNotice />
                 </div>
             </div>
         </div>
 
-        <div v-if="isOpenSeatModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div class="bg-white dark:bg-gray-800 rounded-lg p-6 w-96 h-4/5 overflow-hidden flex flex-col space-y-8">
-                <h3 class="text-xl dark:text-gray-300 font-bold mb-2">Bus Seat Layout</h3>
-                <div class="flex-1 overflow-y-auto">
-                    <div class="grid grid-cols-2 gap-12">
-                        <div class="space-y-4">
-                            <div
-                                v-for="(row, index) in seatRows"
-                                :key="'left-row-' + index"
-                                class="grid grid-cols-2 gap-2"
-                            >
-                                <div v-for="seat in row.left" :key="'seat-' + seat" class="text-center">
-                                    <button
-                                        type="button"
-                                        @click="selectSeat(seat)"
-                                        :disabled="takenSeats.includes(seat)"
-                                        :class="{
-                                            'bg-gray-800 dark:bg-gray-300 text-white dark:text-gray-800': form.seats.includes(seat),
-                                            'bg-gray-200 dark:bg-gray-700 text-black dark:text-white': !form.seats.includes(seat),
-                                            'bg-red-300 dark:bg-red-700 text-white opacity-75 cursor-not-allowed': takenSeats.includes(seat)
-                                        }"
-                                        class="w-full py-2 px-4 rounded-lg font-medium"
-                                    >
-                                        {{ seat }}
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="space-y-4">
-                            <div
-                                v-for="(row, index) in seatRows"
-                                :key="'right-row-' + index"
-                                class="grid grid-cols-2 gap-2"
-                            >
-                                <div v-for="seat in row.right" :key="'seat-' + seat" class="text-center">
-                                    <button
-                                        type="button"
-                                        @click="selectSeat(seat)"
-                                        :disabled="takenSeats.includes(seat)"
-                                        :class="{
-                                            'bg-gray-800 dark:bg-gray-300 text-white dark:text-gray-800': form.seats.includes(seat),
-                                            'bg-gray-200 dark:bg-gray-700 text-black dark:text-white': !form.seats.includes(seat),
-                                            'bg-red-500 dark:bg-red-700 text-white opacity-75 cursor-not-allowed': takenSeats.includes(seat)
-                                        }"
-                                        class="w-full py-2 px-4 rounded-lg font-medium"
-                                    >
-                                        {{ seat }}
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <SecondaryButton
-                    type="button"
-                    class="p-4 w-full justify-center"
-                    @click="toggleSeatModal"
-                >
-                    Close
-                </SecondaryButton>
-            </div>
-        </div>
-
+        <SeatSelectionModal
+            :isOpenSeatModal="isOpenSeatModal"
+            :seatRows="seatRows"
+            :takenSeats="takenSeats"
+            :selectedSeats="form.seats"
+            @toggle-modal="toggleSeatModal"
+            @select-seat="selectSeat"
+        />
     </AppLayout>
 </template>

@@ -6,7 +6,7 @@ defineProps({
 		type: Number,
 		required: true,
 	},
-	href: {
+	href: { // Changed back from routeName
 		type: String,
 		required: true,
 	},
@@ -19,7 +19,7 @@ defineProps({
 
 <template>
 	<td class="px-6 py-4 text-sm text-gray-800 dark:text-gray-200 break-words">
-	    <Link :href="route(href, bookdId)">
+	    <Link :href="route(href, bookdId)"> <!-- Changed back to use href -->
 	        {{ value }}
 	    </Link>
 	</td>
