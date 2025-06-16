@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch, computed } from 'vue';
-import { router } from '@inertiajs/vue3';
+import { router, Link } from '@inertiajs/vue3'; // Link might be needed for the status badge
 import { debounce } from 'lodash';
 import Paginator from '@/Components/Paginator.vue';
 import TextInput from '@/Components/TextInput.vue';
@@ -28,11 +28,11 @@ const props = defineProps({
         type: Array,
         default: () => ['#', 'Customer', 'Type', 'Date', 'From', 'To', 'Price', 'Status']
     },
-    adminView: {
+    adminView: { // To differentiate between admin and customer views for actions
         type: Boolean,
         default: false
     },
-    currentRoute: {
+    currentRoute: { // To preserve filters on the correct route
         type: String,
         required: true,
     }
@@ -41,9 +41,10 @@ const props = defineProps({
 const form = useForm({});
 
 const filterId = ref('');
-const filterCustomerName = ref('');
-const filterStatus = ref('');
+const filterCustomerName = ref(''); // For admin view
+const filterStatus = ref(''); // For customer view
 
+// Watchers for filters
 const watchDebounced = (filters) => {
     router.get(route(props.currentRoute), filters, { preserveState: true, preserveScroll: true });
 };

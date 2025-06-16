@@ -2,6 +2,7 @@
 defineProps({
     reason: {
         type: String,
+        required: true,
     },
 });
 </script>

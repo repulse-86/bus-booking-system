@@ -24,6 +24,7 @@ defineProps({
                 
                 <Buses :destinations="destinations" :buses="buses" route-filter="customer.index"/>
 
+                <!-- Footer Section -->
                 <footer class="py-16 text-center text-sm text-black dark:text-white/70">
                     Online Bus Ticketing System
                 </footer>

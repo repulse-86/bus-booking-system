@@ -26,7 +26,7 @@ const props = defineProps({
         <div class="py-12">
             <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-4">
                 <BookingDetails :booking="booking" :seats="seats" />
-                <ReasonForDecline :reason="booking?.reason_declined" />
+                <ReasonForDecline :reason="booking.reason_declined" />
             </div>
         </div>
     </AppLayout>
