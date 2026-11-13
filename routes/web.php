@@ -27,7 +27,7 @@ Route::middleware([
         'as' => 'customer.',
         'middleware' => 'customer',
     ], function () {
-        Route::get('home', [CustomerDashboardController::class, 'index'])->name('index');
+        Route::get('home', [CustomerDashboardController::class, 'index'])->name('home');
         Route::get('bookings/create/{bus}', [CustomerBookingController::class, 'create'])->name('bookings.create');
         Route::resource('bookings', CustomerBookingController::class)->except('create');
         Route::get('history', [CustomerBookingHistory::class, 'index'])->name('booking.history.index');

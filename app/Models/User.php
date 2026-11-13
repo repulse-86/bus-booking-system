@@ -72,7 +72,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return match ($this->type) {
             'admin' => 'admin.index',
-            'customer' => 'customer.index',
+            'customer' => 'customer.home',
         };
     }
 

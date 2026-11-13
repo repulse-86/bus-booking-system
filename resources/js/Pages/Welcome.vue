@@ -32,7 +32,7 @@ defineProps({
                     <nav v-if="canLogin" class="flex items-center space-x-4">
                         <Link
                             v-if="$page.props.auth.user"
-                            :href="route('customer.index')"
+                            :href="route('customer.home')"
                             class="text-black dark:text-white"
                         >
                             Home
@@ -59,8 +59,8 @@ defineProps({
 
                 <!-- Tagline Section -->
                 <div class="text-center space-y-10 mb-6">
-                    <h1 class="text-6xl text-gray-500 dark:text-gray-300 font-semibold">Balibago Complex Bus Terminal</h1>
-                    <h1 class="text-4xl dark:text-gray-400">Find Your Perfect Bus Ride</h1>
+                    <h1 class="text-3xl sm:text-6xl text-gray-500 dark:text-gray-300 font-semibold">Balibago Complex Bus Terminal</h1>
+                    <h1 class="text-2xl sm:text-4xl dark:text-gray-400">Find Your Perfect Bus Ride</h1>
                 </div>
 
                 <Buses :destinations="destinations" :buses="buses" route-filter="home"/>

@@ -19,6 +19,6 @@ class AdminAuth
             return $next($request);
         }
 
-        return redirect()->route('customer.index');
+        return redirect()->route('customer.home');
     }
 }
