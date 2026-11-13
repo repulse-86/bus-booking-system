@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BookingSeat;
-use App\Models\Bus;
+use App\Services\BookingSeatService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 /**
@@ -14,14 +14,12 @@ use Illuminate\Http\Request;
  **/
 class SeatController extends Controller
 {
-	public function getSeatsTakenForDateAndBus(Request $request)
+	public function __construct(protected BookingSeatService $bookingSeatService) {}
+
+	public function getSeatsTakenForDateAndBus(Request $request): JsonResponse
 	{
-	    $bus = Bus::findOrFail($request->bus_id);
-	    $takenSeats = BookingSeat::whereHas('booking', function ($query) use ($request, $bus) {
-	        $query->whereBelongsTo($bus)
-	              ->where('travel_date', $request->travel_date);
-	    })->pluck('seat');
+	    $takenSeats = $this->bookingSeatService->getSeatsTakenForDateAndBus($request->bus_id, $request->travel_date);
 
 	    return response()->json(['taken_seats' => $takenSeats]);
 	}
-} // END class SeatController
+}

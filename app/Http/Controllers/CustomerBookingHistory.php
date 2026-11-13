@@ -3,18 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
-use App\Repositories\BookingRepository;
+use App\Services\BookingService;
 use Illuminate\Support\Facades\Gate;
+use Inertia\Response;
 
 class CustomerBookingHistory extends Controller
 {
-    public function __construct(protected BookingRepository $bookingRepository) {}
+    public function __construct(protected BookingService $bookingService) {}
 
-    public function index()
+    public function index(): Response
     {
         Gate::authorize('viewAny', Booking::class);
 
-        $bookings = $this->bookingRepository->getBookingsByCustomer('', 'approved', auth()->user()->id);
+        $bookings = $this->bookingService->getBookingsByCustomer('', 'approved', auth()->user()->id);
 
         return inertia('Customer/History', [
             'bookings' => inertia()->merge(fn () => $bookings->items()),

@@ -12,6 +12,7 @@ use App\Notifications\BookingStatusNotification;
 use App\Repositories\BookingRepository;
 use App\Repositories\BusRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class BookingService
@@ -40,17 +41,31 @@ class BookingService
         return $fileName;
     }
 
+    public function deleteImage(string $fileName): void
+    {
+        $filePath = "payments/{$fileName}";
+
+        if (Storage::disk('public')->exists($filePath)) {
+            Storage::disk('public')->delete($filePath);
+        }
+    }
+
+    public function findBooking(string $id): Booking
+    {
+        return $this->bookingRepository->find($id);
+    }
+
     public function getBookingsByCustomer(?string $filterId, ?string $filterStatus, string $customerId): LengthAwarePaginator
     {
         return $this->bookingRepository->getBookingsByCustomer($filterId, $filterStatus, $customerId);
     }
 
-    public function getBookings(string $status, ?string $filterId, ?string $filterCustomerName)
+    public function getBookings(string $status, ?string $filterId, ?string $filterCustomerName): LengthAwarePaginator
     {
         return $this->bookingRepository->getBookings($status, $filterId, $filterCustomerName);
     }
 
-    public function updateBookingStatus(Booking $booking, string $status, ?string $reason)
+    public function updateBookingStatus(Booking $booking, string $status, ?string $reason): void
     {
         $user = User::findOrFail($booking->customer_id);
         $bus = Bus::findOrFail($booking->bus_id);

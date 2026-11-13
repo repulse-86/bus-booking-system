@@ -25,6 +25,11 @@ class BusRepository implements BusRepositoryInterface
             ->get();
     }
 
+    public function find(string $id): Bus
+    {
+        return Bus::findOrFail($id);
+    }
+
     public function getDestinations(): Collection
     {
         return Bus::distinct()->pluck('destination_location');

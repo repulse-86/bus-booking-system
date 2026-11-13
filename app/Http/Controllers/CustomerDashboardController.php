@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Services\BusService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Inertia\Response;
 
 class CustomerDashboardController extends Controller
 {
     public function __construct(protected BusService $busService) {}
 
-    public function index(Request $request)
+    public function index(Request $request): Response
     {
         $filterTravelDate = $request->filterTravelDate ? Carbon::parse($request->filterTravelDate) : null;
         $filterDestinationLocation = $request->filterDestinationLocation;

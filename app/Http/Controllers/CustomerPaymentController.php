@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Services\BookingService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class CustomerPaymentController extends Controller
 {
@@ -12,7 +11,7 @@ class CustomerPaymentController extends Controller
         protected BookingService $bookingService,
     ) {}
 
-    public function store(Request $request)
+    public function store(Request $request): string
     {
         if ($request->hasFile('payment_image')) {
             $fileName = $this->bookingService->storeImage($request->file('payment_image'));
@@ -23,12 +22,8 @@ class CustomerPaymentController extends Controller
         return '';
     }
 
-    public function destroy(string $paymentReceipt)
+    public function destroy(string $paymentReceipt): void
     {
-        $filePath = "payments/{$paymentReceipt}";
-
-        if (Storage::disk('public')->exists($filePath)) {
-            Storage::disk('public')->delete($filePath);
-        }
+        $this->bookingService->deleteImage($paymentReceipt);
     }
 }

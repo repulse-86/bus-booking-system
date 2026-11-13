@@ -7,8 +7,8 @@ use App\Models\User;
 use App\Repositories\BookingRepository;
 use App\Repositories\BusRepository;
 use App\Services\BookingService;
-use App\Services\BusService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 class BookingTest extends TestCase
@@ -22,6 +22,7 @@ class BookingTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        Config::set('broadcasting.default', 'log');
 
         $this->user = User::factory()->create([
             'type' => 'customer',
@@ -45,10 +46,10 @@ class BookingTest extends TestCase
 
         $bookingService = new BookingService(
             new BookingRepository,
-            new BusService(new BusRepository)
+            new BusRepository
         );
 
-        $booking = $bookingService->createBooking($data);
+        $booking = $bookingService->createBooking($data, 1);
 
         $this->assertDatabaseHas('bookings', [
             'customer_id' => $this->user->id,
@@ -59,20 +60,19 @@ class BookingTest extends TestCase
 
     public function test_update_booking_status()
     {
-        $booking = $this->user->bookings()->create([
+$booking = $this->user->bookings()->create([
             'travel_date' => now(),
             'bus_id' => $this->bus->id,
             'seat' => 1,
             'payment_image' => 'payment_image.png',
+            'total_price' => $this->bus->price_per_ticket,
             'status' => 'pending',
         ]);
 
-        // Update the status using the service
         $bookingService = new BookingService(new BookingRepository,
-            new BusService(new BusRepository));
-        $bookingService->updateBookingStatus($booking, 'approved');
+            new BusRepository);
+        $bookingService->updateBookingStatus($booking, 'approved', null);
 
-        // Assertions
         $this->assertEquals('approved', $booking->fresh()->status);
     }
 }

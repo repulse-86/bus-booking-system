@@ -5,30 +5,27 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBookingRequest;
 use App\Models\Booking;
 use App\Models\Bus;
-use App\Repositories\BookingRepository;
-use App\Repositories\BookingSeatRepository;
 use App\Services\BookingSeatService;
 use App\Services\BookingService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Inertia\Response;
 
 class CustomerBookingController extends Controller
 {
     public function __construct(
         protected BookingService $bookingService,
-        protected BookingSeatService $bookingSeatService,
-        protected BookingRepository $bookingRepository,
-        protected BookingSeatRepository $bookingSeatRepository
+        protected BookingSeatService $bookingSeatService
     ) {}
 
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request): Response
     {
         Gate::authorize('viewAny', Booking::class);
 
-        $bookings = $this->bookingRepository->getBookingsByCustomer((string) $request->filterId, $request->filterStatus, auth()->user()->id);
+        $bookings = $this->bookingService->getBookingsByCustomer((string) $request->filterId, $request->filterStatus, auth()->user()->id);
 
         return inertia('Customer/MyBookings', compact('bookings'));
     }
@@ -36,7 +33,7 @@ class CustomerBookingController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Bus $bus)
+    public function create(Bus $bus): Response
     {
         Gate::authorize('create', Booking::class);
 
@@ -46,7 +43,7 @@ class CustomerBookingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBookingRequest $request)
+    public function store(StoreBookingRequest $request): void
     {
         Gate::authorize('create', Booking::class);
 
@@ -58,13 +55,13 @@ class CustomerBookingController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id): Response
     {
-        $booking = $this->bookingRepository->find($id);
+        $booking = $this->bookingService->findBooking($id);
 
         Gate::authorize('view', $booking);
 
-        $seats = $this->bookingSeatRepository->getBookingSeats($booking);
+        $seats = $this->bookingSeatService->getBookingSeats($booking);
 
         return inertia('Customer/Booking', compact('booking', 'seats'));
     }

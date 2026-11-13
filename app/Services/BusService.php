@@ -5,12 +5,12 @@ namespace App\Services;
 use App\Repositories\BusRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class BusService
 {
     public function __construct(protected BusRepository $busRepository)
     {
-        //
     }
 
     /**
@@ -18,14 +18,18 @@ class BusService
      */
     public function getFilteredBuses(?Carbon $filterTravelDate, ?string $filterDestinationLocation, ?string $filterBus): Collection
     {
-        $busesToRetrieve = [];
+        $cacheKey = "buses_{$filterTravelDate}_{$filterDestinationLocation}_{$filterBus}";
 
-        if ($filterTravelDate) {
-            $weekOfMonth = $filterTravelDate->weekOfMonth;
-            $busesToRetrieve = ($weekOfMonth % 2 == 1) ? range(1, 10) : range(11, 17);
-        }
+        return Cache::rememberForever($cacheKey, function () use ($filterTravelDate, $filterDestinationLocation, $filterBus) {
+            $busesToRetrieve = [];
 
-        return $this->busRepository->getBuses($filterTravelDate, $filterDestinationLocation, $filterBus, $busesToRetrieve);
+            if ($filterTravelDate) {
+                $weekOfMonth = $filterTravelDate->weekOfMonth;
+                $busesToRetrieve = ($weekOfMonth % 2 == 1) ? range(1, 10) : range(11, 17);
+            }
+
+            return $this->busRepository->getBuses($filterTravelDate, $filterDestinationLocation, $filterBus, $busesToRetrieve);
+        });
     }
 
     /**
@@ -33,17 +37,19 @@ class BusService
      */
     public function getDestinations(): Collection
     {
-        $destinations = $this->busRepository->getDestinations();
+        return Cache::rememberForever('destinations', function () {
+            $destinations = $this->busRepository->getDestinations();
 
-        return $destinations->map(function ($destination) {
-            return [
-                'label' => $destination,
-                'value' => $destination,
-            ];
+            return $destinations->map(function ($destination) {
+                return [
+                    'label' => $destination,
+                    'value' => $destination,
+                ];
+            });
         });
     }
 
-    public function decrementAvailableSeats(string $id)
+    public function decrementAvailableSeats(string $id): void
     {
         $bus = $this->busRepository->find($id);
 

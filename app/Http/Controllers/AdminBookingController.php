@@ -3,30 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
-use App\Repositories\BookingRepository;
-use App\Repositories\BookingSeatRepository;
 use App\Services\BookingSeatService;
 use App\Services\BookingService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Inertia\Response;
 
 class AdminBookingController extends Controller
 {
     public function __construct(
         protected BookingService $bookingService,
-        protected BookingSeatService $bookingSeatService,
-        protected BookingRepository $bookingRepository,
-        protected BookingSeatRepository $bookingSeatRepository
+        protected BookingSeatService $bookingSeatService
     ) {}
 
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request, string $status)
+    public function index(Request $request, string $status): Response
     {
         Gate::authorize('viewAny', Booking::class);
 
-        $bookings = $this->bookingRepository->getBookings($status, $request->filterId, $request->filterCustomerName);
+        $bookings = $this->bookingService->getBookings($status, $request->filterId, $request->filterCustomerName);
 
         return inertia('Admin/PendingBookings', compact('bookings'));
     }
@@ -34,13 +31,13 @@ class AdminBookingController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id): Response
     {
-        $booking = $this->bookingRepository->find($id);
+        $booking = $this->bookingService->findBooking($id);
 
         Gate::authorize('view', $booking);
 
-        $seats = $this->bookingSeatRepository->getBookingSeats($booking);
+        $seats = $this->bookingSeatService->getBookingSeats($booking);
 
         return inertia('Admin/Booking', compact('booking', 'seats'));
     }
@@ -48,7 +45,7 @@ class AdminBookingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Booking $booking)
+    public function update(Request $request, Booking $booking): void
     {
         Gate::authorize('update', $booking);
 
