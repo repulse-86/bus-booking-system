@@ -13,37 +13,37 @@ defineProps({
 	    <img 
 	        :src="'../../../' + bus.bus_type + '.png'" 
 	        alt="Bus Image" 
-	        class="w-full h-64 object-cover"
+	        class="w-full h-32 sm:h-64 object-cover"
 	    />
 
 	    <!-- Content Section -->
-	    <div class="p-6">
-	        <!-- Header Section -->
-	        <div class="mb-4">
-	            <h3 class="text-3xl font-bold text-gray-800 dark:text-gray-300 tracking-wide">{{ bus.bus_type }}</h3>
-	        </div>
+    <div class="p-3 sm:p-6">
+        <!-- Header Section -->
+        <div class="mb-2 sm:mb-4">
+            <h3 class="text-lg sm:text-3xl font-bold text-gray-800 dark:text-gray-300 tracking-wide">{{ bus.bus_type }}</h3>
+        </div>
 
-	        <!-- Details Section -->
-	        <div class="space-y-4 ">
+        <!-- Details Section -->
+        <div class="space-y-3 sm:space-y-4">
 	        	<div>
-	                <p class="text-sm text-gray-500 dark:text-gray-500 uppercase tracking-wide">Departure Location</p>
-	                <p class="text-lg text-gray-800 dark:text-gray-300">{{ bus.departure_location }}</p>
+	                <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-500 uppercase tracking-wide">Departure Location</p>
+	                <p class="text-xs sm:text-lg text-gray-800 dark:text-gray-300">{{ bus.departure_location }}</p>
 	            </div>
 
 	            <div>
-	                <p class="text-sm text-gray-500 dark:text-gray-500 uppercase tracking-wide">Destination Location</p>
-	                <p class="text-lg text-gray-800 dark:text-gray-300">{{ bus.destination_location }}</p>
+	                <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-500 uppercase tracking-wide">Destination Location</p>
+	                <p class="text-xs sm:text-lg text-gray-800 dark:text-gray-300">{{ bus.destination_location }}</p>
 	            </div>
 
 	            <div>
-	                <p class="text-sm text-gray-500 dark:text-gray-500 uppercase tracking-wide">Time Available</p>
-	                <p class="text-lg text-gray-800 dark:text-gray-300">{{ bus.time_available_start }} - {{ bus.time_available_end }}</p>
+	                <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-500 uppercase tracking-wide">Time Available</p>
+	                <p class="text-xs sm:text-lg text-gray-800 dark:text-gray-300">{{ bus.time_available_start }} - {{ bus.time_available_end }}</p>
 	            </div>
 
 	            <!-- Price and Seats -->
 	            <div>
-	                <p class="text-sm text-gray-500 dark:text-gray-500 uppercase tracking-wide">Price Per Ticket</p>
-	                <p class="text-lg text-gray-800 dark:text-gray-300">P {{ bus.price_per_ticket }}</p>
+	                <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-500 uppercase tracking-wide">Price Per Ticket</p>
+	                <p class="text-xs sm:text-lg text-gray-800 dark:text-gray-300">P {{ bus.price_per_ticket }}</p>
 	            </div>
 	        </div>
 	    </div>

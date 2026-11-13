@@ -71,7 +71,7 @@ onBeforeUnmount(() => {
             }"
         >
             <div class="flex gap-4">
-                <Link v-for="(bus, index) in buses" :key="index" :href="route('customer.bookings.create', bus.id)" class="shrink-0 w-9/12">
+                <Link v-for="(bus, index) in buses" :key="index" :href="route('customer.bookings.create', bus.id)" class="shrink-0 w-7/12">
                     <BusCard :bus="bus"/>
                 </Link>
             </div>

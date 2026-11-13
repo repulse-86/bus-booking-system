@@ -32,7 +32,7 @@ watch(localFilterDestinationLocation, (newValue) => {
 });
 </script>
 <template>
-    <div class="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 mb-8">
+    <div class="flex flex-col sm:flex-row justify-center gap-3 sm:gap-8 mb-6 sm:mb-8">
         <TextInput 
             v-model="localFilterBus" 
             placeholder="Search bus..." 
