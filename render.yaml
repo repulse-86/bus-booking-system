@@ -1,0 +1,135 @@
+services:
+  # Laravel app: Nginx + PHP-FPM, SQLite baked into the image.
+  - type: web
+    name: bus-booking
+    runtime: docker
+    plan: free
+    region: singapore
+    branch: render
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /up
+    autoDeployTrigger: commit
+    envVars:
+      - key: APP_NAME
+        value: Bus Ticketing System
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      # Generated once by Render and preserved on later Blueprint syncs.
+      # The baseline database contains no encrypted user data, so a new key is safe.
+      - key: APP_KEY
+        generateValue: true
+      - key: DB_CONNECTION
+        value: sqlite
+      - key: DB_BUSY_TIMEOUT
+        value: "5000"
+      - key: DB_JOURNAL_MODE
+        value: WAL
+      - key: DB_SYNCHRONOUS
+        value: NORMAL
+      - key: SESSION_DRIVER
+        value: database
+      - key: SESSION_SECURE_COOKIE
+        value: "true"
+      - key: CACHE_STORE
+        value: database
+      - key: QUEUE_CONNECTION
+        value: sync
+      - key: FILESYSTEM_DISK
+        value: public
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: LOG_LEVEL
+        value: info
+      - key: MAIL_MAILER
+        value: log
+      - key: BROADCAST_CONNECTION
+        value: reverb
+      # Free web services cannot receive private-network traffic, so the app
+      # talks to Reverb over its public hostname with TLS on port 443.
+      - key: REVERB_HOST
+        fromService:
+          name: bus-booking-reverb
+          type: web
+          envVarKey: RENDER_EXTERNAL_HOSTNAME
+      - key: REVERB_PORT
+        value: "443"
+      - key: REVERB_SCHEME
+        value: https
+      - key: REVERB_APP_ID
+        value: bus-booking
+      - key: REVERB_APP_KEY
+        value: bus-booking-key
+      - key: REVERB_APP_SECRET
+        fromService:
+          name: bus-booking-reverb
+          type: web
+          envVarKey: REVERB_APP_SECRET
+      # Vite reads these at build time. Render exposes service env vars as
+      # Docker build args, which the Dockerfile declares in the assets stage.
+      - key: VITE_APP_NAME
+        value: Bus Ticketing System
+      - key: VITE_REVERB_APP_KEY
+        value: bus-booking-key
+      - key: VITE_REVERB_HOST
+        fromService:
+          name: bus-booking-reverb
+          type: web
+          envVarKey: RENDER_EXTERNAL_HOSTNAME
+      - key: VITE_REVERB_PORT
+        value: "443"
+      - key: VITE_REVERB_SCHEME
+        value: https
+
+  # Laravel Reverb: long-running WebSocket server (PHP-FPM cannot hold sockets).
+  - type: web
+    name: bus-booking-reverb
+    runtime: docker
+    plan: free
+    region: singapore
+    branch: render
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    # Overrides the image CMD (the app entrypoint). No healthCheckPath: Render
+    # falls back to a TCP probe, which is what a WebSocket server needs.
+    dockerCommand: sh -c 'php artisan reverb:start --host=0.0.0.0 --port=${PORT:-10000}'
+    autoDeployTrigger: commit
+    envVars:
+      - key: APP_NAME
+        value: Bus Ticketing System
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        fromService:
+          name: bus-booking
+          type: web
+          envVarKey: APP_KEY
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: LOG_LEVEL
+        value: info
+      - key: REVERB_SERVER_HOST
+        value: 0.0.0.0
+      - key: REVERB_SERVER_PORT
+        value: "10000"
+      - key: REVERB_SCALING_ENABLED
+        value: "false"
+      - key: REVERB_HOST
+        fromService:
+          name: bus-booking-reverb
+          type: web
+          envVarKey: RENDER_EXTERNAL_HOSTNAME
+      - key: REVERB_PORT
+        value: "443"
+      - key: REVERB_SCHEME
+        value: https
+      - key: REVERB_APP_ID
+        value: bus-booking
+      - key: REVERB_APP_KEY
+        value: bus-booking-key
+      - key: REVERB_APP_SECRET
+        generateValue: true
