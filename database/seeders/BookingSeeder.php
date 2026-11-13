@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Booking;
+use App\Models\User;
+use Carbon\Carbon;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 
@@ -17,15 +19,29 @@ class BookingSeeder extends Seeder
 
         $statuses = ['pending', 'approved', 'declined'];
 
-        foreach (range(1, 50) as $index) {
+        $customer = User::where('email', 'customer@email.com')->first();
+
+        if (! $customer) {
+            return;
+        }
+
+        $sixMonthsAgo = Carbon::now()->subMonths(6);
+        $now = Carbon::now();
+
+        foreach (range(1, 30) as $index) {
+            $createdAt = $faker->dateTimeBetween($sixMonthsAgo, $now);
+            $travelDate = Carbon::instance($createdAt)->addDays($faker->numberBetween(1, 30))->format('Y-m-d');
+
             Booking::create([
-                'customer_id' => 2,
+                'customer_id' => $customer->id,
                 'bus_id' => $faker->numberBetween(1, 15),
-                'seat' => $faker->numberBetween(1, 50),
-                'travel_date' => $faker->dateTimeBetween('now', '+1 year')->format('Y-m-d'),
+                'seat' => $faker->numberBetween(1, 30),
+                'travel_date' => $travelDate,
                 'payment_image' => 'none',
+                'total_price' => $faker->numberBetween(100, 1000),
                 'status' => $faker->randomElement($statuses),
-                'created_at' => $faker->dateTimeBetween('now', '+1 year'),
+                'created_at' => $createdAt,
+                'updated_at' => $createdAt,
             ]);
         }
     }

@@ -18,8 +18,8 @@ class UserSeeder extends Seeder
 
         User::factory()->create([
             'type' => 'customer',
-            'name' => 'Kate Ruaza',
-            'email' => 'lambsauceraw.218@gmail.com',
+            'name' => 'Customer',
+            'email' => 'customer@email.com',
             'mobile_number' => \Faker\Factory::create()->numerify('09#########'),
             'password' => bcrypt('password'),
         ]);
