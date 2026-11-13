@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('customer_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('bus_id')->constrained('buses')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->integer('seat')->nullable();
+            $table->string('payment_image')->nullable();
             $table->date('travel_date');
             $table->enum('status', ['pending', 'approved', 'declined'])->default('pending');
             $table->integer('total_price');
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('booked_tickets');
+        Schema::dropIfExists('bookings');
     }
 };
