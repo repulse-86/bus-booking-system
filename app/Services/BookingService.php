@@ -12,6 +12,7 @@ use App\Notifications\BookingStatusNotification;
 use App\Repositories\BookingRepository;
 use App\Repositories\BusRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -73,6 +74,15 @@ class BookingService
 
         $user->notify(new BookingStatusNotification($booking, $bus, $status));
 
-        broadcast(new BookingStatusUpdate($booking));
+        // Reverb runs on a separate free Render service and may be waking up.
+        // A failed broadcast must not roll back an already-saved status change.
+        try {
+            broadcast(new BookingStatusUpdate($booking));
+        } catch (\Throwable $exception) {
+            Log::warning('Unable to broadcast booking status update.', [
+                'booking_id' => $booking->id,
+                'exception' => $exception->getMessage(),
+            ]);
+        }
     }
 }

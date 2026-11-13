@@ -43,6 +43,9 @@ return [
             ],
             'client_options' => [
                 // Guzzle client options: https://docs.guzzlephp.org/en/stable/request-options.html
+                // Keep a sleeping free Render service from blocking an admin request.
+                'timeout' => env('REVERB_TIMEOUT', 10),
+                'connect_timeout' => env('REVERB_CONNECT_TIMEOUT', 5),
             ],
         ],
 
